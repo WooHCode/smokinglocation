@@ -9,5 +9,4 @@ public class SmokinglocationApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SmokinglocationApplication.class, args);
 	}
-
 }
