@@ -13,7 +13,6 @@ import teamproject.smokinglocation.dto.FacilityData;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -33,7 +32,6 @@ public class MapController {
     public String showMap(Model model) {
         List<Facility> facilities = fetchData();
         model.addAttribute("facilities", facilities);
-
         model.addAttribute("naverMapClientId",naverMapClientId);
         return "map";
     }
