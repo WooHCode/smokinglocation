@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Facility Map</title>
+    <style>
+        #map {
+            width: 100%;
+            height: 500px;
+        }
+
+    </style>
+    <script type="text/javascript"
+            th:src="@{'//openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=' + ${naverMapClientId} + '&submodules=geocoder'}"
+            defer></script>
+    <script th:inline="javascript">
+    window.onload = function() {
+        var facilities = /*[[${facilities}]]*/ [];
+        var map = new naver.maps.Map('map', {
+            center: new naver.maps.LatLng(37.5666805, 126.9784147),
+            zoom: 13
+        });
+
+        for (var i = 0; i < facilities.length; i++) {
+            var facility = facilities[i];
+            console.log(facility);
+            var longitude = facility['경도'];
+            var latitude = facility['위도'];
+            var title = facility['시설 구분']
+            var location = facility['서울특별시 용산구 설치 위치']
+
+            // 모든 속성값이 유효한 경우에만 마커 생성
+            if (latitude && longitude && title && location) {
+                var marker = new naver.maps.Marker({
+                    position: new naver.maps.LatLng(latitude, longitude),
+                    title: title,
+                    map: map
+                });
+
+                var infoWindow = new naver.maps.InfoWindow({
+                    content: location
+                });
+
+                // 마커가 클릭되면 인포윈도우 열기
+                naver.maps.Event.addListener(marker, 'click', function() {
+                    infoWindow.open(map, marker);
+                });
+
+                // 마커 지도에 추가
+                marker.setMap(map);
+            }
+        }
+    };
+</script>
+</head>
+<body>
+<div id="map"></div>
+</body>
+</html>
