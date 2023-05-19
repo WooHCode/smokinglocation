@@ -2,12 +2,13 @@ package teamproject.smokinglocation.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import teamproject.smokinglocation.dto.Facility;
+import teamproject.smokinglocation.dto.FacilityYongsan;
 import teamproject.smokinglocation.dto.FacilityData;
 
 
@@ -21,6 +22,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class MapController {
     public static final String  secretKey = "hWIiF1x6ClYGmxA62SIpOR476d8h0BZg9BTK288BLaIuLINJEvFOKU1CGk%2BQKg8Jr2DrdCX2jKFpxDe44YTYuQ%3D%3D";
 
@@ -30,7 +32,7 @@ public class MapController {
 
     @GetMapping("/map")
     public String showMap(Model model) {
-        List<Facility> facilities = fetchData();
+        List<FacilityYongsan> facilities = fetchData();
         model.addAttribute("facilities", facilities);
         model.addAttribute("naverMapClientId",naverMapClientId);
         return "map";
@@ -38,13 +40,14 @@ public class MapController {
 
     @GetMapping("/get-data")
     @ResponseBody
-    public List<Facility> fetchData() {
+    public List<FacilityYongsan> fetchData() {
         String apiUrl = "https://api.odcloud.kr/api/15073796/v1/uddi:17fbd06c-45bb-48aa-9be7-b26dbc708c9c" +
                 "?serviceKey=" + secretKey;
-        List<Facility> facilities = new ArrayList<>();
+        List<FacilityYongsan> facilities = new ArrayList<>();
 
         try {
             URL url = new URL(apiUrl);
+            log.info("=============fetch start==============");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
 
@@ -64,13 +67,14 @@ public class MapController {
 
             String jsonString = response.toString();
 
-            FacilityData facilityData = objectMapper.readValue(jsonString, FacilityData.class);
-            facilities.addAll(facilityData.getData());
+            FacilityData<FacilityYongsan> facilityYongsan;
+            facilityYongsan = objectMapper.readValue(jsonString, FacilityData.class);
+            facilities.addAll(facilityYongsan.getData());
+            log.info("facilities = {}",facilities);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return facilities;
     }
 }
