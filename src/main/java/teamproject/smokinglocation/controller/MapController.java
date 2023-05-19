@@ -1,5 +1,6 @@
 package teamproject.smokinglocation.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,18 +33,20 @@ public class MapController {
 
     @GetMapping("/map")
     public String showMap(Model model) {
-        List<FacilityYongsan> facilities = fetchData();
-        model.addAttribute("facilities", facilities);
+        FacilityData<FacilityYongsan> facilityDataYongsan = fetchData();
+        List<FacilityYongsan> yongsanFacilities = facilityDataYongsan.getData();
+        // FacilityYongsan 데이터 사용
+        model.addAttribute("facilities", yongsanFacilities);
         model.addAttribute("naverMapClientId",naverMapClientId);
         return "map";
     }
 
     @GetMapping("/get-data")
     @ResponseBody
-    public List<FacilityYongsan> fetchData() {
+    public <T> FacilityData<T> fetchData() {
         String apiUrl = "https://api.odcloud.kr/api/15073796/v1/uddi:17fbd06c-45bb-48aa-9be7-b26dbc708c9c" +
                 "?serviceKey=" + secretKey;
-        List<FacilityYongsan> facilities = new ArrayList<>();
+        FacilityData<T> facilityData = new FacilityData<>();
 
         try {
             URL url = new URL(apiUrl);
@@ -67,15 +70,15 @@ public class MapController {
 
             String jsonString = response.toString();
 
-            FacilityData<FacilityYongsan> facilityYongsan;
-            facilityYongsan = objectMapper.readValue(jsonString, FacilityData.class);
-            facilities.addAll(facilityYongsan.getData());
-            log.info("facilities = {}",facilities);
+            facilityData = objectMapper.readValue(jsonString, new TypeReference<>() {
+            });
+            log.info("facilityData = {}", facilityData);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return facilities;
+        return facilityData;
     }
+
 }
 
