@@ -18,7 +18,7 @@
         var facilities = /*[[${facilities}]]*/ [];
         var map = new naver.maps.Map('map', {
             center: new naver.maps.LatLng(37.5666805, 126.9784147),
-            zoom: 13
+            zoom: 14
 
         });
 
@@ -27,14 +27,14 @@
             console.log(facility);
             var longitude = facility['경도'];
             var latitude = facility['위도'];
-            var title = facility['시설 구분']
-            var location = facility['서울특별시 용산구 설치 위치']
+            var title = facility['시설 구분'];
+            var location = facility['서울특별시 용산구 설치 위치'];
 
             // 모든 속성값이 유효한 경우에만 마커 생성
             if (latitude && longitude && title && location) {
                 var marker = new naver.maps.Marker({
                     position: new naver.maps.LatLng(latitude, longitude),
-                    title: title,
+                    title: location,
                     map: map
                 });
 
