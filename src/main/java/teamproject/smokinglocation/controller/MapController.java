@@ -2,10 +2,7 @@ package teamproject.smokinglocation.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
+import com.google.gson.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,14 +13,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import teamproject.smokinglocation.dto.FacilitySeongBuk;
 import teamproject.smokinglocation.dto.FacilityYongsan;
 import teamproject.smokinglocation.dto.FacilityData;
-import com.google.gson.Gson;
 
 
 import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
@@ -48,8 +43,13 @@ public class MapController {
     @GetMapping("/map")
     public String showMap(Model model) {
         FacilityData<FacilityYongsan> facilityDataYongsan = fetchData(UrlData.YONGSAN.getNumber(), UuidData.YONGSAN.getUuid());
+        FacilityData<FacilitySeongBuk> facilityData = fetchData(UrlData.SEONGBUK.getNumber(), UuidData.SEONGBUK.getUuid());
+        System.out.println("facilityData = " + facilityData.getData().get(0));
+
         List<FacilityYongsan> yongsanFacilities = facilityDataYongsan.getData();
-        getTestData();
+        //성북구의 위치데이터 전체모음
+        JsonArray seongBukData = getSeongBukData();
+        System.out.println("seongBukData = " + seongBukData);
         // FacilityYongsan 데이터 사용
         model.addAttribute("facilities", yongsanFacilities);
         model.addAttribute("naverMapClientId", naverMapClientId);
@@ -98,12 +98,12 @@ public class MapController {
     /**
      * 성북구의 데이터를 파싱하여 위도 경도를 알아내는 메서드
      * 다른 구의 위도 경도 데이터가 없다면 해당 메서드를 구 별로 작성할 필요 있음.
+     * @return
      */
-    @PostConstruct
-    public void getTestData() {
+    public JsonArray getSeongBukData() {
     //TODO 해당 값들을 DB에 저장
-        String districtName = "";
-        String manageFacility = "";
+        String districtName;
+        String manageFacility;
         FacilityData<Object> data = fetchData(UrlData.SEONGBUK.getNumber(), UuidData.SEONGBUK.getUuid());
 
         List<LinkedHashMap<String, String>> dataList = new ArrayList<>();
@@ -120,25 +120,19 @@ public class MapController {
         for (LinkedHashMap<String, String> linkedHashMap : dataList) {
             districtName = linkedHashMap.get("자치구");
             manageFacility = linkedHashMap.get("관리");
-            System.out.println("자치구: " + districtName);
-            System.out.println("관리: " + manageFacility);
             addressList.add(districtName+manageFacility);
         }
-
+        JsonArray result = new JsonArray();
         for (String address : addressList){
             try {
-                System.out.println("address = " + address);
                 address = URLEncoder.encode(address, "UTF-8");
                 String apiKey = "AIzaSyCNyoU8SQu02cSwnu4xq6i1N1rGs5o1WIk";
-
                 String url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=" + apiKey;
                 HttpRequest request = HttpRequest.newBuilder()
                         .uri(URI.create(url))
                         .build();
-
                 HttpClient httpClient = HttpClient.newHttpClient();
                 HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
                 if (response.statusCode() == 200) {
                     String responseBody = response.body();
                     Gson gson = new Gson();
@@ -147,15 +141,23 @@ public class MapController {
 
                     if (jsonObject.has("status") && jsonObject.get("status").getAsString().equals("ZERO_RESULTS")) {
                         System.out.println("ERROR");
-                    } else System.out.println("responseBody = " + responseBody);
+                    } else {
+                        JsonElement results = jsonObject.getAsJsonArray("results").get(0);
+                        JsonObject results1 = results.getAsJsonObject();
+                        JsonObject geometry = results1.getAsJsonObject("geometry");
+
+                        JsonObject location = geometry.getAsJsonObject("location");
+                        result.add(location);
+                    }
                 } else {
                     System.out.println("Geocoding API request failed. Status code: " + response.statusCode());
                 }
+
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
         }
-
+        return result;
     }
 }
 
