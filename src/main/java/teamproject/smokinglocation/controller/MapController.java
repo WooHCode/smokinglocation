@@ -43,13 +43,13 @@ public class MapController {
     @GetMapping("/map")
     public String showMap(Model model) {
         FacilityData<FacilityYongsan> facilityDataYongsan = fetchData(UrlData.YONGSAN.getNumber(), UuidData.YONGSAN.getUuid());
-        FacilityData<FacilitySeongBuk> facilityData = fetchData(UrlData.SEONGBUK.getNumber(), UuidData.SEONGBUK.getUuid());
-        System.out.println("facilityData = " + facilityData.getData().get(0));
-
         List<FacilityYongsan> yongsanFacilities = facilityDataYongsan.getData();
-        //성북구의 위치데이터 전체모음
-        JsonArray seongBukData = getSeongBukData();
-        System.out.println("seongBukData = " + seongBukData);
+
+        JsonArray seongDongData = getSeongDongData();
+        for (JsonElement seongDongDatum : seongDongData) {
+            System.out.println("seongDongDatum = " + seongDongDatum);
+        }
+
         // FacilityYongsan 데이터 사용
         model.addAttribute("facilities", yongsanFacilities);
         model.addAttribute("naverMapClientId", naverMapClientId);
@@ -122,6 +122,118 @@ public class MapController {
             manageFacility = linkedHashMap.get("관리");
             addressList.add(districtName+manageFacility);
         }
+        JsonArray result = getJsonElements(addressList);
+        return result;
+    }
+
+
+
+    /**
+     * 종로구의 위도 경도 데이터를 받아오는 메서드
+     * @return
+     */
+    public JsonArray getJongnoData() {
+
+        //TODO 해당내용 DB에 저장
+        String districtName;
+        String gu = "서울시 종로구 ";
+        FacilityData<Object> data = fetchData(UrlData.JONGNO.getNumber(), UuidData.JONGNO.getUuid());
+
+        List<LinkedHashMap<String, String>> dataList = new ArrayList<>();
+
+        for (Object item : data.getData()) {
+            LinkedHashMap<String, String> linkedHashMap = (LinkedHashMap<String, String>) item;
+            dataList.add(linkedHashMap);
+        }
+        // dataList에는 전체 요소가 LinkedHashMap<String, String> 타입으로 캐스팅되어 저장됨
+
+        // 예시로 첫 번째 요소의 자치구와 관리 출력
+        List<String> addressList = new ArrayList<>();
+        for (LinkedHashMap<String, String> linkedHashMap : dataList) {
+            districtName = linkedHashMap.get("설치장소");
+            addressList.add(gu+districtName);
+        }
+        JsonArray result = getJsonElements(addressList);
+        return result;
+    }
+
+    public JsonArray getGangnamData() {
+
+        //TODO 해당내용 DB에 저장
+        String districtName;
+        String gu = "서울시 강남구 ";
+        FacilityData<Object> data = fetchData(UrlData.GANGNAM.getNumber(), UuidData.GANGNAM.getUuid());
+
+        List<LinkedHashMap<String, String>> dataList = new ArrayList<>();
+
+        for (Object item : data.getData()) {
+            LinkedHashMap<String, String> linkedHashMap = (LinkedHashMap<String, String>) item;
+            dataList.add(linkedHashMap);
+        }
+        // dataList에는 전체 요소가 LinkedHashMap<String, String> 타입으로 캐스팅되어 저장됨
+
+        // 예시로 첫 번째 요소의 자치구와 관리 출력
+        List<String> addressList = new ArrayList<>();
+        for (LinkedHashMap<String, String> linkedHashMap : dataList) {
+            districtName = linkedHashMap.get("설치주소");
+            addressList.add(gu+districtName);
+        }
+        JsonArray result = getJsonElements(addressList);
+        return result;
+    }
+
+    public JsonArray getSeochoData() {
+
+        //TODO 해당내용 DB에 저장
+        //해당메서드 사용불가능, 직접 파싱해서 db에 저장해야함.
+        String districtName;
+        String gu = "서울시 서초구 ";
+        FacilityData<Object> data = fetchData(UrlData.GANGNAM.getNumber(), UuidData.GANGNAM.getUuid());
+
+        List<LinkedHashMap<String, String>> dataList = new ArrayList<>();
+
+        for (Object item : data.getData()) {
+            LinkedHashMap<String, String> linkedHashMap = (LinkedHashMap<String, String>) item;
+            dataList.add(linkedHashMap);
+        }
+        // dataList에는 전체 요소가 LinkedHashMap<String, String> 타입으로 캐스팅되어 저장됨
+
+        // 예시로 첫 번째 요소의 자치구와 관리 출력
+        List<String> addressList = new ArrayList<>();
+        for (LinkedHashMap<String, String> linkedHashMap : dataList) {
+            districtName = linkedHashMap.get("설치주소");
+            addressList.add(gu+districtName);
+        }
+        JsonArray result = getJsonElements(addressList);
+        return result;
+    }
+
+    public JsonArray getSeongDongData() {
+        //TODO 해당내용 DB에 저장
+        //해당메서드 사용불가능, 직접 파싱해서 db에 저장해야함.
+        String districtName;
+        String gu = "서울시 성동구 ";
+        FacilityData<Object> data = fetchData(UrlData.SEONGDONG.getNumber(), UuidData.SEONGDONG.getUuid());
+
+        List<LinkedHashMap<String, String>> dataList = new ArrayList<>();
+
+        for (Object item : data.getData()) {
+            LinkedHashMap<String, String> linkedHashMap = (LinkedHashMap<String, String>) item;
+            dataList.add(linkedHashMap);
+        }
+        // dataList에는 전체 요소가 LinkedHashMap<String, String> 타입으로 캐스팅되어 저장됨
+
+        // 예시로 첫 번째 요소의 자치구와 관리 출력
+        List<String> addressList = new ArrayList<>();
+        for (LinkedHashMap<String, String> linkedHashMap : dataList) {
+            districtName = linkedHashMap.get("설치위치");
+            addressList.add(gu+districtName);
+        }
+        JsonArray result = getJsonElements(addressList);
+        return result;
+    }
+
+    private static JsonArray getJsonElements(List<String> addressList) {
         JsonArray result = new JsonArray();
         for (String address : addressList){
             try {
@@ -140,8 +252,8 @@ public class MapController {
                     JsonObject jsonObject = jsonElement.getAsJsonObject();
 
                     if (jsonObject.has("status") && jsonObject.get("status").getAsString().equals("ZERO_RESULTS")) {
-                        System.out.println("ERROR");
-                    } else {
+                        result.add("no data");
+                    }else {
                         JsonElement results = jsonObject.getAsJsonArray("results").get(0);
                         JsonObject results1 = results.getAsJsonObject();
                         JsonObject geometry = results1.getAsJsonObject("geometry");
@@ -149,6 +261,7 @@ public class MapController {
                         JsonObject location = geometry.getAsJsonObject("location");
                         result.add(location);
                     }
+
                 } else {
                     System.out.println("Geocoding API request failed. Status code: " + response.statusCode());
                 }
