@@ -9,11 +9,11 @@ import lombok.Setter;
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FacilityGangnam {
-    @JsonProperty("동명")
+public class FacilitySongpa {
+    @JsonProperty("건물명")
+    private String buildingName;
+    @JsonProperty("구분")
+    private String type;
+    @JsonProperty("도로명주소")
     private String roadName;
-    @JsonProperty("설치주소")
-    private String installationLocation;
-    @JsonProperty("위치")
-    private String location;
 }

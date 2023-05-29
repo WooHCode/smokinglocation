@@ -13,7 +13,7 @@ public class FacilitySeocho {
     @JsonProperty("규모")
     private String size;
     @JsonProperty("설치 위치")
-    private String locationInSeongBuk;
+    private String installationLocation;
     @JsonProperty("설치일자")
     private String installationDate;
     @JsonProperty("설치주체")

@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FacilitySeongBuk {
+public class FacilityGangseo {
     @JsonProperty("관리")
     private String manageFacility;
     @JsonProperty("관리여부")

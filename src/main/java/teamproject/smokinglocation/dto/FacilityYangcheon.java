@@ -6,26 +6,27 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FacilitySeongBuk {
-    @JsonProperty("관리")
-    private String manageFacility;
-    @JsonProperty("관리여부")
-    private String manageOk;
-    @JsonProperty("규모")
+public class FacilityYangcheon {
+    @JsonProperty("규모(제곱미터)")
     private String size;
+
+    @JsonProperty("데이터기준일자")
+    private String dataCreateDate;
+
     @JsonProperty("설치 위치")
     private String installationLocation;
-    @JsonProperty("설치 주체")
+
+    @JsonProperty("설치주체")
     private String installationEntity;
-    @JsonProperty("설치일")
-    private String installationDate;
-    @JsonProperty("시설 구분")
-    private String facilityType;
+
     @JsonProperty("시설형태")
     private String facilityForm;
-    @JsonProperty("자치구")
+    @JsonProperty("연번")
+    private String indexNum;
+    @JsonProperty("자치구명")
     private String districtName;
 }
