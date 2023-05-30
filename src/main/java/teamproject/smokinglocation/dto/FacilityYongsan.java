@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Facility {
+public class FacilityYongsan {
     @JsonProperty("자치구명")
     private String districtName; // 자치구명
     @JsonProperty("시설 구분")
