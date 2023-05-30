@@ -10,12 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import teamproject.smokinglocation.dto.FacilitySeongBuk;
 import teamproject.smokinglocation.dto.FacilityYongsan;
 import teamproject.smokinglocation.dto.FacilityData;
 
 
-import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
