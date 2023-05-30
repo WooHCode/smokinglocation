@@ -1,8 +1,6 @@
 package teamproject.smokinglocation.controller;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
 public enum UrlData {

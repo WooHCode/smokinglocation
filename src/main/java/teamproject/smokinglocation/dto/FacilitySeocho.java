@@ -31,5 +31,4 @@ public class FacilitySeocho {
     @JsonProperty("해당동")
     private String dong;
 
-
 }

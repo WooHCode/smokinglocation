@@ -1,6 +1,7 @@
 package teamproject.smokinglocation.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.*;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import teamproject.smokinglocation.dto.FacilitySeongBuk;
 import teamproject.smokinglocation.dto.FacilityYongsan;
 import teamproject.smokinglocation.dto.FacilityData;
 
@@ -44,11 +44,6 @@ public class MapController {
     public String showMap(Model model) {
         FacilityData<FacilityYongsan> facilityDataYongsan = fetchData(UrlData.YONGSAN.getNumber(), UuidData.YONGSAN.getUuid());
         List<FacilityYongsan> yongsanFacilities = facilityDataYongsan.getData();
-
-        JsonArray seongDongData = getSeongDongData();
-        for (JsonElement seongDongDatum : seongDongData) {
-            System.out.println("seongDongDatum = " + seongDongDatum);
-        }
 
         // FacilityYongsan 데이터 사용
         model.addAttribute("facilities", yongsanFacilities);
@@ -183,7 +178,6 @@ public class MapController {
     }
 
     public JsonArray getSeochoData() {
-
         //TODO 해당내용 DB에 저장
         //해당메서드 사용불가능, 직접 파싱해서 db에 저장해야함.
         String districtName;
@@ -232,6 +226,275 @@ public class MapController {
         JsonArray result = getJsonElements(addressList);
         return result;
     }
+
+    public JsonArray getDongDaeMunData() {
+        //TODO 해당내용 DB에 저장
+        String districtName;
+        String gu = "서울시 동대문구 ";
+        FacilityData<Object> data = fetchData(UrlData.DONGDAEMUN.getNumber(), UuidData.DONGDAEMUN.getUuid());
+
+        List<LinkedHashMap<String, String>> dataList = new ArrayList<>();
+
+        for (Object item : data.getData()) {
+            LinkedHashMap<String, String> linkedHashMap = (LinkedHashMap<String, String>) item;
+            dataList.add(linkedHashMap);
+        }
+        // dataList에는 전체 요소가 LinkedHashMap<String, String> 타입으로 캐스팅되어 저장됨
+
+        // 예시로 첫 번째 요소의 자치구와 관리 출력
+        List<String> addressList = new ArrayList<>();
+        for (LinkedHashMap<String, String> linkedHashMap : dataList) {
+            districtName = linkedHashMap.get("설치위치");
+            addressList.add(gu+districtName);
+        }
+        JsonArray result = getJsonElements(addressList);
+        for (JsonElement jsonElement : result) {
+            System.out.println("jsonElement = " + jsonElement);
+        }
+        return result;
+    }
+
+    public JsonArray getGwanakData() {
+        //TODO 해당내용 DB에 저장
+        String districtName;
+        String gu = "서울시 관악구 ";
+        FacilityData<Object> data = fetchData(UrlData.GWANAK.getNumber(), UuidData.GWANAK.getUuid());
+
+        List<LinkedHashMap<String, String>> dataList = new ArrayList<>();
+
+        for (Object item : data.getData()) {
+            LinkedHashMap<String, String> linkedHashMap = (LinkedHashMap<String, String>) item;
+            dataList.add(linkedHashMap);
+        }
+        // dataList에는 전체 요소가 LinkedHashMap<String, String> 타입으로 캐스팅되어 저장됨
+
+        // 예시로 첫 번째 요소의 자치구와 관리 출력
+        List<String> addressList = new ArrayList<>();
+        for (LinkedHashMap<String, String> linkedHashMap : dataList) {
+            districtName = linkedHashMap.get("설치위치");
+            addressList.add(gu+districtName);
+        }
+        JsonArray result = getJsonElements(addressList);
+        for (JsonElement jsonElement : result) {
+            System.out.println("jsonElement = " + jsonElement);
+        }
+        return result;
+    }
+
+    public JsonArray getYangCheonData() {
+        //TODO 해당내용 DB에 저장
+        String districtName;
+        String gu = "서울시 양천구 ";
+        FacilityData<Object> data = fetchData(UrlData.YANGCHEON.getNumber(), UuidData.YANGCHEON.getUuid());
+
+        List<LinkedHashMap<String, String>> dataList = new ArrayList<>();
+
+        for (Object item : data.getData()) {
+            LinkedHashMap<String, String> linkedHashMap = (LinkedHashMap<String, String>) item;
+            dataList.add(linkedHashMap);
+        }
+        // dataList에는 전체 요소가 LinkedHashMap<String, String> 타입으로 캐스팅되어 저장됨
+
+        // 예시로 첫 번째 요소의 자치구와 관리 출력
+        List<String> addressList = new ArrayList<>();
+        for (LinkedHashMap<String, String> linkedHashMap : dataList) {
+            districtName = linkedHashMap.get("설치기관");
+            addressList.add(gu+districtName);
+        }
+        JsonArray result = getJsonElements(addressList);
+        for (JsonElement jsonElement : result) {
+            System.out.println("jsonElement = " + jsonElement);
+        }
+        return result;
+    }
+
+    public JsonArray getSeodaemunData() {
+        //TODO 해당내용 DB에 저장
+        String districtName;
+        String gu = "서울시 서대문구 ";
+        FacilityData<Object> data = fetchData(UrlData.SEODAEMUN.getNumber(), UuidData.SEODAEMUN.getUuid());
+
+        List<LinkedHashMap<String, String>> dataList = new ArrayList<>();
+
+        for (Object item : data.getData()) {
+            LinkedHashMap<String, String> linkedHashMap = (LinkedHashMap<String, String>) item;
+            dataList.add(linkedHashMap);
+        }
+        // dataList에는 전체 요소가 LinkedHashMap<String, String> 타입으로 캐스팅되어 저장됨
+
+        // 예시로 첫 번째 요소의 자치구와 관리 출력
+        List<String> addressList = new ArrayList<>();
+        for (LinkedHashMap<String, String> linkedHashMap : dataList) {
+            districtName = linkedHashMap.get("설치위치");
+            addressList.add(gu+districtName);
+        }
+        JsonArray result = getJsonElements(addressList);
+        for (JsonElement jsonElement : result) {
+            System.out.println("jsonElement = " + jsonElement);
+        }
+        return result;
+    }
+    public JsonArray getGangseoData() {
+        //TODO 해당내용 DB에 저장
+        String districtName;
+        String gu = "서울시 강서구 ";
+        FacilityData<Object> data = fetchData(UrlData.GANGSEO.getNumber(), UuidData.GANGSEO.getUuid());
+
+        List<LinkedHashMap<String, String>> dataList = new ArrayList<>();
+
+        for (Object item : data.getData()) {
+            LinkedHashMap<String, String> linkedHashMap = (LinkedHashMap<String, String>) item;
+            dataList.add(linkedHashMap);
+        }
+        // dataList에는 전체 요소가 LinkedHashMap<String, String> 타입으로 캐스팅되어 저장됨
+
+        // 예시로 첫 번째 요소의 자치구와 관리 출력
+        List<String> addressList = new ArrayList<>();
+        for (LinkedHashMap<String, String> linkedHashMap : dataList) {
+            districtName = linkedHashMap.get("설치 위치");
+            addressList.add(gu+districtName);
+        }
+        JsonArray result = getJsonElements(addressList);
+        for (JsonElement jsonElement : result) {
+            System.out.println("jsonElement = " + jsonElement);
+        }
+        return result;
+    }
+
+    public JsonArray getGwanjinData() {
+        //TODO 해당내용 DB에 저장
+        String districtName;
+        String gu = "서울시 광진구 ";
+        FacilityData<Object> data = fetchData(UrlData.GWANGJIN.getNumber(), UuidData.GWANGJIN.getUuid());
+
+        List<LinkedHashMap<String, String>> dataList = new ArrayList<>();
+
+        for (Object item : data.getData()) {
+            LinkedHashMap<String, String> linkedHashMap = (LinkedHashMap<String, String>) item;
+            dataList.add(linkedHashMap);
+        }
+        // dataList에는 전체 요소가 LinkedHashMap<String, String> 타입으로 캐스팅되어 저장됨
+
+        // 예시로 첫 번째 요소의 자치구와 관리 출력
+        List<String> addressList = new ArrayList<>();
+        for (LinkedHashMap<String, String> linkedHashMap : dataList) {
+            districtName = linkedHashMap.get("영업소소재지(도로 명)");
+            addressList.add(gu+districtName);
+        }
+        JsonArray result = getJsonElements(addressList);
+        for (JsonElement jsonElement : result) {
+            System.out.println("jsonElement = " + jsonElement);
+        }
+        return result;
+    }
+
+    //========================전체 주소가 있는 자치구========================
+
+    public JsonArray getGangbukData() {
+        //TODO 해당내용 DB에 저장
+        String districtName;
+        FacilityData<Object> data = fetchData(UrlData.GANGBUK.getNumber(), UuidData.GANGBUK.getUuid());
+
+        List<LinkedHashMap<String, String>> dataList = new ArrayList<>();
+
+        for (Object item : data.getData()) {
+            LinkedHashMap<String, String> linkedHashMap = (LinkedHashMap<String, String>) item;
+            dataList.add(linkedHashMap);
+        }
+        // dataList에는 전체 요소가 LinkedHashMap<String, String> 타입으로 캐스팅되어 저장됨
+
+        // 예시로 첫 번째 요소의 자치구와 관리 출력
+        List<String> addressList = new ArrayList<>();
+        for (LinkedHashMap<String, String> linkedHashMap : dataList) {
+            districtName = linkedHashMap.get("주소");
+            addressList.add(districtName);
+        }
+        JsonArray result = getJsonElements(addressList);
+        for (JsonElement jsonElement : result) {
+            System.out.println("jsonElement = " + jsonElement);
+        }
+        return result;
+    }
+
+    public JsonArray getJungnangData() {
+        //TODO 해당내용 DB에 저장
+        String districtName;
+        FacilityData<Object> data = fetchData(UrlData.JUNGNANG.getNumber(), UuidData.JUNGNANG.getUuid());
+
+        List<LinkedHashMap<String, String>> dataList = new ArrayList<>();
+
+        for (Object item : data.getData()) {
+            LinkedHashMap<String, String> linkedHashMap = (LinkedHashMap<String, String>) item;
+            dataList.add(linkedHashMap);
+        }
+        // dataList에는 전체 요소가 LinkedHashMap<String, String> 타입으로 캐스팅되어 저장됨
+
+        // 예시로 첫 번째 요소의 자치구와 관리 출력
+        List<String> addressList = new ArrayList<>();
+        for (LinkedHashMap<String, String> linkedHashMap : dataList) {
+            districtName = linkedHashMap.get("주소");
+            addressList.add(districtName);
+        }
+        JsonArray result = getJsonElements(addressList);
+        for (JsonElement jsonElement : result) {
+            System.out.println("jsonElement = " + jsonElement);
+        }
+        return result;
+    }
+
+
+    public JsonArray getSongpaData() {
+        //TODO 해당내용 DB에 저장
+        String districtName;
+        FacilityData<Object> data = fetchData(UrlData.SONGPA.getNumber(), UuidData.SONGPA.getUuid());
+
+        List<LinkedHashMap<String, String>> dataList = new ArrayList<>();
+
+        for (Object item : data.getData()) {
+            LinkedHashMap<String, String> linkedHashMap = (LinkedHashMap<String, String>) item;
+            dataList.add(linkedHashMap);
+        }
+        // dataList에는 전체 요소가 LinkedHashMap<String, String> 타입으로 캐스팅되어 저장됨
+
+        // 예시로 첫 번째 요소의 자치구와 관리 출력
+        List<String> addressList = new ArrayList<>();
+        for (LinkedHashMap<String, String> linkedHashMap : dataList) {
+            districtName = linkedHashMap.get("도로명주소");
+            addressList.add(districtName);
+        }
+        JsonArray result = getJsonElements(addressList);
+        for (JsonElement jsonElement : result) {
+            System.out.println("jsonElement = " + jsonElement);
+        }
+        return result;
+    }
+
+    public JsonArray getJungguData() {
+        //TODO 해당내용 DB에 저장
+        String districtName;
+        FacilityData<Object> data = fetchData(UrlData.JUNGGU.getNumber(), UuidData.JUNGGU.getUuid());
+
+        List<LinkedHashMap<String, String>> dataList = new ArrayList<>();
+
+        for (Object item : data.getData()) {
+            LinkedHashMap<String, String> linkedHashMap = (LinkedHashMap<String, String>) item;
+            dataList.add(linkedHashMap);
+        }
+        // dataList에는 전체 요소가 LinkedHashMap<String, String> 타입으로 캐스팅되어 저장됨
+
+        // 예시로 첫 번째 요소의 자치구와 관리 출력
+        List<String> addressList = new ArrayList<>();
+        for (LinkedHashMap<String, String> linkedHashMap : dataList) {
+            districtName = linkedHashMap.get("설치도로명주소");
+            addressList.add(districtName);
+        }
+        JsonArray result = getJsonElements(addressList);
+        for (JsonElement jsonElement : result) {
+            System.out.println("jsonElement = " + jsonElement);
+        }
+        return result;
+    }
+
 
     private static JsonArray getJsonElements(List<String> addressList) {
         JsonArray result = new JsonArray();
