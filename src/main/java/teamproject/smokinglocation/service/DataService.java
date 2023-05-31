@@ -20,18 +20,30 @@ import java.util.List;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class DataService<T>{
+public class DataService<T> {
 
     private static FacilityData<Object> facilityData;
 
-    public void saveLatLng(FacilityData<T> facilityData,int urlData) {
+    public void saveLatLng(FacilityData<T> facilityData, int urlData) {
 
-        this.facilityData = (FacilityData<Object>)facilityData;
+        this.facilityData = (FacilityData<Object>) facilityData;
 
         List<String[]> latLngRes = checkUrl(urlData);
         if (latLngRes != null) {
             //TODO latLngRes값이 null이 아닐경우 return 값을 합쳐주는 로직생성
+            try {
+                for (String[] latLngRe : latLngRes) {
+                    for (String s : latLngRe) {
+                        System.out.println("s = " + s);
+                    }
+                }
+
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         }
+
+
     }
 
     private List<String[]> checkUrl(int urlData) {
@@ -99,14 +111,12 @@ public class DataService<T>{
             addressList.add(districtName + manageFacility);
         }
         JsonArray result = getJsonElements(addressList);
-        List<String[]> latLngList=getLatLng(result);
+        List<String[]> latLngList = getLatLng(result);
         for (String[] strings : latLngList) {
-            System.out.println("Strings = " + strings[0]+"/"+strings[1]);
+            System.out.println("Strings = " + strings[0] + "/" + strings[1]);
         }
         return latLngList;
     }
-
-
 
 
     /**
@@ -127,7 +137,6 @@ public class DataService<T>{
             LinkedHashMap<String, String> linkedHashMap = (LinkedHashMap<String, String>) item;
             dataList.add(linkedHashMap);
         }
-        // dataList에는 전체 요소가 LinkedHashMap<String, String> 타입으로 캐스팅되어 저장됨
 
         // 예시로 첫 번째 요소의 자치구와 관리 출력
         List<String> addressList = new ArrayList<>();
@@ -540,14 +549,14 @@ public class DataService<T>{
 
             if (jsonObject.get("lat").toString().equals("null")) {
                 res[0] = "null";
-            } else{
-                res[0]=jsonObject.get("lat").toString();
+            } else {
+                res[0] = jsonObject.get("lat").toString();
             }
 
             if (jsonObject.get("lng").toString().equals("null")) {
                 res[1] = "null";
-            } else{
-                res[1]=jsonObject.get("lng").toString();
+            } else {
+                res[1] = jsonObject.get("lng").toString();
             }
 
             resultList.add(res);
