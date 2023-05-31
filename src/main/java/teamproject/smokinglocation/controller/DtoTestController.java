@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import teamproject.smokinglocation.dto.*;
+import teamproject.smokinglocation.service.DataService;
 
 @RestController
 @RequiredArgsConstructor
@@ -12,6 +13,7 @@ import teamproject.smokinglocation.dto.*;
 public class DtoTestController {
 
     private final MapController mapController;
+    private final DataService service;
 
     @GetMapping("/test/map")
     public void jsonToDtoTest() {
@@ -95,6 +97,10 @@ public class DtoTestController {
         for (Object facility : mapController.<FacilityJongno>fetchData(UrlData.JONGNO.getNumber(), UuidData.JONGNO.getUuid()).getData()) {
             log.info("{}", facility.toString());
         }
+
+
+        log.info(service.getSeongBukData().toString());
+
 
     }
 
