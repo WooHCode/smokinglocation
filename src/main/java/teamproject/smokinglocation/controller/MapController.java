@@ -1,7 +1,6 @@
 package teamproject.smokinglocation.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.*;
 import lombok.RequiredArgsConstructor;
@@ -95,6 +94,7 @@ public class MapController {
      * 다른 구의 위도 경도 데이터가 없다면 해당 메서드를 구 별로 작성할 필요 있음.
      * @return
      */
+    @PostConstruct
     public JsonArray getSeongBukData() {
     //TODO 해당 값들을 DB에 저장
         String districtName;

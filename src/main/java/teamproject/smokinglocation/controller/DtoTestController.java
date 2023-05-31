@@ -96,8 +96,6 @@ public class DtoTestController {
             log.info("{}", facility.toString());
         }
 
-
-
     }
 
 }
