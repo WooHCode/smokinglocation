@@ -37,16 +37,13 @@
                     title: location,
                     map: map
                 });
-
                 var infoWindow = new naver.maps.InfoWindow({
                     content: location
                 });
-
                 // 마커가 클릭되면 인포윈도우 열기
                 naver.maps.Event.addListener(marker, 'click', function() {
                     infoWindow.open(map, marker);
                 });
-
                 // 마커 지도에 추가
                 marker.setMap(map);
             }
