@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import teamproject.smokinglocation.dto.*;
+import teamproject.smokinglocation.entity.TotalData;
+import teamproject.smokinglocation.service.DataResponseService;
 import teamproject.smokinglocation.service.DataService;
 import teamproject.smokinglocation.service.LatlngService;
 
@@ -19,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,6 +31,7 @@ public class MapController {
     public static final int perPage = 500;
 
     private final LatlngService latlngService;
+    private final DataResponseService responseService;
     private final DataService dataService;
     private final ObjectMapper objectMapper;
     @Value("${naver.map.client.id}")
@@ -42,6 +46,9 @@ public class MapController {
         // FacilityYongsan 데이터 사용
         /*model.addAttribute("facilities", yongsanFacilities);
         model.addAttribute("naverMapClientId", naverMapClientId);*/
+        List<TotalData> totalData = responseService.getTotalData();
+        model.addAttribute("facilities", totalData);
+        model.addAttribute("naverMapClientId", naverMapClientId);
         return "map";
     }
 
