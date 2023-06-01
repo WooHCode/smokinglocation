@@ -286,6 +286,7 @@ public class DataService<T> {
         for (JsonElement jsonElement : result) {
             System.out.println("jsonElement = " + jsonElement);
         }
+        uncompletedAddressRepository.saveGwanakData(getLatLng(result), addressList);
         return getLatLng(result);
     }
 
@@ -313,6 +314,7 @@ public class DataService<T> {
         for (JsonElement jsonElement : result) {
             System.out.println("jsonElement = " + jsonElement);
         }
+        uncompletedAddressRepository.saveYangcheonData(getLatLng(result), addressList);
         return getLatLng(result);
     }
 
@@ -340,6 +342,7 @@ public class DataService<T> {
         for (JsonElement jsonElement : result) {
             System.out.println("jsonElement = " + jsonElement);
         }
+        uncompletedAddressRepository.saveSeodaemunData(getLatLng(result), addressList);
         return getLatLng(result);
     }
 
@@ -367,6 +370,7 @@ public class DataService<T> {
         for (JsonElement jsonElement : result) {
             System.out.println("jsonElement = " + jsonElement);
         }
+        uncompletedAddressRepository.saveGangseoData(getLatLng(result), addressList);
         return getLatLng(result);
     }
 
@@ -394,6 +398,7 @@ public class DataService<T> {
         for (JsonElement jsonElement : result) {
             System.out.println("jsonElement = " + jsonElement);
         }
+        uncompletedAddressRepository.saveGwangjinData(getLatLng(result), addressList);
         return getLatLng(result);
     }
 
