@@ -202,10 +202,12 @@ public class DataService<T> {
         // 예시로 첫 번째 요소의 자치구와 관리 출력
         List<String> addressList = new ArrayList<>();
         for (LinkedHashMap<String, String> linkedHashMap : dataList) {
-            districtName = linkedHashMap.get("설치주소");
+            districtName = linkedHashMap.get("설치위치");
             addressList.add(gu + districtName);
         }
         JsonArray result = getJsonElements(addressList);
+        List<String[]> latLngList = getLatLng(result);
+        uncompletedAddressRepository.saveSeochoData(latLngList, addressList);
         return getLatLng(result);
     }
 
