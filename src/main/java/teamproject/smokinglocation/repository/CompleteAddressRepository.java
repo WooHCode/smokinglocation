@@ -14,7 +14,6 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-@Transactional
 @Slf4j
 public class CompleteAddressRepository {
 

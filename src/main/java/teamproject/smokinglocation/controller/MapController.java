@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import teamproject.smokinglocation.dto.*;
+import teamproject.smokinglocation.service.DataService;
 import teamproject.smokinglocation.service.LatlngService;
 
 
@@ -18,7 +19,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,15 +28,16 @@ public class MapController {
     public static final int perPage = 500;
 
     private final LatlngService latlngService;
+    private final DataService dataService;
     private final ObjectMapper objectMapper;
     @Value("${naver.map.client.id}")
 
     private String naverMapClientId;
     @GetMapping("/map")
     public String showMap(Model model) {
-        /*FacilityData<FacilityNowon> facilityData = fetchData(UrlData.NOWON.getNumber(), UuidData.NOWON.getUuid());
-        List<FacilityNowon> data = facilityData.getData();
-        latlngService.saveNowonData(data);*/
+        /*FacilityData<FacilityGuro> facilityData = fetchData(UrlData.GURO.getNumber(), UuidData.GURO.getUuid());
+        List<FacilityGuro> data = facilityData.getData();
+        latlngService.saveGuroData(data);*/
 
         // FacilityYongsan 데이터 사용
         /*model.addAttribute("facilities", yongsanFacilities);
@@ -76,6 +77,7 @@ public class MapController {
             facilityData = objectMapper.readValue(jsonString, new TypeReference<>() {
             });
             log.info("facilityData = {}", facilityData);
+            dataService.saveLatLng(facilityData, urlData);
 
         } catch (IOException e) {
             e.printStackTrace();

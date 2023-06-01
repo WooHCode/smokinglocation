@@ -3,10 +3,7 @@ package teamproject.smokinglocation.repository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import teamproject.smokinglocation.entity.Dongjak;
-import teamproject.smokinglocation.entity.Nowon;
-import teamproject.smokinglocation.entity.Yeongdeungpo;
-import teamproject.smokinglocation.entity.Yongsan;
+import teamproject.smokinglocation.entity.*;
 
 import javax.persistence.EntityManager;
 
@@ -44,13 +41,13 @@ public class LatlngRepository {
         em.persist(dongjak);
     }
     public void saveGuro(String lat, String lon, String location) {
-        Dongjak dongjak = Dongjak.builder()
+        Guro guro = Guro.builder()
                 .gu("GURO")
                 .lat(lat)
                 .lon(lon)
                 .location(location)
                 .build();
-        em.persist(dongjak);
+        em.persist(guro);
     }
 
     public void saveNowon(String lat, String lon, String location) {
