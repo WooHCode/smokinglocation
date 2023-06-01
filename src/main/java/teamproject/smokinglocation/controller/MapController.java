@@ -30,6 +30,7 @@ public class MapController {
     private final ObjectMapper objectMapper;
     @Value("${naver.map.client.id}")
     private String naverMapClientId;
+    public static final int perPage = 500;
 
     private final DataService service;
 
@@ -48,7 +49,7 @@ public class MapController {
     @ResponseBody
     public <T> FacilityData<T> fetchData(int urlData, String uuid) {
         String apiUrl = "https://api.odcloud.kr/api/" + urlData + "/v1/uddi:" + uuid +
-                "?serviceKey=" + secretKey;
+                "?serviceKey=" + secretKey +"&perPage=" + perPage;
         FacilityData<T> facilityData = new FacilityData<>();
 
         try {

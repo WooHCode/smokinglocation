@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import teamproject.smokinglocation.controller.UrlData;
 import teamproject.smokinglocation.dto.FacilityData;
+import teamproject.smokinglocation.repository.CompleteAddressRepository;
 
 import java.io.IOException;
 import java.net.URI;
@@ -23,6 +24,8 @@ import java.util.List;
 public class DataService<T> {
 
     private static FacilityData<Object> facilityData;
+
+    private final CompleteAddressRepository completeAddressRepository;
 
     public void saveLatLng(FacilityData<T> facilityData, int urlData) {
 
@@ -410,6 +413,7 @@ public class DataService<T> {
         for (JsonElement jsonElement : result) {
             System.out.println("jsonElement = " + jsonElement);
         }
+        completeAddressRepository.saveGangbuk(getLatLng(result),addressList);
         return getLatLng(result);
     }
 
@@ -436,6 +440,7 @@ public class DataService<T> {
         for (JsonElement jsonElement : result) {
             System.out.println("jsonElement = " + jsonElement);
         }
+        completeAddressRepository.saveJungnangData(getLatLng(result), addressList);
         return getLatLng(result);
     }
 
@@ -463,6 +468,7 @@ public class DataService<T> {
         for (JsonElement jsonElement : result) {
             System.out.println("jsonElement = " + jsonElement);
         }
+        completeAddressRepository.saveSongpaData(getLatLng(result), addressList);
         return getLatLng(result);
     }
 
@@ -489,6 +495,7 @@ public class DataService<T> {
         for (JsonElement jsonElement : result) {
             System.out.println("jsonElement = " + jsonElement);
         }
+        completeAddressRepository.saveJungguData(getLatLng(result),addressList);
         return getLatLng(result);
     }
 
