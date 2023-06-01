@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import teamproject.smokinglocation.controller.UrlData;
 import teamproject.smokinglocation.dto.FacilityData;
 import teamproject.smokinglocation.repository.CompleteAddressRepository;
+import teamproject.smokinglocation.repository.UncompletedAddressRepository;
 
 import java.io.IOException;
 import java.net.URI;
@@ -28,6 +29,8 @@ public class DataService<T> {
     private static FacilityData<Object> facilityData;
 
     private final CompleteAddressRepository completeAddressRepository;
+
+    private final UncompletedAddressRepository uncompletedAddressRepository;
 
     public void saveLatLng(FacilityData<T> facilityData, int urlData) {
 
@@ -280,6 +283,7 @@ public class DataService<T> {
         for (JsonElement jsonElement : result) {
             System.out.println("jsonElement = " + jsonElement);
         }
+        uncompletedAddressRepository.saveGwanakData(getLatLng(result), addressList);
         return getLatLng(result);
     }
 
@@ -307,6 +311,7 @@ public class DataService<T> {
         for (JsonElement jsonElement : result) {
             System.out.println("jsonElement = " + jsonElement);
         }
+        uncompletedAddressRepository.saveYangcheonData(getLatLng(result), addressList);
         return getLatLng(result);
     }
 
@@ -334,6 +339,7 @@ public class DataService<T> {
         for (JsonElement jsonElement : result) {
             System.out.println("jsonElement = " + jsonElement);
         }
+        uncompletedAddressRepository.saveSeodaemunData(getLatLng(result), addressList);
         return getLatLng(result);
     }
 
@@ -361,6 +367,7 @@ public class DataService<T> {
         for (JsonElement jsonElement : result) {
             System.out.println("jsonElement = " + jsonElement);
         }
+        uncompletedAddressRepository.saveGangseoData(getLatLng(result), addressList);
         return getLatLng(result);
     }
 
@@ -388,6 +395,7 @@ public class DataService<T> {
         for (JsonElement jsonElement : result) {
             System.out.println("jsonElement = " + jsonElement);
         }
+        uncompletedAddressRepository.saveGwangjinData(getLatLng(result), addressList);
         return getLatLng(result);
     }
 
