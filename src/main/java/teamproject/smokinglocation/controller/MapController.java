@@ -84,10 +84,5 @@ public class MapController {
         }
         return facilityData;
     }
-
-
-
-
-
 }
 

@@ -158,4 +158,18 @@ public class UncompletedAddressRepository {
             em.persist(entity);
         }
     }
+
+    public void saveSeochoData(List<String[]> latLng, List<String> addressList) {
+        int length = latLng.size();
+        log.info("=============saveSeochoData 실행===============");
+        for (int i = 0; i < length; i++) {
+            Seocho seocho = Seocho.builder()
+                    .gu("SEOCHO")
+                    .lat(latLng.get(i)[0])
+                    .lon(latLng.get(i)[1])
+                    .location(addressList.get(i))
+                    .build();
+            em.persist(seocho);
+        }
+    }
 }
