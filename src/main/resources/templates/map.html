@@ -25,20 +25,20 @@
         for (var i = 0; i < facilities.length; i++) {
             var facility = facilities[i];
             console.log(facility);
-            var longitude = facility['경도'];
-            var latitude = facility['위도'];
-            var title = facility['시설 구분'];
-            var location = facility['서울특별시 용산구 설치 위치'];
+            var longitude = facility.lon;
+            var latitude = facility.lat;
+            var title = facility.location;
+            var loc = facility.location;
 
             // 모든 속성값이 유효한 경우에만 마커 생성
-            if (latitude && longitude && title && location) {
+            if (latitude && longitude && title && loc) {
                 var marker = new naver.maps.Marker({
                     position: new naver.maps.LatLng(latitude, longitude),
-                    title: location,
+                    title: loc,
                     map: map
                 });
                 var infoWindow = new naver.maps.InfoWindow({
-                    content: location
+                    content: loc
                 });
                 // 마커가 클릭되면 인포윈도우 열기
                 naver.maps.Event.addListener(marker, 'click', function() {
