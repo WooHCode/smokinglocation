@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import teamproject.smokinglocation.controller.UrlData;
 import teamproject.smokinglocation.dto.FacilityData;
 import teamproject.smokinglocation.repository.CompleteAddressRepository;
+import teamproject.smokinglocation.repository.UncompletedAddressRepository;
 
 import java.io.IOException;
 import java.net.URI;
@@ -28,6 +29,8 @@ public class DataService<T> {
     private static FacilityData<Object> facilityData;
 
     private final CompleteAddressRepository completeAddressRepository;
+
+    private final UncompletedAddressRepository uncompletedAddressRepository;
 
     public void saveLatLng(FacilityData<T> facilityData, int urlData) {
 
@@ -118,9 +121,7 @@ public class DataService<T> {
         }
         JsonArray result = getJsonElements(addressList);
         List<String[]> latLngList = getLatLng(result);
-        for (String[] strings : latLngList) {
-            System.out.println("Strings = " + strings[0] + "/" + strings[1]);
-        }
+        uncompletedAddressRepository.saveSeongbuk(latLngList, addressList);
         return latLngList;
     }
 
@@ -151,6 +152,8 @@ public class DataService<T> {
             addressList.add(gu + districtName);
         }
         JsonArray result = getJsonElements(addressList);
+        List<String[]> latLngList = getLatLng(result);
+        uncompletedAddressRepository.saveJongno(latLngList, addressList);
         return getLatLng(result);
     }
 
@@ -176,6 +179,8 @@ public class DataService<T> {
             addressList.add(gu + districtName);
         }
         JsonArray result = getJsonElements(addressList);
+        List<String[]> latLngList = getLatLng(result);
+        uncompletedAddressRepository.saveGangnam(latLngList, addressList);
         return getLatLng(result);
     }
 
@@ -226,6 +231,8 @@ public class DataService<T> {
             addressList.add(gu + districtName);
         }
         JsonArray result = getJsonElements(addressList);
+        List<String[]> latLngList = getLatLng(result);
+        uncompletedAddressRepository.saveSeongdong(latLngList, addressList);
         return getLatLng(result);
     }
 
@@ -250,9 +257,8 @@ public class DataService<T> {
             addressList.add(gu + districtName);
         }
         JsonArray result = getJsonElements(addressList);
-        for (JsonElement jsonElement : result) {
-            System.out.println("jsonElement = " + jsonElement);
-        }
+        List<String[]> latLngList = getLatLng(result);
+        uncompletedAddressRepository.saveDongdaemun(latLngList, addressList);
         return getLatLng(result);
     }
 
