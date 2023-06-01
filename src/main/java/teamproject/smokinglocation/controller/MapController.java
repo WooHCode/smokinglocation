@@ -9,9 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import teamproject.smokinglocation.dto.FacilityYongsan;
-import teamproject.smokinglocation.dto.FacilityData;
-import teamproject.smokinglocation.service.DataService;
+import teamproject.smokinglocation.dto.*;
+import teamproject.smokinglocation.service.LatlngService;
 
 
 import java.io.BufferedReader;
@@ -26,21 +25,22 @@ import java.util.List;
 @Slf4j
 public class MapController {
     public static final String secretKey = "dP9ZxjdllWOjmt5zzJVCVHUHXysykcUWsLPHbnfHrf3JcOK2zEo60B3iOrILphRT5xRc865itVYu9KAlGGEyLw%3D%3D";
+    public static final int perPage = 500;
 
+    private final LatlngService latlngService;
     private final ObjectMapper objectMapper;
     @Value("${naver.map.client.id}")
+
     private String naverMapClientId;
-
-    private final DataService service;
-
     @GetMapping("/map")
     public String showMap(Model model) {
-        FacilityData<FacilityYongsan> facilityDataYongsan = fetchData(UrlData.YONGSAN.getNumber(), UuidData.YONGSAN.getUuid());
-        List<FacilityYongsan> yongsanFacilities = facilityDataYongsan.getData();
+        /*FacilityData<FacilityNowon> facilityData = fetchData(UrlData.NOWON.getNumber(), UuidData.NOWON.getUuid());
+        List<FacilityNowon> data = facilityData.getData();
+        latlngService.saveNowonData(data);*/
 
         // FacilityYongsan 데이터 사용
-        model.addAttribute("facilities", yongsanFacilities);
-        model.addAttribute("naverMapClientId", naverMapClientId);
+        /*model.addAttribute("facilities", yongsanFacilities);
+        model.addAttribute("naverMapClientId", naverMapClientId);*/
         return "map";
     }
 
@@ -48,7 +48,7 @@ public class MapController {
     @ResponseBody
     public <T> FacilityData<T> fetchData(int urlData, String uuid) {
         String apiUrl = "https://api.odcloud.kr/api/" + urlData + "/v1/uddi:" + uuid +
-                "?serviceKey=" + secretKey;
+                "?serviceKey=" + secretKey +"&perPage=" + perPage;
         FacilityData<T> facilityData = new FacilityData<>();
 
         try {
@@ -80,10 +80,6 @@ public class MapController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        service.saveLatLng(facilityData, urlData);
-
-
         return facilityData;
     }
 

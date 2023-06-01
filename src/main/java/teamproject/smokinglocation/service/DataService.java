@@ -28,6 +28,7 @@ public class DataService<T> {
 
         this.facilityData = (FacilityData<Object>) facilityData;
 
+
         List<String[]> latLngRes = checkUrl(urlData);
         if (latLngRes != null) {
             //TODO latLngRes값이 null이 아닐경우 return 값을 합쳐주는 로직생성
