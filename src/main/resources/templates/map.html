@@ -24,7 +24,6 @@
 
         for (var i = 0; i < facilities.length; i++) {
             var facility = facilities[i];
-            console.log(facility);
             var longitude = facility.lon;
             var latitude = facility.lat;
             var title = facility.location;
@@ -32,22 +31,25 @@
 
             // 모든 속성값이 유효한 경우에만 마커 생성
             if (latitude && longitude && title && loc) {
-                var marker = new naver.maps.Marker({
-                    position: new naver.maps.LatLng(latitude, longitude),
-                    title: loc,
-                    map: map
-                });
-                var infoWindow = new naver.maps.InfoWindow({
-                    content: loc
-                });
-                // 마커가 클릭되면 인포윈도우 열기
-                naver.maps.Event.addListener(marker, 'click', function() {
-                    infoWindow.open(map, marker);
-                });
-                // 마커 지도에 추가
-                marker.setMap(map);
+                // 클로저를 사용하여 마커와 인포윈도우 연결
+                (function(title, loc) {
+                    var marker = new naver.maps.Marker({
+                        position: new naver.maps.LatLng(latitude, longitude),
+                        title: loc,
+                        map: map
+                    });
+                    var infoWindow = new naver.maps.InfoWindow({
+                        content: loc
+                    });
+                    // 마커가 클릭되면 인포윈도우 열기
+                    naver.maps.Event.addListener(marker, 'click', function() {
+                        infoWindow.open(map, marker);
+                    });
+                    // 마커 지도에 추가
+                    marker.setMap(map);
+                })(title, loc);
             }
-        }
+    }
     };
 </script>
 </head>
