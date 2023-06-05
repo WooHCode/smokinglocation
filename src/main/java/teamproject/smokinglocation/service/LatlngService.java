@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import teamproject.smokinglocation.controller.UrlData;
 import teamproject.smokinglocation.dto.*;
 import teamproject.smokinglocation.repository.LatlngRepository;
 
@@ -18,6 +19,22 @@ import java.util.List;
 public class LatlngService {
     private final LatlngRepository repository;
 
+
+    public void checkUrlData(int urlData, List<?> res) {
+        if (urlData == UrlData.YONGSAN.getNumber()) {
+            saveYongsanData((List<FacilityYongsan>) res);
+        } else if (urlData == UrlData.YEONGDEUNGPO.getNumber()) {
+            saveYeongdeungpoData((List<FacilityYeongdeungpo>) res);
+        } else if (urlData == UrlData.DONGJAK.getNumber()) {
+            saveDongjakData((List<FacilityDongjak>) res);
+        } else if (urlData == UrlData.GURO.getNumber()) {
+            saveGuroData((List<FacilityGuro>) res);
+        } else if (urlData == UrlData.NOWON.getNumber()) {
+            saveNowonData((List<FacilityNowon>) res);
+        } else {
+            log.info("===========ERROR OCCUR=========");
+        }
+    }
     public void saveYongsanData(List<FacilityYongsan> yongsanFacilities) {
 
         List<LinkedHashMap<String, String>> dataList = new ArrayList<>();

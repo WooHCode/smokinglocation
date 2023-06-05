@@ -15,7 +15,6 @@ import teamproject.smokinglocation.service.DataResponseService;
 import teamproject.smokinglocation.service.DataService;
 import teamproject.smokinglocation.service.LatlngService;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -39,13 +38,6 @@ public class MapController {
     private String naverMapClientId;
     @GetMapping("/map")
     public String showMap(Model model) {
-        /*FacilityData<FacilityGuro> facilityData = fetchData(UrlData.GURO.getNumber(), UuidData.GURO.getUuid());
-        List<FacilityGuro> data = facilityData.getData();
-        latlngService.saveGuroData(data);*/
-
-        // FacilityYongsan 데이터 사용
-        /*model.addAttribute("facilities", yongsanFacilities);
-        model.addAttribute("naverMapClientId", naverMapClientId);*/
         List<TotalData> totalData = responseService.getTotalData();
         log.info("===========totalDataLoading===========");
         log.info("totalData = {}", totalData);
@@ -61,34 +53,27 @@ public class MapController {
         String apiUrl = "https://api.odcloud.kr/api/" + urlData + "/v1/uddi:" + uuid +
                 "?serviceKey=" + secretKey +"&perPage=" + perPage;
         FacilityData<T> facilityData = new FacilityData<>();
-
         try {
             URL url = new URL(apiUrl);
             log.info("=============fetch start==============");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-
             if (conn.getResponseCode() != 200) {
                 throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
             }
-
             BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             StringBuilder response = new StringBuilder();
             String inputLine;
-
             while ((inputLine = in.readLine()) != null) {
                 response.append(inputLine);
             }
             in.close();
             conn.disconnect();
-
             String jsonString = response.toString();
-
             facilityData = objectMapper.readValue(jsonString, new TypeReference<>() {
             });
             log.info("facilityData = {}", facilityData);
             dataService.saveLatLng(facilityData, urlData);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
