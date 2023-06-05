@@ -11,6 +11,7 @@ import teamproject.smokinglocation.service.LatlngService;
 import teamproject.smokinglocation.service.ScheduleDataService;
 import teamproject.smokinglocation.service.TotalDataService;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Controller
@@ -49,36 +50,36 @@ public class DataScheduler {
                 case DONGJAK:
                     FacilityData<FacilityDongjak> dongjak = controller.fetchData(urlData.getNumber(), uuidData.getUuid());
                     data = dongjak;
-                    log.info("============ {} =============",urlData);
+                    log.info("============ {} END=============",urlData);
                     latlngService.checkUrlData(urlData.getNumber(), data.getData());
                     break;
                 case YEONGDEUNGPO:
                     FacilityData<FacilityYeongdeungpo> yeongdeungpo = controller.fetchData(urlData.getNumber(), uuidData.getUuid());
                     data = yeongdeungpo;
-                    log.info("============{}=============",urlData);
+                    log.info("============{} END=============",urlData);
                     latlngService.checkUrlData(urlData.getNumber(), data.getData());
                     break;
                 case YONGSAN:
                     FacilityData<FacilityYongsan> yongsan = controller.fetchData(urlData.getNumber(), uuidData.getUuid());
                     data = yongsan;
-                    log.info("============{}=============",urlData);
+                    log.info("============{} END=============",urlData);
                     latlngService.checkUrlData(urlData.getNumber(), data.getData());
                     break;
                 case GURO:
                     FacilityData<FacilityGuro> guro = controller.fetchData(urlData.getNumber(), uuidData.getUuid());
                     data = guro;
-                    log.info("============{}=============",urlData);
+                    log.info("============{} END=============",urlData);
                     latlngService.checkUrlData(urlData.getNumber(), data.getData());
                     break;
                 case NOWON:
                     FacilityData<FacilityNowon> nowon = controller.fetchData(urlData.getNumber(), uuidData.getUuid());
                     data = nowon;
-                    log.info("============{}=============",urlData);
+                    log.info("============{} END=============",urlData);
                     latlngService.checkUrlData(urlData.getNumber(), data.getData());
                     break;
                 default:
                     controller.fetchData(urlData.getNumber(),uuidData.getUuid());
-                    log.info("============{}=============",urlData);
+                    log.info("============{} END=============",urlData);
                     break;
             }
         }
