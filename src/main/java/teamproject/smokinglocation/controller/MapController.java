@@ -47,6 +47,9 @@ public class MapController {
         /*model.addAttribute("facilities", yongsanFacilities);
         model.addAttribute("naverMapClientId", naverMapClientId);*/
         List<TotalData> totalData = responseService.getTotalData();
+        log.info("===========totalDataLoading===========");
+        log.info("totalData = {}", totalData);
+        log.info("===========totalDataLoadingFinish============");
         model.addAttribute("facilities", totalData);
         model.addAttribute("naverMapClientId", naverMapClientId);
         return "map";

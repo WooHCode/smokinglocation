@@ -2,6 +2,8 @@ package teamproject.smokinglocation.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.smokinglocation.entity.*;
@@ -15,10 +17,12 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @Transactional
+@EnableCaching
 public class DataResponseService {
     private final DataResponseRepository repository;
     private final TotalDataRepository dataRepository;
 
+    @Cacheable("totalDataCache")
     public List<TotalData> getTotalData() {
        return dataRepository.findAll();
     }
