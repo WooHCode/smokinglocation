@@ -42,17 +42,14 @@ public class DataService<T> {
             //TODO latLngRes값이 null이 아닐경우 return 값을 합쳐주는 로직생성
             try {
                 for (String[] latLngRe : latLngRes) {
-                    for (String s : latLngRe) {
-                        System.out.println("s = " + s);
+                    for (String latLngResp : latLngRe) {
+                        System.out.println("latLngResp = " + latLngResp);
                     }
                 }
-
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
         }
-
-
     }
 
     private List<String[]> checkUrl(int urlData) {

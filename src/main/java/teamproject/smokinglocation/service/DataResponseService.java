@@ -2,6 +2,9 @@ package teamproject.smokinglocation.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
@@ -19,17 +22,25 @@ import java.util.List;
 @Transactional
 @EnableCaching
 public class DataResponseService {
-    private final DataResponseRepository repository;
+    private final DataResponseRepository responseRepository;
     private final TotalDataRepository dataRepository;
+    private final CacheManager cacheManager;
 
     @Cacheable("totalDataCache")
     public List<TotalData> getTotalData() {
        return dataRepository.findAll();
     }
+    @CacheEvict("totalDataCache")
+    public void deleteTotalDataCache() {
+        Cache cache = cacheManager.getCache("totalDataCache");
+        if (cache != null) {
+            cache.clear();
+        }
+    }
 
     public List<Gangnam> getGangnamData() {
         List<Gangnam> guData = new ArrayList<>();
-        List<Object[]> dataList = repository.findDataGangnam();
+        List<Object[]> dataList = responseRepository.findDataGangnam();
         for (Object[] row : dataList) {
             Gangnam data = Gangnam.builder()
                     .lat((String) row[0])
@@ -43,7 +54,7 @@ public class DataResponseService {
     }
     public List<Gangbuk> getGangbukData() {
         List<Gangbuk> guData = new ArrayList<>();
-        List<Object[]> dataList = repository.findDataGangbuk();
+        List<Object[]> dataList = responseRepository.findDataGangbuk();
         for (Object[] row : dataList) {
             Gangbuk data = Gangbuk.builder()
                     .lat((String) row[0])
@@ -58,7 +69,7 @@ public class DataResponseService {
 
     public List<Gangseo> getGangseoData() {
         List<Gangseo> guData = new ArrayList<>();
-        List<Object[]> dataList = repository.findDataGangseo();
+        List<Object[]> dataList = responseRepository.findDataGangseo();
         for (Object[] row : dataList) {
             Gangseo data = Gangseo.builder()
                     .lat((String) row[0])
@@ -73,7 +84,7 @@ public class DataResponseService {
 
     public List<Gwanak> getGwanakData() {
         List<Gwanak> guData = new ArrayList<>();
-        List<Object[]> dataList = repository.findDataGwanak();
+        List<Object[]> dataList = responseRepository.findDataGwanak();
         for (Object[] row : dataList) {
             Gwanak data = Gwanak.builder()
                     .lat((String) row[0])
@@ -88,7 +99,7 @@ public class DataResponseService {
 
     public List<Gwangjin> getGwangjinData() {
         List<Gwangjin> guData = new ArrayList<>();
-        List<Object[]> dataList = repository.findDataGwangjin();
+        List<Object[]> dataList = responseRepository.findDataGwangjin();
         for (Object[] row : dataList) {
             Gwangjin data = Gwangjin.builder()
                     .lat((String) row[0])
@@ -103,7 +114,7 @@ public class DataResponseService {
 
     public List<Guro> getGuroData() {
         List<Guro> guData = new ArrayList<>();
-        List<Object[]> dataList = repository.findDataGuro();
+        List<Object[]> dataList = responseRepository.findDataGuro();
         for (Object[] row : dataList) {
             Guro data = Guro.builder()
                     .lat((String) row[0])
@@ -118,7 +129,7 @@ public class DataResponseService {
 
     public List<Nowon> getNowonData() {
         List<Nowon> guData = new ArrayList<>();
-        List<Object[]> dataList = repository.findDataNowon();
+        List<Object[]> dataList = responseRepository.findDataNowon();
         for (Object[] row : dataList) {
             Nowon data = Nowon.builder()
                     .lat((String) row[0])
@@ -133,7 +144,7 @@ public class DataResponseService {
 
     public List<Dongdaemun> getDongdaemunData() {
         List<Dongdaemun> guData = new ArrayList<>();
-        List<Object[]> dataList = repository.findDataDongdaemun();
+        List<Object[]> dataList = responseRepository.findDataDongdaemun();
         for (Object[] row : dataList) {
             Dongdaemun data = Dongdaemun.builder()
                     .lat((String) row[0])
@@ -148,7 +159,7 @@ public class DataResponseService {
 
     public List<Dongjak> getDongjakData() {
         List<Dongjak> guData = new ArrayList<>();
-        List<Object[]> dataList = repository.findDataDongjak();
+        List<Object[]> dataList = responseRepository.findDataDongjak();
         for (Object[] row : dataList) {
             Dongjak data = Dongjak.builder()
                     .lat((String) row[0])
@@ -163,7 +174,7 @@ public class DataResponseService {
 
     public List<Seodaemun> getSeodaemunData() {
         List<Seodaemun> guData = new ArrayList<>();
-        List<Object[]> dataList = repository.findDataSeodaemun();
+        List<Object[]> dataList = responseRepository.findDataSeodaemun();
         for (Object[] row : dataList) {
             Seodaemun data = Seodaemun.builder()
                     .lat((String) row[0])
@@ -178,7 +189,7 @@ public class DataResponseService {
 
     public List<Seocho> getSeochoData() {
         List<Seocho> guData = new ArrayList<>();
-        List<Object[]> dataList = repository.findDataSeocho();
+        List<Object[]> dataList = responseRepository.findDataSeocho();
         for (Object[] row : dataList) {
             Seocho data = Seocho.builder()
                     .lat((String) row[0])
@@ -193,7 +204,7 @@ public class DataResponseService {
 
     public List<Seongdong> getSeongdongData() {
         List<Seongdong> guData = new ArrayList<>();
-        List<Object[]> dataList = repository.findDataSeongdong();
+        List<Object[]> dataList = responseRepository.findDataSeongdong();
         for (Object[] row : dataList) {
             Seongdong data = Seongdong.builder()
                     .lat((String) row[0])
@@ -208,7 +219,7 @@ public class DataResponseService {
 
     public List<Seongbuk> getSeongbukData() {
         List<Seongbuk> guData = new ArrayList<>();
-        List<Object[]> dataList = repository.findDataSeongbuk();
+        List<Object[]> dataList = responseRepository.findDataSeongbuk();
         for (Object[] row : dataList) {
             Seongbuk data = Seongbuk.builder()
                     .lat((String) row[0])
@@ -223,7 +234,7 @@ public class DataResponseService {
 
     public List<Songpa> getSongpaData() {
         List<Songpa> guData = new ArrayList<>();
-        List<Object[]> dataList = repository.findDataSongpa();
+        List<Object[]> dataList = responseRepository.findDataSongpa();
         for (Object[] row : dataList) {
             Songpa data = Songpa.builder()
                     .lat((String) row[0])
@@ -238,7 +249,7 @@ public class DataResponseService {
 
     public List<Yangcheon> getYangcheonData() {
         List<Yangcheon> guData = new ArrayList<>();
-        List<Object[]> dataList = repository.findDataYangcheon();
+        List<Object[]> dataList = responseRepository.findDataYangcheon();
         for (Object[] row : dataList) {
             Yangcheon data = Yangcheon.builder()
                     .lat((String) row[0])
@@ -253,7 +264,7 @@ public class DataResponseService {
 
     public List<Yeongdeungpo> getYeongdeungpoData() {
         List<Yeongdeungpo> guData = new ArrayList<>();
-        List<Object[]> dataList = repository.findDataYeondDeungpo();
+        List<Object[]> dataList = responseRepository.findDataYeondDeungpo();
         for (Object[] row : dataList) {
             Yeongdeungpo data = Yeongdeungpo.builder()
                     .lat((String) row[0])
@@ -268,7 +279,7 @@ public class DataResponseService {
 
     public List<Yongsan> getYongsanData() {
         List<Yongsan> guData = new ArrayList<>();
-        List<Object[]> dataList = repository.findDataYongsan();
+        List<Object[]> dataList = responseRepository.findDataYongsan();
         for (Object[] row : dataList) {
             Yongsan data = Yongsan.builder()
                     .lat((String) row[0])
@@ -283,7 +294,7 @@ public class DataResponseService {
 
     public List<Jongno> getJongnoData() {
         List<Jongno> guData = new ArrayList<>();
-        List<Object[]> dataList = repository.findDataJongno();
+        List<Object[]> dataList = responseRepository.findDataJongno();
         for (Object[] row : dataList) {
             Jongno data = Jongno.builder()
                     .lat((String) row[0])
@@ -298,7 +309,7 @@ public class DataResponseService {
 
     public List<Junggu> getJungguData() {
         List<Junggu> guData = new ArrayList<>();
-        List<Object[]> dataList = repository.findDataJunggu();
+        List<Object[]> dataList = responseRepository.findDataJunggu();
         for (Object[] row : dataList) {
             Junggu data = Junggu.builder()
                     .lat((String) row[0])
@@ -313,7 +324,7 @@ public class DataResponseService {
 
     public List<Jungnang> getJungnangData() {
         List<Jungnang> guData = new ArrayList<>();
-        List<Object[]> dataList = repository.findDataJungnang();
+        List<Object[]> dataList = responseRepository.findDataJungnang();
         for (Object[] row : dataList) {
             Jungnang data = Jungnang.builder()
                     .lat((String) row[0])
@@ -324,68 +335,6 @@ public class DataResponseService {
             guData.add(data);
         }
         return guData;
-    }
-
-
-    /**
-     * 전체 데이터를 호출하여 TotalData 테이블에 저장하는 메서드
-     */
-    public void setTotalData() {
-        List<Object[]> dataYongsan = repository.findDataYongsan();
-        List<Object[]> dataDongdaemun = repository.findDataDongdaemun();
-        List<Object[]> dataDongjak = repository.findDataDongjak();
-        List<Object[]> dataGangbuk = repository.findDataGangbuk();
-        List<Object[]> dataGangnam = repository.findDataGangnam();
-        List<Object[]> dataGangseo = repository.findDataGangseo();
-        List<Object[]> dataGuro = repository.findDataGuro();
-        List<Object[]> dataGwanak = repository.findDataGwanak();
-        List<Object[]> dataGwangjin = repository.findDataGwangjin();
-        List<Object[]> dataJongno = repository.findDataJongno();
-        List<Object[]> dataJunggu = repository.findDataJunggu();
-        List<Object[]> dataJungnang = repository.findDataJungnang();
-        List<Object[]> dataNowon = repository.findDataNowon();
-        List<Object[]> dataSeocho = repository.findDataSeocho();
-        List<Object[]> dataSeodaemun = repository.findDataSeodaemun();
-        List<Object[]> dataSeongbuk = repository.findDataSeongbuk();
-        List<Object[]> dataSeongdong = repository.findDataSeongdong();
-        List<Object[]> dataSongpa = repository.findDataSongpa();
-        List<Object[]> dataYangcheon = repository.findDataYangcheon();
-        List<Object[]> dataYeondDeungpo = repository.findDataYeondDeungpo();
-
-        List<List<Object[]>> totalData = new ArrayList<>();
-        totalData.add(dataYongsan);
-        totalData.add(dataDongdaemun);
-        totalData.add(dataDongjak);
-        totalData.add(dataGangbuk);
-        totalData.add(dataGangnam);
-        totalData.add(dataGangseo);
-        totalData.add(dataGuro);
-        totalData.add(dataGwanak);
-        totalData.add(dataGwangjin);
-        totalData.add(dataJongno);
-        totalData.add(dataJunggu);
-        totalData.add(dataJungnang);
-        totalData.add(dataNowon);
-        totalData.add(dataSeocho);
-        totalData.add(dataSeodaemun);
-        totalData.add(dataSeongbuk);
-        totalData.add(dataSeongdong);
-        totalData.add(dataSongpa);
-        totalData.add(dataYangcheon);
-        totalData.add(dataYeondDeungpo);
-
-        List<TotalData> result = new ArrayList<>();
-        for (List<Object[]> totalDatum : totalData) {
-            for (Object[] row : totalDatum) {
-                String lat = (String) row[0];
-                String lon = (String) row[1];
-                String location = (String) row[2];
-                String gu = (String) row[3];
-                TotalData data = new TotalData(lat, lon, location, gu);
-                result.add(data);
-            }
-        }
-        dataRepository.saveAll(result);
     }
 
 
