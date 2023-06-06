@@ -27,6 +27,35 @@ public class DataResponseService {
        return dataRepository.findAll();
     }
 
+    public List<Gangnam> getGangnamData() {
+        List<Gangnam> gangnamData = new ArrayList<>();
+        List<Object[]> dataList = repository.findDataGangnam();
+        for (Object[] row : dataList) {
+            Gangnam data = Gangnam.builder()
+                    .lat((String) row[0])
+                    .lon((String) row[1])
+                    .location((String) row[2])
+                    .gu((String) row[3])
+                    .build();
+            gangnamData.add(data);
+        }
+        return gangnamData;
+    }
+
+    public List<Seocho> getSeochoData() {
+        List<Seocho> seochoData = new ArrayList<>();
+        List<Object[]> dataList = repository.findDataSeocho();
+        for (Object[] row : dataList) {
+            Seocho data = Seocho.builder()
+                    .lat((String) row[0])
+                    .lon((String) row[1])
+                    .location((String) row[2])
+                    .gu((String) row[3])
+                    .build();
+            seochoData.add(data);
+        }
+        return seochoData;
+    }
     /**
      * 전체 데이터를 호출하여 TotalData 테이블에 저장하는 메서드
      */
@@ -87,5 +116,6 @@ public class DataResponseService {
         }
         dataRepository.saveAll(result);
     }
+
 
 }

@@ -33,9 +33,9 @@
             defer></script>
     <script th:inline="javascript">
     window.onload = function() {
-        var facilities = /*[[${facilities}]]*/ [];
+        var facilities = [[${facilities}]];
         var map = new naver.maps.Map('map', {
-            center: new naver.maps.LatLng(37.5666805, 126.9784147),
+            center: new naver.maps.LatLng(37.5175066, 127.0473753),
             zoom: 14
 
         });
@@ -43,8 +43,11 @@
         for (var i = 0; i < facilities.length; i++) {
             var facility = facilities[i];
             var longitude = facility.lon;
+            console.log(longitude);
             var latitude = facility.lat;
+            console.log(latitude);
             var title = facility.location;
+            console.log(title);
             var loc = facility.location;
 
             // 모든 속성값이 유효한 경우에만 마커 생성
@@ -67,7 +70,7 @@
                     marker.setMap(map);
                 })(title, loc);
             }
-    }
+        }
     };
 </script>
 </head>
@@ -76,23 +79,15 @@
         <h1 style="margin-left:43%; margin-top:100px">Smoking Location</h1>
     </div>
     <div id="map"></div>
+    <form action="" method="post">
         <div>
             <select class="selectGu">
                 <option>===구 선택===</option>
-                <option>강남</option>
-                <option>서초</option>
+                <option value="Gangnam">강남</option>
+                <option value="Seocho">서초</option>
             </select>
         </div>
+    </form>
 
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script>
-        $('.selectGu').eq(0).on('input',function(){
-            if($('.selectGu').eq(0).val()=='강남'){
-                window.location.replace('/map/gangnam');
-            } else if($('.selectGu').eq(0).val()=='서초'){
-                window.location.replace('/map/seocho');
-            }
-        })
-    </script>
 </body>
 </html>

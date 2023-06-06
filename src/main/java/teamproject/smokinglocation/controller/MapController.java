@@ -8,8 +8,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import teamproject.smokinglocation.dto.*;
+import teamproject.smokinglocation.entity.Gangnam;
 import teamproject.smokinglocation.entity.TotalData;
 import teamproject.smokinglocation.service.DataResponseService;
 import teamproject.smokinglocation.service.DataService;
@@ -52,8 +55,32 @@ public class MapController {
         log.info("===========totalDataLoadingFinish============");
         model.addAttribute("facilities", totalData);
         model.addAttribute("naverMapClientId", naverMapClientId);
+
         return "map";
     }
+
+
+
+    @GetMapping("/map/gangnam")
+    public String gangnam(Model model) {
+        model.addAttribute("facilities", responseService.getGangnamData());
+        for (Gangnam gangnamDatum : responseService.getGangnamData()) {
+            System.out.println(gangnamDatum.getLat());
+            System.out.println(gangnamDatum.getLon());
+            System.out.println(gangnamDatum.getLocation());
+            System.out.println(gangnamDatum.getGu());
+        }
+        model.addAttribute("naverMapClientId", naverMapClientId);
+        return "gangnam";
+    }
+
+    @GetMapping("/map/seocho")
+    public String seocho(Model model) {
+        model.addAttribute("facilities", responseService.getSeochoData());
+        model.addAttribute("naverMapClientId", naverMapClientId);
+        return "seocho";
+    }
+
 
     @GetMapping("/get-data")
     @ResponseBody
