@@ -33,9 +33,9 @@
             defer></script>
     <script th:inline="javascript">
     window.onload = function() {
-        var facilities = /*[[${facilities}]]*/ [];
+        var facilities = [[${facilities}]];
         var map = new naver.maps.Map('map', {
-            center: new naver.maps.LatLng(37.5666805, 126.9784147),
+            center: new naver.maps.LatLng(37.589366,127.016743),
             zoom: 14
 
         });
@@ -43,8 +43,11 @@
         for (var i = 0; i < facilities.length; i++) {
             var facility = facilities[i];
             var longitude = facility.lon;
+            console.log(longitude);
             var latitude = facility.lat;
+            console.log(latitude);
             var title = facility.location;
+            console.log(title);
             var loc = facility.location;
 
             // 모든 속성값이 유효한 경우에만 마커 생성
@@ -67,7 +70,7 @@
                     marker.setMap(map);
                 })(title, loc);
             }
-    }
+        }
     };
 </script>
 </head>
@@ -76,6 +79,7 @@
         <h1 style="margin-left:43%; margin-top:100px">Smoking Location</h1>
     </div>
     <div id="map"></div>
+    <form action="" method="post">
         <div>
             <select class="selectGu">
                 <option>전체</option>
@@ -91,7 +95,7 @@
                 <option>서대문</option>
                 <option>서초</option>
                 <option>성동</option>
-                <option>성북</option>
+                <option selected>성북</option>
                 <option>송파</option>
                 <option>양천</option>
                 <option>영등포</option>
@@ -101,9 +105,20 @@
                 <option>중랑</option>
             </select>
         </div>
+    </form>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="selectScript.js"></script>
+
+<!--    <script type="text/javascript" src="selectScript.js?v=15103349"></script>-->
+    <script>
+        $('.selectGu').eq(0).on('change',function(){
+            if($('.selectGu').eq(0).val()=='전체'){
+                window.location.replace('/map');
+            }else {
+                window.location.replace('/map/select?gu=' + $('.selectGu').eq(0).val());
+            }
+        })
+    </script>
 
 </body>
 </html>
