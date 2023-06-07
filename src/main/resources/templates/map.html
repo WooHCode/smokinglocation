@@ -7,23 +7,39 @@
         #map {
             width: 80%;
             height: 500px;
-            margin-left:10%;
+            margin-left: 10%;
         }
 
-        .selectGu{
+        .selectGu {
         }
+
         select {
-          margin-left:45%;
-          margin-top:50px;
-          width: 200px; /* 원하는 너비설정 */
-          padding: .8em .5em; /* 여백으로 높이 설정 */
-          font-family: inherit;  /* 폰트 상속 */
-          background: url(https://farm1.staticflickr.com/379/19928272501_4ef877c265_t.jpg) no-repeat 95% 50%; /* 네이티브 화살표 대체 */
-          border: 1px solid #999;
-          border-radius: 0px; /* iOS 둥근모서리 제거 */
-          -webkit-appearance: none; /* 네이티브 외형 감추기 */
-          -moz-appearance: none;
-          appearance: none;
+            margin-left: 45%;
+            margin-top: 50px;
+            width: 200px; /* 원하는 너비설정 */
+            padding: .8em .5em; /* 여백으로 높이 설정 */
+            font-family: inherit; /* 폰트 상속 */
+            background: url(https://farm1.staticflickr.com/379/19928272501_4ef877c265_t.jpg) no-repeat 95% 50%; /* 네이티브 화살표 대체 */
+            border: 1px solid #999;
+            border-radius: 0px; /* iOS 둥근모서리 제거 */
+            -webkit-appearance: none; /* 네이티브 외형 감추기 */
+            -moz-appearance: none;
+            appearance: none;
+        }
+        @keyframes blink {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .blinking-icon {
+            animation: blink 1s infinite;
         }
 
 
@@ -32,78 +48,132 @@
             th:src="@{'//openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=' + ${naverMapClientId} + '&submodules=geocoder'}"
             defer></script>
     <script th:inline="javascript">
-    window.onload = function() {
-        var facilities = /*[[${facilities}]]*/ [];
-        var map = new naver.maps.Map('map', {
-            center: new naver.maps.LatLng(37.5666805, 126.9784147),
-            zoom: 11
+        var iconUrl = '/image/icons8-location-2--unscreen.gif';
+        var icon = {
+            url: iconUrl,
+        };
+        window.onload = function () {
+            loadNaverMap(0,0);
+            getCurrentPos(false);
+        };
+        function loadNaverMap(mylat, mylon) {
+            var facilities = /*[[${facilities}]]*/ [];
+            var map = null;
+            if (mylat !== 0 && mylon !== 0) {
+                var map = new naver.maps.Map('map', {
+                    center: new naver.maps.LatLng(mylat, mylon),
+                    zoom: 15,
+                    logoControl : true,
+                    mapDataControl : false,
+                });
+                new naver.maps.Marker({
+                    position: new naver.maps.LatLng(mylat,mylon),
+                    map: map,
+                    icon: icon
+                })
+            } else {
+                var map = new naver.maps.Map('map', {
+                    center: new naver.maps.LatLng(37.5666805, 126.9784147),
+                    zoom: 11
 
-        });
-
-        for (var i = 0; i < facilities.length; i++) {
-            var facility = facilities[i];
-            var longitude = facility.lon;
-            var latitude = facility.lat;
-            var title = facility.location;
-            var loc = facility.location;
-
-            // 모든 속성값이 유효한 경우에만 마커 생성
-            if (latitude && longitude && title && loc) {
-                // 클로저를 사용하여 마커와 인포윈도우 연결
-                (function(title, loc) {
-                    var marker = new naver.maps.Marker({
-                        position: new naver.maps.LatLng(latitude, longitude),
-                        title: loc,
-                        map: map
-                    });
-                    var infoWindow = new naver.maps.InfoWindow({
-                        content: loc
-                    });
-                    // 마커가 클릭되면 인포윈도우 열기
-                    naver.maps.Event.addListener(marker, 'click', function() {
-                        infoWindow.open(map, marker);
-                    });
-                    // 마커 지도에 추가
-                    marker.setMap(map);
-                })(title, loc);
+                });
             }
-    }
-    };
-</script>
+
+            for (var i = 0; i < facilities.length; i++) {
+                var facility = facilities[i];
+                var longitude = facility.lon;
+                var latitude = facility.lat;
+                var title = facility.location;
+                var loc = facility.location;
+
+                // 모든 속성값이 유효한 경우에만 마커 생성
+                if (latitude && longitude && title && loc) {
+                    // 클로저를 사용하여 마커와 인포윈도우 연결
+                    (function (title, loc) {
+                        var marker = new naver.maps.Marker({
+                            position: new naver.maps.LatLng(latitude, longitude),
+                            title: loc,
+                            map: map
+                        });
+                        var infoWindow = new naver.maps.InfoWindow({
+                            content: loc
+                        });
+                        // 마커가 클릭되면 인포윈도우 열기
+                        naver.maps.Event.addListener(marker, 'click', function () {
+                            infoWindow.open(map, marker);
+                        });
+                        // 마커 지도에 추가
+                        marker.setMap(map);
+                    })(title, loc);
+                }
+            }
+        }
+
+        function getCurrentPos(isClick) {
+            if (isClick === true){
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        function (position) {
+                            // 위치 정보를 가져오는 데 성공했을 때 처리할 로직
+                            var latitude = position.coords.latitude;
+                            var longitude = position.coords.longitude;
+                            console.log("위도 =", latitude);
+                            console.log("경도 =", longitude);
+                            loadNaverMap(latitude, longitude);
+
+                        },
+                        function (error) {
+                            // 위치 정보를 가져오는 데 실패했을 때 처리할 로직
+                            console.error("위치 정보를 가져오는 데 실패했습니다.", error);
+                        }
+                    );
+                } else {
+                    // 브라우저에서 위치 기능을 지원하지 않을 때 처리할 로직
+                    console.error("이 브라우저는 위치 정보를 지원하지 않습니다.");
+                }
+            }
+        }
+    </script>
 </head>
 <body>
-    <div>
-        <h1 style="margin-left:43%; margin-top:100px">Smoking Location</h1>
-    </div>
-    <div id="map"></div>
-        <div>
-            <select class="selectGu">
-                <option>전체</option>
-                <option>강남</option>
-                <option>강북</option>
-                <option>강서</option>
-                <option>관악</option>
-                <option>광진</option>
-                <option>구로</option>
-                <option>노원</option>
-                <option>동대문</option>
-                <option>동작</option>
-                <option>서대문</option>
-                <option>서초</option>
-                <option>성동</option>
-                <option>성북</option>
-                <option>송파</option>
-                <option>양천</option>
-                <option>영등포</option>
-                <option>용산</option>
-                <option>종로</option>
-                <option>중구</option>
-                <option>중랑</option>
-            </select>
-        </div>
+<div>
+    <h1 style="margin-left:40%; margin-top:100px">Smoking Location</h1>
+</div>
+<div style="display: flex; justify-content: flex-end; align-items: flex-end; margin-right: 10%; margin-bottom: 5px" >
+    <button onclick="getCurrentPos(true)">
+    <img src="/image/icons8-location-2--unscreen.gif">
+    </button>
+</div>
 
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="selectScript.js"></script>
+<div id="map"></div>
+<div>
+    <select class="selectGu">
+        <option>전체</option>
+        <option>강남</option>
+        <option>강북</option>
+        <option>강서</option>
+        <option>관악</option>
+        <option>광진</option>
+        <option>구로</option>
+        <option>노원</option>
+        <option>동대문</option>
+        <option>동작</option>
+        <option>서대문</option>
+        <option>서초</option>
+        <option>성동</option>
+        <option>성북</option>
+        <option>송파</option>
+        <option>양천</option>
+        <option>영등포</option>
+        <option>용산</option>
+        <option>종로</option>
+        <option>중구</option>
+        <option>중랑</option>
+    </select>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="selectScript.js"></script>
 
 </body>
 </html>
