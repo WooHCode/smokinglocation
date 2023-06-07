@@ -39,7 +39,6 @@ public class DataService<T> {
 
         List<String[]> latLngRes = checkUrl(urlData);
         if (latLngRes != null) {
-            //TODO latLngRes값이 null이 아닐경우 return 값을 합쳐주는 로직생성
             try {
                 for (String[] latLngRe : latLngRes) {
                     for (String latLngResp : latLngRe) {

@@ -35,9 +35,10 @@ public class MapController {
     private final DataResponseService responseService;
     private final DataService dataService;
     private final ObjectMapper objectMapper;
-    @Value("${naver.map.client.id}")
 
+    @Value("${naver.map.client.id}")
     private String naverMapClientId;
+
     @GetMapping("/map")
     public String showMap(Model model) {
         List<TotalData> totalData = responseService.getTotalData();
@@ -51,12 +52,10 @@ public class MapController {
     }
 
 
-
     @GetMapping("/map/select")
     public String selectGu(Model model,String gu) {
         return setModelFacilitiesAndNaverMap(model,gu);
     }
-
 
 
     private String setModelFacilitiesAndNaverMap(Model model, String gu) {
