@@ -21,7 +21,7 @@ public class DataScheduler {
     private final DataResponseService responseService;
     private final ScheduleDataService scheduleDataService;
     private final LatlngService latlngService;
-    private final MapController controller;
+    private final DataFetchController controller;
     private final TotalDataService totalDataService;
     /**
      * second

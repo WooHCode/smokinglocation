@@ -42,7 +42,7 @@ public class DataService<T> {
             try {
                 for (String[] latLngRe : latLngRes) {
                     for (String latLngResp : latLngRe) {
-                        System.out.println("latLngResp = " + latLngResp);
+                        log.info("LatLngResponse = {}",latLngResp);
                     }
                 }
             } catch (NullPointerException e) {
@@ -90,11 +90,10 @@ public class DataService<T> {
      * 성북구의 데이터를 파싱하여 위도 경도를 알아내는 메서드
      * 다른 구의 위도 경도 데이터가 없다면 해당 메서드를 구 별로 작성할 필요 있음.
      *
-     * @return
+     * @return List<String[]>
      */
     public List<String[]> getSeongBukData() {
-        //TODO 해당 값들을 DB에 저장
-
+        log.info("===============getSeongbukData()=============");
         String districtName;
         String manageFacility;
         FacilityData<Object> data = facilityData;
@@ -106,8 +105,6 @@ public class DataService<T> {
             dataList.add(linkedHashMap);
         }
 
-        // dataList에는 전체 요소가 LinkedHashMap<String, String> 타입으로 캐스팅되어 저장됨
-
         // 예시로 첫 번째 요소의 자치구와 관리 출력
         List<String> addressList = new ArrayList<>();
         for (LinkedHashMap<String, String> linkedHashMap : dataList) {
@@ -117,6 +114,7 @@ public class DataService<T> {
         }
         JsonArray result = getJsonElements(addressList);
         List<String[]> latLngList = getLatLng(result);
+        log.info("==============saveSeongbuk()==============");
         uncompletedAddressRepository.saveSeongbuk(latLngList, addressList);
         return latLngList;
     }
@@ -128,8 +126,7 @@ public class DataService<T> {
      * @return
      */
     public List<String[]> getJongnoData() {
-
-        //TODO 해당내용 DB에 저장
+        log.info("================getJongnoData()==============");
         String districtName;
         String gu = "서울시 종로구 ";
         FacilityData<Object> data = facilityData;
@@ -149,13 +146,13 @@ public class DataService<T> {
         }
         JsonArray result = getJsonElements(addressList);
         List<String[]> latLngList = getLatLng(result);
+        log.info("===================saveJongno()=================");
         uncompletedAddressRepository.saveJongno(latLngList, addressList);
         return getLatLng(result);
     }
 
     public List<String[]> getGangnamData() {
-
-        //TODO 해당내용 DB에 저장
+        log.info("================getGangnamData()==============");
         String districtName;
         String gu = "서울시 강남구 ";
         FacilityData<Object> data = facilityData;
@@ -166,8 +163,6 @@ public class DataService<T> {
             LinkedHashMap<String, String> linkedHashMap = (LinkedHashMap<String, String>) item;
             dataList.add(linkedHashMap);
         }
-        // dataList에는 전체 요소가 LinkedHashMap<String, String> 타입으로 캐스팅되어 저장됨
-
         // 예시로 첫 번째 요소의 자치구와 관리 출력
         List<String> addressList = new ArrayList<>();
         for (LinkedHashMap<String, String> linkedHashMap : dataList) {
@@ -176,13 +171,13 @@ public class DataService<T> {
         }
         JsonArray result = getJsonElements(addressList);
         List<String[]> latLngList = getLatLng(result);
+        log.info("================saveGangnam()==============");
         uncompletedAddressRepository.saveGangnam(latLngList, addressList);
         return getLatLng(result);
     }
 
     public List<String[]> getSeochoData() {
-        //TODO 해당내용 DB에 저장
-        //해당메서드 사용불가능, 직접 파싱해서 db에 저장해야함.
+        log.info("================getSeochoData()==============");
         String districtName;
         String gu = "서울시 서초구 ";
         FacilityData<Object> data = facilityData;
@@ -193,8 +188,6 @@ public class DataService<T> {
             LinkedHashMap<String, String> linkedHashMap = (LinkedHashMap<String, String>) item;
             dataList.add(linkedHashMap);
         }
-        // dataList에는 전체 요소가 LinkedHashMap<String, String> 타입으로 캐스팅되어 저장됨
-
         // 예시로 첫 번째 요소의 자치구와 관리 출력
         List<String> addressList = new ArrayList<>();
         for (LinkedHashMap<String, String> linkedHashMap : dataList) {
@@ -203,13 +196,13 @@ public class DataService<T> {
         }
         JsonArray result = getJsonElements(addressList);
         List<String[]> latLngList = getLatLng(result);
+        log.info("================saveSeochoData()==============");
         uncompletedAddressRepository.saveSeochoData(latLngList, addressList);
         return getLatLng(result);
     }
 
     public List<String[]> getSeongDongData() {
-        //TODO 해당내용 DB에 저장
-        //해당메서드 사용불가능, 직접 파싱해서 db에 저장해야함.
+        log.info("================getSeongDongData()==============");
         String districtName;
         String gu = "서울시 성동구 ";
         FacilityData<Object> data = facilityData;
@@ -220,8 +213,6 @@ public class DataService<T> {
             LinkedHashMap<String, String> linkedHashMap = (LinkedHashMap<String, String>) item;
             dataList.add(linkedHashMap);
         }
-        // dataList에는 전체 요소가 LinkedHashMap<String, String> 타입으로 캐스팅되어 저장됨
-
         // 예시로 첫 번째 요소의 자치구와 관리 출력
         List<String> addressList = new ArrayList<>();
         for (LinkedHashMap<String, String> linkedHashMap : dataList) {
@@ -230,12 +221,13 @@ public class DataService<T> {
         }
         JsonArray result = getJsonElements(addressList);
         List<String[]> latLngList = getLatLng(result);
+        log.info("================saveSeongdong()==============");
         uncompletedAddressRepository.saveSeongdong(latLngList, addressList);
         return getLatLng(result);
     }
 
     public List<String[]> getDongDaeMunData() {
-        //TODO 해당내용 DB에 저장
+        log.info("================getDongDaeMunData()==============");
         String districtName;
         String gu = "서울시 동대문구 ";
         FacilityData<Object> data = facilityData;
@@ -246,8 +238,6 @@ public class DataService<T> {
             LinkedHashMap<String, String> linkedHashMap = (LinkedHashMap<String, String>) item;
             dataList.add(linkedHashMap);
         }
-        // dataList에는 전체 요소가 LinkedHashMap<String, String> 타입으로 캐스팅되어 저장됨
-
         // 예시로 첫 번째 요소의 자치구와 관리 출력
         List<String> addressList = new ArrayList<>();
         for (LinkedHashMap<String, String> linkedHashMap : dataList) {
@@ -256,12 +246,13 @@ public class DataService<T> {
         }
         JsonArray result = getJsonElements(addressList);
         List<String[]> latLngList = getLatLng(result);
+        log.info("================saveDongdaemun()==============");
         uncompletedAddressRepository.saveDongdaemun(latLngList, addressList);
         return getLatLng(result);
     }
 
     public List<String[]> getGwanakData() {
-        //TODO 해당내용 DB에 저장
+        log.info("================getGwanakData()==============");
         String districtName;
         String gu = "서울시 관악구 ";
         FacilityData<Object> data = facilityData;
@@ -272,8 +263,6 @@ public class DataService<T> {
             LinkedHashMap<String, String> linkedHashMap = (LinkedHashMap<String, String>) item;
             dataList.add(linkedHashMap);
         }
-        // dataList에는 전체 요소가 LinkedHashMap<String, String> 타입으로 캐스팅되어 저장됨
-
         // 예시로 첫 번째 요소의 자치구와 관리 출력
         List<String> addressList = new ArrayList<>();
         for (LinkedHashMap<String, String> linkedHashMap : dataList) {
@@ -281,15 +270,13 @@ public class DataService<T> {
             addressList.add(gu + districtName);
         }
         JsonArray result = getJsonElements(addressList);
-        for (JsonElement jsonElement : result) {
-            System.out.println("jsonElement = " + jsonElement);
-        }
+        log.info("================saveGwanakData()==============");
         uncompletedAddressRepository.saveGwanakData(getLatLng(result), addressList);
         return getLatLng(result);
     }
 
     public List<String[]> getYangCheonData() {
-        //TODO 해당내용 DB에 저장
+        log.info("================getYangCheonData()==============");
         String districtName;
         String gu = "서울시 양천구 ";
         FacilityData<Object> data = facilityData;
@@ -300,8 +287,6 @@ public class DataService<T> {
             LinkedHashMap<String, String> linkedHashMap = (LinkedHashMap<String, String>) item;
             dataList.add(linkedHashMap);
         }
-        // dataList에는 전체 요소가 LinkedHashMap<String, String> 타입으로 캐스팅되어 저장됨
-
         // 예시로 첫 번째 요소의 자치구와 관리 출력
         List<String> addressList = new ArrayList<>();
         for (LinkedHashMap<String, String> linkedHashMap : dataList) {
@@ -309,15 +294,13 @@ public class DataService<T> {
             addressList.add(gu + districtName);
         }
         JsonArray result = getJsonElements(addressList);
-        for (JsonElement jsonElement : result) {
-            System.out.println("jsonElement = " + jsonElement);
-        }
+        log.info("================saveYangcheonData()==============");
         uncompletedAddressRepository.saveYangcheonData(getLatLng(result), addressList);
         return getLatLng(result);
     }
 
     public List<String[]> getSeodaemunData() {
-        //TODO 해당내용 DB에 저장
+        log.info("================getSeodaemunData()==============");
         String districtName;
         String gu = "서울시 서대문구 ";
         FacilityData<Object> data = facilityData;
@@ -328,8 +311,6 @@ public class DataService<T> {
             LinkedHashMap<String, String> linkedHashMap = (LinkedHashMap<String, String>) item;
             dataList.add(linkedHashMap);
         }
-        // dataList에는 전체 요소가 LinkedHashMap<String, String> 타입으로 캐스팅되어 저장됨
-
         // 예시로 첫 번째 요소의 자치구와 관리 출력
         List<String> addressList = new ArrayList<>();
         for (LinkedHashMap<String, String> linkedHashMap : dataList) {
@@ -337,15 +318,13 @@ public class DataService<T> {
             addressList.add(gu + districtName);
         }
         JsonArray result = getJsonElements(addressList);
-        for (JsonElement jsonElement : result) {
-            System.out.println("jsonElement = " + jsonElement);
-        }
+        log.info("================saveSeodaemunData()==============");
         uncompletedAddressRepository.saveSeodaemunData(getLatLng(result), addressList);
         return getLatLng(result);
     }
 
     public List<String[]> getGangseoData() {
-        //TODO 해당내용 DB에 저장
+        log.info("================getGangseoData()==============");
         String districtName;
         String gu = "서울시 강서구 ";
         FacilityData<Object> data = facilityData;
@@ -356,8 +335,6 @@ public class DataService<T> {
             LinkedHashMap<String, String> linkedHashMap = (LinkedHashMap<String, String>) item;
             dataList.add(linkedHashMap);
         }
-        // dataList에는 전체 요소가 LinkedHashMap<String, String> 타입으로 캐스팅되어 저장됨
-
         // 예시로 첫 번째 요소의 자치구와 관리 출력
         List<String> addressList = new ArrayList<>();
         for (LinkedHashMap<String, String> linkedHashMap : dataList) {
@@ -365,15 +342,13 @@ public class DataService<T> {
             addressList.add(gu + districtName);
         }
         JsonArray result = getJsonElements(addressList);
-        for (JsonElement jsonElement : result) {
-            System.out.println("jsonElement = " + jsonElement);
-        }
+        log.info("================saveGangseoData()==============");
         uncompletedAddressRepository.saveGangseoData(getLatLng(result), addressList);
         return getLatLng(result);
     }
 
     public List<String[]> getGwangjinData() {
-        //TODO 해당내용 DB에 저장
+        log.info("================getGwangjinData()==============");
         String districtName;
         String gu = "서울시 광진구 ";
         FacilityData<Object> data = facilityData;
@@ -384,8 +359,6 @@ public class DataService<T> {
             LinkedHashMap<String, String> linkedHashMap = (LinkedHashMap<String, String>) item;
             dataList.add(linkedHashMap);
         }
-        // dataList에는 전체 요소가 LinkedHashMap<String, String> 타입으로 캐스팅되어 저장됨
-
         // 예시로 첫 번째 요소의 자치구와 관리 출력
         List<String> addressList = new ArrayList<>();
         for (LinkedHashMap<String, String> linkedHashMap : dataList) {
@@ -393,9 +366,7 @@ public class DataService<T> {
             addressList.add(gu + districtName);
         }
         JsonArray result = getJsonElements(addressList);
-        for (JsonElement jsonElement : result) {
-            System.out.println("jsonElement = " + jsonElement);
-        }
+        log.info("================saveGwangjinData()==============");
         uncompletedAddressRepository.saveGwangjinData(getLatLng(result), addressList);
         return getLatLng(result);
     }
@@ -403,7 +374,7 @@ public class DataService<T> {
     //========================전체 주소가 있는 자치구========================
 
     public List<String[]> getGangbukData() {
-        //TODO 해당내용 DB에 저장
+        log.info("================getGangbukData()==============");
         String districtName;
         FacilityData<Object> data = facilityData;
 
@@ -413,8 +384,6 @@ public class DataService<T> {
             LinkedHashMap<String, String> linkedHashMap = (LinkedHashMap<String, String>) item;
             dataList.add(linkedHashMap);
         }
-        // dataList에는 전체 요소가 LinkedHashMap<String, String> 타입으로 캐스팅되어 저장됨
-
         // 예시로 첫 번째 요소의 자치구와 관리 출력
         List<String> addressList = new ArrayList<>();
         for (LinkedHashMap<String, String> linkedHashMap : dataList) {
@@ -422,15 +391,13 @@ public class DataService<T> {
             addressList.add(districtName);
         }
         JsonArray result = getJsonElements(addressList);
-        for (JsonElement jsonElement : result) {
-            System.out.println("jsonElement = " + jsonElement);
-        }
+        log.info("================saveGangbuk()==============");
         completeAddressRepository.saveGangbuk(getLatLng(result),addressList);
         return getLatLng(result);
     }
 
     public List<String[]> getJungnangData() {
-        //TODO 해당내용 DB에 저장
+        log.info("================getJungnangData()==============");
         String districtName;
         FacilityData<Object> data = facilityData;
 
@@ -440,8 +407,6 @@ public class DataService<T> {
             LinkedHashMap<String, String> linkedHashMap = (LinkedHashMap<String, String>) item;
             dataList.add(linkedHashMap);
         }
-        // dataList에는 전체 요소가 LinkedHashMap<String, String> 타입으로 캐스팅되어 저장됨
-
         // 예시로 첫 번째 요소의 자치구와 관리 출력
         List<String> addressList = new ArrayList<>();
         for (LinkedHashMap<String, String> linkedHashMap : dataList) {
@@ -449,16 +414,14 @@ public class DataService<T> {
             addressList.add(districtName);
         }
         JsonArray result = getJsonElements(addressList);
-        for (JsonElement jsonElement : result) {
-            System.out.println("jsonElement = " + jsonElement);
-        }
+        log.info("================saveJungnangData()==============");
         completeAddressRepository.saveJungnangData(getLatLng(result), addressList);
         return getLatLng(result);
     }
 
 
     public List<String[]> getSongpaData() {
-        //TODO 해당내용 DB에 저장
+        log.info("================getSongpaData()==============");
         String districtName;
         FacilityData<Object> data = facilityData;
 
@@ -468,8 +431,6 @@ public class DataService<T> {
             LinkedHashMap<String, String> linkedHashMap = (LinkedHashMap<String, String>) item;
             dataList.add(linkedHashMap);
         }
-        // dataList에는 전체 요소가 LinkedHashMap<String, String> 타입으로 캐스팅되어 저장됨
-
         // 예시로 첫 번째 요소의 자치구와 관리 출력
         List<String> addressList = new ArrayList<>();
         for (LinkedHashMap<String, String> linkedHashMap : dataList) {
@@ -477,15 +438,13 @@ public class DataService<T> {
             addressList.add(districtName);
         }
         JsonArray result = getJsonElements(addressList);
-        for (JsonElement jsonElement : result) {
-            System.out.println("jsonElement = " + jsonElement);
-        }
+        log.info("================saveSongpaData()==============");
         completeAddressRepository.saveSongpaData(getLatLng(result), addressList);
         return getLatLng(result);
     }
 
     public List<String[]> getJungguData() {
-        //TODO 해당내용 DB에 저장
+        log.info("================getJungguData()==============");
         String districtName;
         FacilityData<Object> data = facilityData;
 
@@ -495,8 +454,6 @@ public class DataService<T> {
             LinkedHashMap<String, String> linkedHashMap = (LinkedHashMap<String, String>) item;
             dataList.add(linkedHashMap);
         }
-        // dataList에는 전체 요소가 LinkedHashMap<String, String> 타입으로 캐스팅되어 저장됨
-
         // 예시로 첫 번째 요소의 자치구와 관리 출력
         List<String> addressList = new ArrayList<>();
         for (LinkedHashMap<String, String> linkedHashMap : dataList) {
@@ -504,9 +461,7 @@ public class DataService<T> {
             addressList.add(districtName);
         }
         JsonArray result = getJsonElements(addressList);
-        for (JsonElement jsonElement : result) {
-            System.out.println("jsonElement = " + jsonElement);
-        }
+        log.info("================saveJungguData()==============");
         completeAddressRepository.saveJungguData(getLatLng(result),addressList);
         return getLatLng(result);
     }
