@@ -36,33 +36,33 @@
         var icon = {
             url: iconUrl,
         };
+        var map = null;
+        var markers = [];
         window.onload = function () {
-            loadNaverMap(0,0);
+            loadNaverMap(0, 0);
             getCurrentPos(false);
         };
+
         function loadNaverMap(mylat, mylon) {
             var facilities = /*[[${facilities}]]*/ [];
-            var map = null;
             if (mylat !== 0 && mylon !== 0) {
-                var map = new naver.maps.Map('map', {
+                map = new naver.maps.Map('map', {
                     center: new naver.maps.LatLng(mylat, mylon),
                     zoom: 15,
-                    logoControl : true,
-                    mapDataControl : false,
+                    logoControl: true,
+                    mapDataControl: false,
                 });
                 new naver.maps.Marker({
-                    position: new naver.maps.LatLng(mylat,mylon),
+                    position: new naver.maps.LatLng(mylat, mylon),
                     map: map,
                     icon: icon
                 })
             } else {
-                var map = new naver.maps.Map('map', {
+                map = new naver.maps.Map('map', {
                     center: new naver.maps.LatLng(37.5666805, 126.9784147),
                     zoom: 11
-
                 });
             }
-
             for (var i = 0; i < facilities.length; i++) {
                 var facility = facilities[i];
                 var longitude = facility.lon;
@@ -77,7 +77,7 @@
                         var marker = new naver.maps.Marker({
                             position: new naver.maps.LatLng(latitude, longitude),
                             title: loc,
-                            map: map
+                            map: map,
                         });
                         var infoWindow = new naver.maps.InfoWindow({
                             content: loc
@@ -86,6 +86,7 @@
                         naver.maps.Event.addListener(marker, 'click', function () {
                             infoWindow.open(map, marker);
                         });
+                        markers.push(marker);
                         // 마커 지도에 추가
                         marker.setMap(map);
                     })(title, loc);
@@ -94,7 +95,7 @@
         }
 
         function getCurrentPos(isClick) {
-            if (isClick === true){
+            if (isClick === true) {
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(
                         function (position) {
@@ -104,6 +105,7 @@
                             console.log("위도 =", latitude);
                             console.log("경도 =", longitude);
                             loadNaverMap(latitude, longitude);
+                            sendLocationData(latitude, longitude);
 
                         },
                         function (error) {
@@ -117,15 +119,54 @@
                 }
             }
         }
+
+        function sendLocationData(latitude, longitude) {
+            var data = {
+                latitude: latitude,
+                longitude: longitude
+            };
+
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:8080/map/nearby",
+                data: data,
+                contentType: "application/json",
+                success: function (res) {
+                    for (var i = 0; i < markers.length; i++) {
+                        var marker = markers[i];
+                        for (var j = 0; j < res.length; j++) {
+                            var latitude = res[j].latitude;
+                            var longitude = res[j].longitude;
+                            var markerPosition = marker.getPosition();
+                            var markerLat = markerPosition.lat();
+                            var markerLng = markerPosition.lng();
+
+                            if (markerLat === parseFloat(latitude) &&
+                                markerLng === parseFloat(longitude)) {
+                                marker.setIcon({
+                                    content: "<div style='width: 16px; height: 16px; background-color: red; border-radius: 50%;'></div>",
+                                    anchor: new naver.maps.Point(8, 8)
+                                });
+                                break;
+                            }
+                        }
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    console.error("위치 데이터 전송 중 오류 발생:", error);
+                }
+            });
+        }
     </script>
 </head>
 <body>
 <div>
     <h1 style="margin-left:40%; margin-top:100px">Smoking Location</h1>
 </div>
-<div style="display: flex; justify-content: flex-end; align-items: flex-end; margin-right: 10%; margin-bottom: 5px" >
+<div style="display: flex; justify-content: flex-end; align-items: flex-end; margin-right: 10%; margin-bottom: 5px">
     <button onclick="getCurrentPos(true)">
-    <img src="/image/icons8-location-2--unscreen.gif">
+        <img src="/image/icons8-location-2--unscreen.gif">
     </button>
 </div>
 

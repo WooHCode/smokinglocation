@@ -7,16 +7,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import teamproject.smokinglocation.dto.*;
 import teamproject.smokinglocation.entity.Gangnam;
 import teamproject.smokinglocation.entity.TotalData;
 import teamproject.smokinglocation.service.DataResponseService;
 import teamproject.smokinglocation.service.DataService;
 import teamproject.smokinglocation.service.LatlngService;
+import teamproject.smokinglocation.service.LocationNearbyService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,6 +22,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -34,6 +33,7 @@ public class MapController {
     private String naverMapClientId;
 
     private final DataResponseService responseService;
+    private final LocationNearbyService nearbyService;
 
 
     @GetMapping("/map")
@@ -54,6 +54,23 @@ public class MapController {
         return setModelFacilitiesAndNaverMap(model,gu);
     }
 
+    @GetMapping("/map/nearby")
+    @ResponseBody
+    public List<NearbyLocationDto> getNearbyLocation(String latitude, String longitude) {
+        List<TotalData> totalData = responseService.getTotalData();
+        List<NearbyLocationDto> nearbyDtos = totalData.stream()
+                .map(data -> {
+                    NearbyLocationDto nearbyDto = NearbyLocationDto.builder()
+                            .latitude(data.getLat())
+                            .longitude(data.getLon())
+                            .location(data.getLocation())
+                            .build();
+                    return nearbyDto;
+                })
+                .collect(Collectors.toList());
+        List<NearbyLocationDto> result = nearbyService.extractNearbyLocations(latitude, longitude, nearbyDtos);
+        return result;
+    }
 
     private String setModelFacilitiesAndNaverMap(Model model, String gu) {
         model.addAttribute("naverMapClientId", naverMapClientId);
