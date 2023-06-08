@@ -19,17 +19,21 @@ import java.util.List;
 public class LatlngService {
     private final LatlngRepository repository;
 
-
     public void checkUrlData(int urlData, List<?> res) {
         if (urlData == UrlData.YONGSAN.getNumber()) {
+            log.info("===================saveYongsanData()==================");
             saveYongsanData((List<FacilityYongsan>) res);
         } else if (urlData == UrlData.YEONGDEUNGPO.getNumber()) {
+            log.info("===================saveYeongdeungpoData()==================");
             saveYeongdeungpoData((List<FacilityYeongdeungpo>) res);
         } else if (urlData == UrlData.DONGJAK.getNumber()) {
+            log.info("===================saveDongjakData()==================");
             saveDongjakData((List<FacilityDongjak>) res);
         } else if (urlData == UrlData.GURO.getNumber()) {
+            log.info("===================saveGuroData()==================");
             saveGuroData((List<FacilityGuro>) res);
         } else if (urlData == UrlData.NOWON.getNumber()) {
+            log.info("===================saveNowonData()==================");
             saveNowonData((List<FacilityNowon>) res);
         } else {
             log.info("===========ERROR OCCUR=========");

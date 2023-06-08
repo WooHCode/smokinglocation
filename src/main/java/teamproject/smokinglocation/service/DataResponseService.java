@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-@Transactional
+@Transactional(readOnly = true)
 @EnableCaching
 public class DataResponseService {
     private final DataResponseRepository responseRepository;
@@ -34,6 +34,7 @@ public class DataResponseService {
     public void deleteTotalDataCache() {
         Cache cache = cacheManager.getCache("totalDataCache");
         if (cache != null) {
+            log.info("=============DELETE CACHE DATA ({})===============",cache);
             cache.clear();
         }
     }
@@ -336,6 +337,4 @@ public class DataResponseService {
         }
         return guData;
     }
-
-
 }
