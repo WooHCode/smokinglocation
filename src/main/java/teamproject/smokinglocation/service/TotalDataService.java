@@ -82,6 +82,9 @@ public class TotalDataService {
         dataRepository.saveAll(result);
     }
 
+    /**
+     * totalData 테이블 리셋
+     */
     public void resetTotalData() {
         dataRepository.deleteAllData();
         dataRepository.resetSequence();
