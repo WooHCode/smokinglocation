@@ -32,6 +32,11 @@
             th:src="@{'//openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=' + ${naverMapClientId} + '&submodules=geocoder'}"
             defer></script>
     <script th:inline="javascript">
+        var endLatLng = [0,0];  //경도, 위도 순서
+        var myLatLng=[0,0];     //경도, 위도 순서
+        var getPathReady = false;   //길찾기 버튼 누르면 true (길찾기 준비상태)
+        var polyLinePath = [];
+
         var iconUrl = '/image/icons8-location-2--unscreen.gif';
         var icon = {
             url: iconUrl,
@@ -74,6 +79,8 @@
                 if (latitude && longitude && title && loc) {
                     // 클로저를 사용하여 마커와 인포윈도우 연결
                     (function (title, loc) {
+                        var lat = latitude;
+                        var lng = longitude;
                         var marker = new naver.maps.Marker({
                             position: new naver.maps.LatLng(latitude, longitude),
                             title: loc,
@@ -85,6 +92,16 @@
                         // 마커가 클릭되면 인포윈도우 열기
                         naver.maps.Event.addListener(marker, 'click', function () {
                             infoWindow.open(map, marker);
+                            endLatLng[0] = lng;
+                            endLatLng[1] = lat;
+                            console.log("endLatLng 위도 : " + endLatLng[1] + " 경도 : " + endLatLng[0]);
+                            if (getPathReady === true) {
+                                if(myLatLng===[0,0]){
+                                    window.alert("먼저 나의 위치 마커를 눌러주세요")
+                                }
+                                showPath(myLatLng,endLatLng);
+                                getPathReady = false;
+                            }
                         });
                         // 마커 지도에 추가
                         marker.setMap(map);
@@ -104,7 +121,9 @@
                             console.log("위도 =", latitude);
                             console.log("경도 =", longitude);
                             loadNaverMap(latitude, longitude);
-
+                            myLatLng[0] = longitude;
+                            myLatLng[1] = latitude;
+                            console.log("나의 위치 위도 : " + myLatLng[1] + " 경도 : " + myLatLng[0]);
                         },
                         function (error) {
                             // 위치 정보를 가져오는 데 실패했을 때 처리할 로직
@@ -117,6 +136,38 @@
                 }
             }
         }
+
+        function readyGetPath(isClick) {
+            if (isClick === true) {
+                getPathReady = true;
+                console.log("경로 찾기 준비 : 마커를 클릭하면 경로 표시")
+            }
+        }
+
+        function showPath(myLatLng, endLatLng) {
+            //경로 보여주기
+            myLng = myLatLng[0];
+            myLat = myLatLng[1];
+            endLng = endLatLng[0];
+            endLat = endLatLng[1];
+            console.log("내 경도 : "+myLng)
+            console.log("내 위도 : "+myLat)
+            console.log("도착 경도 : "+endLng)
+            console.log("경 위도 : "+endLat)
+            $.ajax({
+                url: '/directions',
+                data: {
+                    myLng: myLatLng[0],
+                    myLat: myLatLng[1],
+                    endLng: endLatLng[0],
+                    endLat: endLatLng[1]
+                }
+            }).done(function (response) {
+                console.log(response)
+
+            });
+
+        }
     </script>
 </head>
 <body>
@@ -124,6 +175,9 @@
     <h1 style="margin-left:40%; margin-top:100px">Smoking Location</h1>
 </div>
 <div style="display: flex; justify-content: flex-end; align-items: flex-end; margin-right: 10%; margin-bottom: 5px" >
+    <button onclick="readyGetPath(true)">
+        길찾기
+    </button>
     <button onclick="getCurrentPos(true)">
     <img src="/image/icons8-location-2--unscreen.gif">
     </button>
