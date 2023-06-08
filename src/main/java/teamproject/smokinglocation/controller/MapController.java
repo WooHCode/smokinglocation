@@ -48,7 +48,6 @@ public class MapController {
         return "map";
     }
 
-
     @GetMapping("/map/select")
     public String selectGu(Model model,String gu) {
         return setModelFacilitiesAndNaverMap(model,gu);

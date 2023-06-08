@@ -4,13 +4,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import teamproject.smokinglocation.dto.PathData;
+import teamproject.smokinglocation.dto.pathDataDto.PathData;
+import teamproject.smokinglocation.dto.pathDataDto.Traoptimal;
 import teamproject.smokinglocation.service.DirectionService;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,7 +22,7 @@ public class DirectionController {
     private final ObjectMapper objectMapper;
 
     @GetMapping("/directions")
-    public void getDirections(
+    public ResponseEntity getDirections(
             @RequestParam("myLng") String myLng,
             @RequestParam("myLat") String myLat,
             @RequestParam("endLng") String endLng,
@@ -35,11 +37,10 @@ public class DirectionController {
         String endLocation = endLng + "," + endLat;
         String directions = directionService.getDirections(myLocation, endLocation);
         System.out.println("=======DirectionController 실행완료");
+        PathData pathData = new PathData();
+        pathData = objectMapper.readValue(directions, new TypeReference<>() {});
 
-        System.out.println(directions);
-//        PathData pathData ;
-//        pathData=objectMapper.readValue(directions, new TypeReference<>() {
-//        });
-//        System.out.println(pathData.getRoute());
+
+        return ResponseEntity.ok(directions);
     }
 }
