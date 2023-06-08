@@ -9,6 +9,11 @@
             height: 500px;
             margin-left: 10%;
         }
+        #mapDefault {
+            width: 80%;
+            height: 500px;
+            margin-left: 10%;
+        }
 
         .selectGu {
         }
@@ -43,6 +48,8 @@
         };
         window.onload = function () {
             loadNaverMap(0,0);
+            $('#map').css("display","none");
+            $('#mapDefault').css("display","block");
             getCurrentPos(false);
         };
         function loadNaverMap(mylat, mylon) {
@@ -61,7 +68,7 @@
                     icon: icon
                 })
             } else {
-                var map = new naver.maps.Map('map', {
+                var map = new naver.maps.Map('mapDefault', {
                     center: new naver.maps.LatLng(37.5666805, 126.9784147),
                     zoom: 11
 
@@ -120,6 +127,7 @@
                             var longitude = position.coords.longitude;
                             console.log("위도 =", latitude);
                             console.log("경도 =", longitude);
+                            mapChange(true);
                             loadNaverMap(latitude, longitude);
                             myLatLng[0] = longitude;
                             myLatLng[1] = latitude;
@@ -166,7 +174,13 @@
                 console.log(response)
 
             });
+        }
 
+        function mapChange(isClick) {
+            if (isClick === true) {
+                $('#mapDefault').css("display","none");
+                $('#map').css("display","block");
+            }
         }
     </script>
 </head>
@@ -183,6 +197,7 @@
     </button>
 </div>
 
+<div id="mapDefault"></div>
 <div id="map"></div>
 <div>
     <select class="selectGu">
