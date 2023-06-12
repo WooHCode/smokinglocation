@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PathSpot {
-    private Float lat;
-    private Float lng;
+    private String lat;
+    private String lng;
 }

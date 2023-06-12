@@ -1,11 +1,13 @@
 package teamproject.smokinglocation.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
+@Slf4j
 public class DirectionService {
 
     @Value("${naver.directions.client.id}")
@@ -15,7 +17,7 @@ public class DirectionService {
     private String naverDirectionSecret;
 
     public String getDirections(String start, String end) {
-        System.out.println("=======getDirections : START");
+        log.info("=======DirectionService.getDirections : START");
 
         String apiUrl = "https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving";
 
@@ -30,13 +32,17 @@ public class DirectionService {
         // HTTP 요청 보내기
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.exchange(requestUrl, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+        log.info("=======DirectionService.getDirections : HTTP 요청 DONE");
 
         if (response.getStatusCode() == HttpStatus.OK) {
-            System.out.println("=======getDirections : API 호출");
+            log.info("=======DirectionService.getDirections : API 호출");
+            log.info("=======DirectionService.getDirections : response.getBody() = {}", response.getBody());
+            log.info("=======DirectionService.getDirections : END");
+
             return response.getBody();
         } else {
             // API 호출 실패 처리
-            System.out.println("=======getDirections : API 호출 실패");
+            log.info("=======DirectionService.getDirections : API 호출 실패");
             return null;
         }
     }

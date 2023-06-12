@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class DirectionController {
 
     private final DirectionService directionService;
@@ -31,30 +33,32 @@ public class DirectionController {
             @RequestParam("endLat") String endLat,
             Model model
     ) throws JsonProcessingException {
-        System.out.println("myLng = " + myLng);
-        System.out.println("myLat = " + myLat);
-        System.out.println("endLng = " + endLng);
-        System.out.println("endLat = " + endLat);
+        log.info("=======DirectionController.getDirections : START");
+
+        log.info("myLng = {}", myLng);
+        log.info("myLat = {} ", myLat);
+        log.info("endLng = {}", endLng);
+        log.info("endLat = {}", endLat);
 
         String myLocation = myLng + "," + myLat;
         String endLocation = endLng + "," + endLat;
+
         String directions = directionService.getDirections(myLocation, endLocation);
-        System.out.println("=======DirectionController 실행완료");
-        PathData pathData = new PathData();
+        PathData pathData;
         pathData = objectMapper.readValue(directions, new TypeReference<>() {});
 
-        System.out.println("==========pathData 추출 시작==========");
+        log.info("=======DirectionController.getDirections : pathData 추출 시작==========");
         List<List<Float>> pathFromJson = pathData.getRoute().getTraoptimal().get(0).getPath();
-        System.out.println(pathFromJson);
+        log.info(pathFromJson.toString());
         List<PathSpot> pathSpots = new ArrayList<>();
         for (List<Float> pathSpot : pathFromJson) {
             PathSpot pathSpotDto = new PathSpot();
-            pathSpotDto.setLng(pathSpot.get(0));
-            pathSpotDto.setLat(pathSpot.get(1));
+            pathSpotDto.setLng(String.valueOf(pathSpot.get(0)));
+            pathSpotDto.setLat(String.valueOf(pathSpot.get(1)));
             pathSpots.add(pathSpotDto);
         }
-        System.out.println("==========pathData 추출 완료==========");
-
+        log.info("=======DirectionController.getDirections : pathData 추출 완료==========");
+        log.info("=======DirectionController.getDirections : END");
         return pathSpots;
     }
 }

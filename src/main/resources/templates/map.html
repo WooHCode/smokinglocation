@@ -43,6 +43,7 @@
         var getPathReady = false;   //길찾기 버튼 누르면 true (길찾기 준비상태)
         var pathFound = false;
         var map = null;
+        var polyline;
 
         var iconUrl = '/image/icons8-location-2--unscreen.gif';
         var icon = {
@@ -104,6 +105,8 @@
                             endLatLng[0] = lng;
                             endLatLng[1] = lat;
                             console.log("endLatLng 위도 : " + endLatLng[1] + " 경도 : " + endLatLng[0]);
+                            console.log("polyline : " + polyline);
+
                             if (getPathReady === true) {
                                 if(myLatLng===[0,0]){
                                     window.alert("먼저 나의 위치 마커를 눌러주세요")
@@ -111,6 +114,9 @@
                                 showPath(myLatLng, endLatLng);
 
                                 getPathReady = false;
+                            } else{
+                                polyline.setMap(null);
+                                console.log("==========polyline 초기화=========")
                             }
                         });
                         // 마커 지도에 추가
@@ -200,46 +206,9 @@
                 console.log("============polyline : " + polyline);
                 console.log("============naver.maps.Polyline(경로) 오버레이 : Done");
 
-
-                // 배열 마지막 위치를 마크로 표시함
-                /*var endMarker = new naver.maps.Marker({
-                    position: polyLinePath[polyLinePath.length - 1], //마크 표시할 위치 배열의 마지막 위치
-                    map: map
-                });*/
-                console.log("============marker : " + endMarker);
-                console.log("============naver.maps.Marker(도착지점) 오버레이 : Done");
-
                 pathFound = false;
             });
         }
-        // function getPolyPath(response) {
-        //     if (pathFound === true) {
-        //         console.log("======경로찾기 시작 : getPolyPath()======")
-        //         var polyLinePath = [];
-        //         console.log(response);
-        //         for (var i = 0; i < response.length; i++) {
-        //             var pathLng = response[i].lng;
-        //             var pathLat = response[i].lat;
-        //             polyLinePath.push(new naver.maps.LatLng(pathLng, pathLat));
-        //         }
-        //         console.log(polyLinePath);
-        //
-        //         var polyline = new naver.maps.Polyline({
-        //             path: polylinePath,      //선 위치 변수배열
-        //             strokeColor: '#FF0000', //선 색 빨강 #빨강,초록,파랑
-        //             strokeOpacity: 0.8, //선 투명도 0 ~ 1
-        //             strokeWeight: 6,   //선 두께
-        //             map: map           //오버레이할 지도
-        //         });
-        //
-        //         // 배열 마지막 위치를 마크로 표시함
-        //         var marker = new naver.maps.Marker({
-        //             position: polylinePath[polylinePath.length-1], //마크 표시할 위치 배열의 마지막 위치
-        //             map: map
-        //         });
-        //         pathFound = false;
-        //     }
-        // }
 
         function mapChange(isClick) {
             if (isClick === true) {
