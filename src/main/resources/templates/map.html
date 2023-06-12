@@ -138,6 +138,7 @@
                             console.log("경도 =", longitude);
                             mapChange(true);
                             loadNaverMap(latitude, longitude);
+                            sendLocationData(latitude, longitude);
                             myLatLng[0] = longitude;
                             myLatLng[1] = latitude;
                             console.log("나의 위치 위도 : " + myLatLng[1] + " 경도 : " + myLatLng[0]);
@@ -217,6 +218,43 @@
             }
         }
 
+        function sendLocationData(latitude, longitude) {
+            var data = {
+                latitude: latitude,
+                longitude: longitude
+            };
+
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:8080/map/nearby",
+                data: data,
+                contentType: "application/json",
+                success: function (res) {
+                    for (var i = 0; i < markers.length; i++) {
+                        var marker = markers[i];
+                        for (var j = 0; j < res.length; j++) {
+                            var latitude = res[j].latitude;
+                            var longitude = res[j].longitude;
+                            var markerPosition = marker.getPosition();
+                            var markerLat = markerPosition.lat();
+                            var markerLng = markerPosition.lng();
+
+                            if (markerLat === parseFloat(latitude) &&
+                                markerLng === parseFloat(longitude)) {
+                                marker.setIcon({
+                                    content: "<div style='width: 16px; height: 16px; background-color: red; border-radius: 50%;'></div>",
+                                    anchor: new naver.maps.Point(8, 8)
+                                });
+                                break;
+                            }
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("위치 데이터 전송 중 오류 발생:", error);
+                }
+            });
+        }
     </script>
 </head>
 <body>
