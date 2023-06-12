@@ -42,6 +42,7 @@
         var myLatLng=[0,0];     //경도, 위도 순서
         var getPathReady = false;   //길찾기 버튼 누르면 true (길찾기 준비상태)
         var pathFound = false;
+        var map = null;
 
         var iconUrl = '/image/icons8-location-2--unscreen.gif';
         var icon = {
@@ -56,9 +57,8 @@
         };
         function loadNaverMap(mylat, mylon) {
             var facilities = /*[[${facilities}]]*/ [];
-            var map = null;
             if (mylat !== 0 && mylon !== 0) {
-                var map = new naver.maps.Map('map', {
+                map = new naver.maps.Map('map', {
                     center: new naver.maps.LatLng(mylat, mylon),
                     zoom: 15,
                     logoControl : true,
@@ -70,7 +70,7 @@
                     icon: icon
                 })
             } else {
-                var map = new naver.maps.Map('mapDefault', {
+                map = new naver.maps.Map('mapDefault', {
                     center: new naver.maps.LatLng(37.5666805, 126.9784147),
                     zoom: 11
 
@@ -183,9 +183,9 @@
                 var polyLinePath = [];
                 console.log(response);
                 for (var i = 0; i < response.length; i++) {
-                    var pathLng = response[i].lng;
                     var pathLat = response[i].lat;
-                    polyLinePath.push(new naver.maps.LatLng(pathLng, pathLat));
+                    var pathLng = response[i].lng;
+                    polyLinePath.push(new naver.maps.LatLng(pathLat, pathLng));
                 }
                 console.log(polyLinePath);
 
@@ -202,10 +202,10 @@
 
 
                 // 배열 마지막 위치를 마크로 표시함
-                var endMarker = new naver.maps.Marker({
+                /*var endMarker = new naver.maps.Marker({
                     position: polyLinePath[polyLinePath.length - 1], //마크 표시할 위치 배열의 마지막 위치
                     map: map
-                });
+                });*/
                 console.log("============marker : " + endMarker);
                 console.log("============naver.maps.Marker(도착지점) 오버레이 : Done");
 
