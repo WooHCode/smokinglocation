@@ -50,23 +50,26 @@
             url: iconUrl,
         };
 
+        var map = null;
+        var markers = [];
         window.onload = function () {
             loadNaverMap(0,0);
             $('#map').css("display","none");
             $('#mapDefault').css("display","block");
             getCurrentPos(false);
         };
+
         function loadNaverMap(mylat, mylon) {
             var facilities = /*[[${facilities}]]*/ [];
             if (mylat !== 0 && mylon !== 0) {
                 map = new naver.maps.Map('map', {
                     center: new naver.maps.LatLng(mylat, mylon),
                     zoom: 15,
-                    logoControl : true,
-                    mapDataControl : false,
+                    logoControl: true,
+                    mapDataControl: false,
                 });
                 new naver.maps.Marker({
-                    position: new naver.maps.LatLng(mylat,mylon),
+                    position: new naver.maps.LatLng(mylat, mylon),
                     map: map,
                     icon: icon
                 })
@@ -74,10 +77,8 @@
                 map = new naver.maps.Map('mapDefault', {
                     center: new naver.maps.LatLng(37.5666805, 126.9784147),
                     zoom: 11
-
                 });
             }
-
             for (var i = 0; i < facilities.length; i++) {
                 var facility = facilities[i];
                 var longitude = facility.lon;
@@ -119,6 +120,7 @@
                                 console.log("==========polyline 초기화=========")
                             }
                         });
+                        markers.push(marker);
                         // 마커 지도에 추가
                         marker.setMap(map);
                     })(title, loc);
@@ -127,7 +129,7 @@
         }
 
         function getCurrentPos(isClick) {
-            if (isClick === true){
+            if (isClick === true) {
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(
                         function (position) {
@@ -266,11 +268,10 @@
         길찾기
     </button>
     <button onclick="getCurrentPos(true)">
-    <img src="/image/icons8-location-2--unscreen.gif">
+        <img src="/image/icons8-location-2--unscreen.gif">
     </button>
 </div>
 
-<div id="mapDefault"></div>
 <div id="map"></div>
 <div>
     <select class="selectGu">
