@@ -4,6 +4,10 @@ var getPathReady = false;   //길찾기 버튼 누르면 true (길찾기 준비�
 var pathFound = false;
 var map = null;
 var polyline;
+var getCurPos = false;
+var getCurPosConti = false;
+var interval;
+var myMarker;
 
 var iconUrl = '/image/icons8-location-2--unscreen.gif';
 var icon = {
@@ -14,10 +18,15 @@ var map = null;
 var markers = [];
 window.onload = function () {
     loadNaverMap(0,0);
-    getCurrentPos(false);
-    makeMyPosition(localStorage.getItem("lat"), localStorage.getItem("lng"));
+    getCurrentPos(getCurPos);
+    // makeMyPosition(localStorage.getItem("lat"), localStorage.getItem("lng"));
 };
 
+/**
+ * makeMyPosition로직을 getCurrentPos에 합침
+ */
+
+/*
 function makeMyPosition(mylat, mylon) {
     if (localStorage.getItem("lat") !== "" && localStorage.getItem("lng") !== "") {
         var myLat = localStorage.getItem("lat");
@@ -38,13 +47,13 @@ function makeMyPosition(mylat, mylon) {
         })
         markers.push(newMarker);
     }
-}
+}*/
 
 function loadNaverMap(mylat, mylon) {
     if (mylat !== 0 && mylon !== 0) {
         map.setCenter(new naver.maps.LatLng(mylat, mylon));
         map.setZoom(15);
-        makeMyPosition(mylat, mylon);
+        return getCurPosContinuously();
     } else {
         map = new naver.maps.Map('map', {
             center: new naver.maps.LatLng(37.5666805, 126.9784147),
@@ -98,9 +107,11 @@ function loadNaverMap(mylat, mylon) {
             })(title, loc);
         }
     }
+
 }
 
 function getCurrentPos(isClick) {
+    getCurPos = true;
     if (isClick === true) {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -116,10 +127,17 @@ function getCurrentPos(isClick) {
                     }
                     localStorage.setItem("lat", latitude);
                     localStorage.setItem("lng", longitude);
+                    myMarker = new naver.maps.Marker({
+                        position: new naver.maps.LatLng(latitude, longitude),
+                        map: map,
+                        icon: icon
+                    })
+                    markers.push(myMarker);
                     loadNaverMap(latitude, longitude);
                     sendLocationData(latitude, longitude);
                     myLatLng[0] = longitude;
                     myLatLng[1] = latitude;
+                    console.log("나의 위치 갱신 : ", getTime());
                     console.log("나의 위치 위도 : " + myLatLng[1] + " 경도 : " + myLatLng[0]);
                 },
                 function (error) {
@@ -132,6 +150,11 @@ function getCurrentPos(isClick) {
             console.error("이 브라우저는 위치 정보를 지원하지 않습니다.");
         }
     }
+    getCurPosConti = true;
+}
+
+function getCurPosContinuously() {
+    interval = setInterval(getCurrentPos(getCurPos), 3000);
 }
 
 function readyGetPath(isClick) {
@@ -227,3 +250,12 @@ function sendLocationData(latitude, longitude) {
         }
     });
 }
+
+function getTime() {
+    const date = new Date();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+    return `${hours}:${minutes}:${seconds}`;	//  시:분:초
+}
+
