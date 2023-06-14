@@ -5,9 +5,18 @@ var pathFound = false;
 var map = null;
 var polyline;
 
+var nearbyIconUrl = '/image/location-icon-sign.png';
+var nearbyIcon ={
+    url: nearbyIconUrl,
+};
 var iconUrl = '/image/icons8-location-2--unscreen.gif';
 var icon = {
     url: iconUrl,
+};
+
+var destinationIconUrl = '/image/destination-icon.png';
+var destinationIcon = {
+    url: destinationIconUrl,
 };
 
 var map = null;
@@ -39,7 +48,15 @@ function makeMyPosition(mylat, mylon) {
         markers.push(newMarker);
     }
 }
+function hideLoading() {
+    var loadingDiv = document.getElementById("loading");
+    loadingDiv.style.display = "none";
+}
 
+function showLoading() {
+    var loadingDiv = document.getElementById("loading");
+    loadingDiv.style.display = "block";
+}
 function loadNaverMap(mylat, mylon) {
     if (mylat !== 0 && mylon !== 0) {
         map.setCenter(new naver.maps.LatLng(mylat, mylon));
@@ -51,6 +68,11 @@ function loadNaverMap(mylat, mylon) {
             zoom: 11
         });
     }
+
+    var tilesloadedListener = naver.maps.Event.addListener(map, 'tilesloaded', function () {
+        hideLoading();
+        naver.maps.Event.removeListener(tilesloadedListener); // 이벤트 핸들러 제거
+    });
     for (var i = 0; i < facilities.length; i++) {
         var facility = facilities[i];
         var longitude = facility.lon;
@@ -81,15 +103,9 @@ function loadNaverMap(mylat, mylon) {
                     console.log("polyline : " + polyline);
 
                     if (getPathReady === true) {
-                        if(myLatLng===[0,0]){
-                            window.alert("먼저 나의 위치 마커를 눌러주세요")
-                        }
                         showPath(myLatLng, endLatLng);
 
                         getPathReady = false;
-                    } else{
-                        polyline.setMap(null);
-                        console.log("==========polyline 초기화=========")
                     }
                 });
                 markers.push(marker);
@@ -101,6 +117,8 @@ function loadNaverMap(mylat, mylon) {
 }
 
 function getCurrentPos(isClick) {
+    showLoading();
+    myLatLng = [0,0];
     if (isClick === true) {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -117,6 +135,7 @@ function getCurrentPos(isClick) {
                     localStorage.setItem("lat", latitude);
                     localStorage.setItem("lng", longitude);
                     loadNaverMap(latitude, longitude);
+                    hideLoading();
                     sendLocationData(latitude, longitude);
                     myLatLng[0] = longitude;
                     myLatLng[1] = latitude;
@@ -135,13 +154,33 @@ function getCurrentPos(isClick) {
 }
 
 function readyGetPath(isClick) {
+    var getPathButton = document.getElementById("getPath");
+    getPathButton.classList.remove("hoverable");
+    getPathButton.classList.remove("clicked");
+
+    if (myLatLng[0] === 0){
+        getCurrentPos(true);
+    }
     if (isClick === true) {
         getPathReady = true;
-        console.log("경로 찾기 준비 : 마커를 클릭하면 경로 표시")
+        console.log("경로 찾기 준비 : 마커를 클릭하면 경로 표시");
+        getPathButton.classList.add("clicked"); // 클릭한 상태에 해당하는 클래스 추가
     }
 }
 
 function showPath(myLatLng, endLatLng) {
+    var getPathButton = document.getElementById("getPath");
+    getPathButton.style.backgroundColor = "#86c0f8"; // 배경색 변경
+    getPathButton.classList.remove("clicked"); // clicked 클래스 제거
+    getPathButton.classList.add("hoverable"); // hoverable 클래스 추가
+
+    // hover 이벤트를 다시 적용하기 위해 버튼에 마우스를 올렸다가 내려놓음
+    getPathButton.addEventListener("mouseover", function () {
+        this.style.backgroundColor = "#3393fc";
+    });
+    getPathButton.addEventListener("mouseout", function () {
+        this.style.backgroundColor = "#86c0f8";
+    });
     //경로 보여주기
     myLng = myLatLng[0];
     myLat = myLatLng[1];
@@ -151,6 +190,8 @@ function showPath(myLatLng, endLatLng) {
     console.log("내 위도 : " + myLat)
     console.log("도착 경도 : " + endLng)
     console.log("도착 위도 : " + endLat)
+    resetShowPath();
+    changeDestinationMarker(endLat,endLng)
     $.ajax({
         url: '/directions',
         data: {
@@ -177,17 +218,25 @@ function showPath(myLatLng, endLatLng) {
 
         polyline = new naver.maps.Polyline({
             path: polyLinePath,      //선 위치 변수배열
-            strokeColor: '#FF0000', //선 색 빨강 #빨강,초록,파랑
-            strokeOpacity: 0.8, //선 투명도 0 ~ 1
-            strokeWeight: 6,   //선 두께
+            strokeColor: '#0083ea', //선 색 빨강 #빨강,초록,파랑
+            strokeOpacity: 0.7, //선 투명도 0 ~ 1
+            strokeWeight: 4,   //선 두께
             map: map           //오버레이할 지도
         });
-
         console.log("============polyline : " + polyline);
         console.log("============naver.maps.Polyline(경로) 오버레이 : Done");
 
         pathFound = false;
     });
+}
+function zoomInMap() {
+    var zoom = map.getZoom() + 1;
+    map.setZoom(zoom);
+}
+
+function zoomOutMap() {
+    var zoom = map.getZoom() - 1;
+    map.setZoom(zoom);
 }
 
 function sendLocationData(latitude, longitude) {
@@ -195,7 +244,6 @@ function sendLocationData(latitude, longitude) {
         latitude: latitude,
         longitude: longitude
     };
-
     $.ajax({
         type: "GET",
         url: "/map/nearby",
@@ -213,10 +261,7 @@ function sendLocationData(latitude, longitude) {
 
                     if (markerLat === parseFloat(latitude) &&
                         markerLng === parseFloat(longitude)) {
-                        marker.setIcon({
-                            content: "<div style='width: 16px; height: 16px; background-color: red; border-radius: 50%;'></div>",
-                            anchor: new naver.maps.Point(8, 8)
-                        });
+                        marker.setIcon(nearbyIcon);
                         break;
                     }
                 }
@@ -226,4 +271,36 @@ function sendLocationData(latitude, longitude) {
             console.error("위치 데이터 전송 중 오류 발생:", error);
         }
     });
+
+}
+function resetShowPath() {
+    if (polyline) {
+        polyline.setMap(null); // 기존에 출력한 polyline을 지도에서 제거
+        polyline = null;
+    }
+
+    for (var i = 0; i < markers.length; i++) {
+        var marker = markers[i];
+        if (marker.getIcon()===destinationIcon) {
+            marker.setIcon(nearbyIcon);
+        }
+    }
+}
+
+
+function changeDestinationMarker(endLat, endLng) {
+    for (var i = 0; i < markers.length; i++) {
+        var marker = markers[i];
+        var markerPosition = marker.getPosition();
+        var markerLat = markerPosition.lat();
+        var markerLng = markerPosition.lng();
+
+        if (markerLat === parseFloat(endLat) && markerLng === parseFloat(endLng)) {
+            marker.setIcon(destinationIcon);
+        }
+    }
+}
+
+function gotoHome() {
+    window.location.href = "/map";
 }
