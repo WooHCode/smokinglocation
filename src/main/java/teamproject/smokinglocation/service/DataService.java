@@ -501,7 +501,7 @@ public class DataService<T> {
                     }
 
                 } else {
-                    System.out.println("Geocoding API request failed. Status code: " + response.statusCode());
+                    log.info("Geocoding API request failed. Status code = {}", response.statusCode());
                 }
 
             } catch (IOException | InterruptedException e) {
@@ -517,9 +517,6 @@ public class DataService<T> {
         for (JsonElement elt : result) {
             JsonObject jsonObject = JsonParser.parseString(elt.toString()).getAsJsonObject();
             String[] res = new String[2];
-
-            System.out.println("jsonObject.get(\"lat\") = " + jsonObject.get("lat"));
-            System.out.println("jsonObject.get(\"lng\") = " + jsonObject.get("lng"));
 
             if (jsonObject.get("lat").toString().equals("null")) {
                 res[0] = "null";

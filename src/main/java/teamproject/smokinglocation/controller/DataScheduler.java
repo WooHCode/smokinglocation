@@ -42,9 +42,9 @@ public class DataScheduler {
         log.info("==============newDatafetch================");
         for (int i = 0; i < UrlData.values().length; i++) {
             UrlData urlData = UrlData.values()[i];
-            System.out.println("urlData = " + urlData.getNumber());
+            log.info("urlData = {}", urlData.getNumber());
             UuidData uuidData = UuidData.values()[i];
-            System.out.println("uuidData = " + uuidData.getUuid());
+            log.info("uuidData = {}", uuidData.getUuid());
             FacilityData<?> data;
             switch (urlData){
                 case DONGJAK:
