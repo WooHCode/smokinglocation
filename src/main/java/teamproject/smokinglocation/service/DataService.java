@@ -42,7 +42,7 @@ public class DataService<T> {
             try {
                 for (String[] latLngRe : latLngRes) {
                     for (String latLngResp : latLngRe) {
-                        log.info("LatLngResponse = {}",latLngResp);
+                        log.info("LatLngResponse= {}",latLngResp);
                     }
                 }
             } catch (NullPointerException e) {
