@@ -24,3 +24,5 @@ echo "> JAR Name: $JAR_NAME"
 JAVA=/usr/lib/jvm/java-11-amazon-corretto.x86_64/bin/java
 
 nohup $JAVA -jar $REPOSITORY/$JAR_NAME &
+
+echo "> finish"
