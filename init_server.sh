@@ -8,3 +8,4 @@ echo "> 기존 pid 확인"
         sleep 10
         fi
         echo "> smokinglocation 배포"
+        echo "> test"
