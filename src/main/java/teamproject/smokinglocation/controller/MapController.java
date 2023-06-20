@@ -31,6 +31,21 @@ public class MapController {
     private static String myLatitude = "";
     private static String myLongitude = "";
 
+    @GetMapping("/")
+    public String home(Model model) {
+        List<TotalData> totalData = responseService.getTotalData();
+        if (!myLatitude.equals("") && !myLongitude.equals("")) {
+            model.addAttribute("myLatitude", myLatitude);
+            model.addAttribute("myLongitude",myLongitude);
+        }
+        log.info("===========totalDataLoading===========");
+        log.info("totalData = {}", totalData);
+        log.info("===========totalDataLoadingFinish============");
+        model.addAttribute("facilities", totalData);
+        model.addAttribute("naverMapClientId", naverMapClientId);
+
+        return "map";
+    }
 
     @GetMapping("/map")
     public String showMap(Model model) {
