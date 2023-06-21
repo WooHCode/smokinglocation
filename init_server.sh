@@ -1,12 +1,10 @@
-REPOSITORY=build/libs
+REPOSITORY=smok/build/libs
 
 echo "> cd $REPOSITORY"
 cd $REPOSITORY
 
 echo "> Finding the currently running app's PID"
-
 CURRENT_PID=$(pgrep -f smoking)
-
 echo "$CURRENT_PID"
 
 if [ -z $CURRENT_PID ]; then
@@ -19,7 +17,7 @@ fi
 
 echo "> Deploying the new app"
 
-echo "> nohup java -jar smokinglocation-0.0.1-SNAPSHOT.jar 2>1 &"
-nohup java -jar smokinglocation-0.0.1-SNAPSHOT.jar 2>1 &
+echo "> nohup java -jar smokinglocation-0.0.1-SNAPSHOT.jar > /dev/null 2>&1 &"
+nohup java -jar smokinglocation-0.0.1-SNAPSHOT.jar > /dev/null 2>&1 &
 
 echo "> finish"
