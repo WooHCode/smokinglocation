@@ -144,6 +144,7 @@ function getCurrentPos(isClick) {
                 function (error) {
                     // 위치 정보를 가져오는 데 실패했을 때 처리할 로직
                     console.error("위치 정보를 가져오는 데 실패했습니다.", error);
+                    gotoHome();
                 }
             );
         } else {
