@@ -1,4 +1,4 @@
-REPOSITORY=smok/build/libs
+REPOSITORY=build/libs
 
 echo "> cd $REPOSITORY"
 cd $REPOSITORY
