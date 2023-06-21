@@ -1,23 +1,22 @@
-REPOSITORY=build/libs
+REPOSITORY=/home/ec2-user/smok/build/libs
+echo "> 현재 구동중인 애플리케이션 pid 확인"
 
-echo "> cd $REPOSITORY"
-cd $REPOSITORY
-
-echo "> Finding the currently running app's PID"
 CURRENT_PID=$(pgrep -f smoking)
+
 echo "$CURRENT_PID"
 
 if [ -z $CURRENT_PID ]; then
-    echo "> No running app."
+    echo "> 현재 구동중인 애플리케이션이 없으므로 종료하지 않습니다."
 else
-    echo "> kill -9 $CURRENT_PID"
-    kill -9 $CURRENT_PID
-    sleep 3
+    echo "> kill -15 $CURRENT_PID"
+    kill -15 $CURRENT_PID
+    sleep 5
 fi
 
-echo "> Deploying the new app"
+echo "> 새 어플리케이션 배포"
 
-echo "> nohup java -jar smokinglocation-0.0.1-SNAPSHOT.jar > /dev/null 2>&1 &"
-nohup java -jar smokinglocation-0.0.1-SNAPSHOT.jar > /dev/null 2>&1 &
+JAR_NAME=$(ls $REPOSITORY/ |grep 'smoking' | tail -n 1)
 
-echo "> finish"
+echo "> JAR Name: $JAR_NAME"
+
+nohup java -jar $REPOSITORY/$JAR_NAME &
