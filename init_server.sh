@@ -22,4 +22,4 @@ JAR_NAME=$(ls $REPOSITORY/ | grep 'smoking' | tail -n 1)
 
 echo "> JAR Name: $JAR_NAME"
 
-sudo nohup java -jar $REPOSITORY/$JAR_NAME > /home/ec2-user/smok/deploy/nohup.out 2>&1 &
+nohup java -jar $REPOSITORY/$JAR_NAME > /home/ec2-user/smok/deploy/nohup.out 2>&1 &
