@@ -18,9 +18,8 @@ fi
 
 echo "> 새 어플리케이션 배포"
 
-JAR_NAME=$(ls $REPOSITORY/ |grep 'smoking' | tail -n 1)
+JAR_NAME=$(ls $REPOSITORY/ | grep 'smoking' | tail -n 1)
 
 echo "> JAR Name: $JAR_NAME"
 
-sudo nohup java -jar $REPOSITORY/$JAR_NAME > /dev/null 2>&1 &
-
+sudo nohup java -jar $REPOSITORY/$JAR_NAME > /deploy/nohup.out 2>&1 &
