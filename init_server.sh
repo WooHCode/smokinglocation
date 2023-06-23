@@ -1,6 +1,7 @@
 REPOSITORY=/home/ec2-user/smok/build/libs
+cd build/libs/
 
-echo "> 현재 위치  : $REPOSITORY"
+echo "> jar 위치  : $REPOSITORY"
 echo "> 현재 구동중인 애플리케이션 pid 확인"
 
 CURRENT_PID=$(pgrep -f jar)
