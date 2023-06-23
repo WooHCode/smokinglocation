@@ -20,4 +20,3 @@ JAR_NAME=$(ls $REPOSITORY/ |grep 'smoking' | tail -n 1)
 echo "> JAR Name: $JAR_NAME"
 
 nohup java -jar $REPOSITORY/$JAR_NAME &
-
