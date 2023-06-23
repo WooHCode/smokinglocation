@@ -1,4 +1,6 @@
 REPOSITORY=/home/ec2-user/smok/build/libs
+
+echo "> 현재 위치  : $REPOSITORY"
 echo "> 현재 구동중인 애플리케이션 pid 확인"
 
 CURRENT_PID=$(pgrep -f smoking)
@@ -20,3 +22,5 @@ JAR_NAME=$(ls $REPOSITORY/ |grep 'smoking' | tail -n 1)
 echo "> JAR Name: $JAR_NAME"
 
 nohup java -jar $REPOSITORY/$JAR_NAME &
+
+nohup command > /dev/null 2>&1 &
