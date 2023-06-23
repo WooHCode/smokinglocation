@@ -23,7 +23,7 @@ var map = null;
 var markers = [];
 window.onload = function () {
     if (location.protocol !== 'http:' && location.protocol !== 'https:') {
-        location.href = 'https://' + location.href;
+        location.href = 'http://' + location.href;
     }
     loadNaverMap(0,0);
     getCurrentPos(false);
