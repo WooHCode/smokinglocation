@@ -34,9 +34,6 @@ public class DataScheduler {
      */
     @Scheduled(cron = "* * 4 15 * *")
     public void monthlyDataFetch() {
-        //캐시 데이터 삭제
-        log.info("==============cacheDataDelete================");
-        responseService.deleteTotalDataCache();
         log.info("==============OldDataDelete================");
         scheduleDataService.deleteOldData();
         log.info("==============newDatafetch================");
@@ -88,6 +85,9 @@ public class DataScheduler {
         log.info("===============TotalDataSave==============");
         totalDataService.setTotalData();
         log.info("==============NewDataSave================");
+        //캐시 데이터 삭제
+        log.info("==============cacheDataDelete================");
+        responseService.deleteTotalDataCache();
         //캐시 데이터 저장
         log.info("==============cacheDataSave================");
         responseService.getTotalData();

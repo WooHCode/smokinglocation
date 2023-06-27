@@ -1,0 +1,88 @@
+nav{
+    font-size: 12pt;
+    font-family: 'PT Sans', Arial, Sans-serif;
+    position: relative;
+}
+nav ul {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end; /* 항목들을 오른쪽 끝으로 정렬합니다 */
+}
+nav li {
+    display: inline-block;
+    margin-left: 10px; /* 항목들 간의 간격을 설정합니다 */
+}
+nav a{
+    line-height: 50px;
+    height: 50px;
+}
+nav li a{
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    margin-right: 30px;
+}
+nav li:last-child a{
+    border-right: 0;
+}
+nav a:hover, nav a:active{
+}
+nav a#pull{
+    display: none;
+}
+html {
+    -webkit-touch-callout:none;
+    -webkit-user-select:none;
+    -webkit-tap-highlight-color:rgba(0, 0, 0, 0);
+}
+
+ul{
+    /*list-style-type: none;*/
+    margin: 0;
+    padding: 0;
+    background-color: #86c0f8;
+    text-align: end;
+}
+li{
+    /*position: relative;*/
+    display: inline-block;
+}
+li a{
+    color: #FFFFFF;
+    text-align: center;
+    padding: 14.5px 16px;
+    text-decoration: none;
+}
+li a:hover{
+    /*color: #597812;*/
+    color: #FFD400;
+    font-weight:normal;
+}
+.menu {
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    max-width: 100%;
+    background-position: center;
+    background-size: cover;
+    background-color: #86c0f8;color: white;
+    position: fixed; /* 위치를 고정하여 화면 상단에 고정시킵니다 */
+    top: 0; /* 상단으로 정렬될 수 있도록 top 값을 0으로 설정합니다 */
+    left: 0; /* 좌측 정렬을 위해 left 값을 0으로 설정합니다 */
+    z-index: 9999;
+}
+
+nav li.home-li {
+    text-align: center;
+    flex: 1;
+    font-size: 30px;
+}
+
+nav li.home-li a {
+    display: inline-block;
+    text-align: center;
+    margin-left: 550px;
+    margin-bottom: 10px;
+}

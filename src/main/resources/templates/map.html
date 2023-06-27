@@ -6,6 +6,8 @@
     <meta name="description" content="서울시 흡연구역 지도입니다.">
     <title>서울시 흡연구역 지도</title>
     <link rel="stylesheet" href="/css/map.css">
+    <link rel="stylesheet" href="/css/popup.css">
+    <link rel="stylesheet" href="/css/menu.css">
     <script type="text/javascript"
             th:src="@{'//openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=' + ${naverMapClientId} + '&submodules=geocoder'}"
             defer></script>
@@ -16,34 +18,55 @@
     </script>
 </head>
 <body>
-<div class="pageTitle">
-    <h1 class="myTitle" onclick="gotoHome()">서울시 흡연구역</h1>
+<div class="menu" >
+    <nav class="clearfix">
+        <ul class="clearfix">
+            <li class="home-li"><a onclick="gotoHome()">서울시 흡연구역</a></li> <!--""<-여기 부분에 URL 작성하면 됨-->
+            <li><div class="selectContainer">
+                <select class="selectGu">
+                    <option>전체</option>
+                    <option>강남</option>
+                    <option>강북</option>
+                    <option>강서</option>
+                    <option>관악</option>
+                    <option>광진</option>
+                    <option>구로</option>
+                    <option>노원</option>
+                    <option>동대문</option>
+                    <option>동작</option>
+                    <option>서대문</option>
+                    <option>서초</option>
+                    <option>성동</option>
+                    <option>성북</option>
+                    <option>송파</option>
+                    <option>양천</option>
+                    <option>영등포</option>
+                    <option>용산</option>
+                    <option>종로</option>
+                    <option>중구</option>
+                    <option>중랑</option>
+                </select>
+            </div></li>
+            <li><a href="http://www._____.com/Project">고객센터</a></li>
+            <li><a onclick="openPopup()">회원가입</a></li>
+            <li><a href="http://www._____.com/Contact">로그인</a></li>
+        </ul>
+        <a id="pull" href="#"></a>
+    </nav>
 </div>
 <div id="loading"><img id="loading-image" src="/image/loading.gif" alt="Loading..." /></div>
-<div class="selectContainer">
-    <select class="selectGu">
-        <option>전체</option>
-        <option>강남</option>
-        <option>강북</option>
-        <option>강서</option>
-        <option>관악</option>
-        <option>광진</option>
-        <option>구로</option>
-        <option>노원</option>
-        <option>동대문</option>
-        <option>동작</option>
-        <option>서대문</option>
-        <option>서초</option>
-        <option>성동</option>
-        <option>성북</option>
-        <option>송파</option>
-        <option>양천</option>
-        <option>영등포</option>
-        <option>용산</option>
-        <option>종로</option>
-        <option>중구</option>
-        <option>중랑</option>
-    </select>
+
+<div id="popup" class="popup-overlay">
+    <div class="popup-content">
+        <span class="close-btn" onclick="closePopup()">&times;</span>
+        <h2>회원가입</h2>
+        <form>
+            <input type="text" placeholder="이름">
+            <input type="email" placeholder="이메일">
+            <input type="password" placeholder="비밀번호">
+            <input type="submit" value="가입">
+        </form>
+    </div>
 </div>
 <div id="map"></div>
 <div class="sidebar-container">
@@ -70,6 +93,19 @@
         <button class="drag-button">● ● ●</button>
     </div>
 </div>
+<script>
+    function openPopup() {
+        var popup = document.getElementById("popup");
+        popup.style.visibility = "visible";
+        popup.style.opacity = "1";
+    }
+
+    function closePopup() {
+        var popup = document.getElementById("popup");
+        popup.style.visibility = "hidden";
+        popup.style.opacity = "0";
+    }
+</script>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="/map.js"></script>

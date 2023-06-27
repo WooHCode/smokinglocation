@@ -17,7 +17,8 @@
     z-index: 100; }
 #map {
     width: 100%;
-    height: 500px;
+    height: 700px;
+    z-index: 1;
 }
 .selectContainer{
     display: flex;
@@ -25,8 +26,8 @@
     align-items: end;
 }
 .selectGu {
+    margin-top: 10px;
     text-align: center;
-    margin-bottom: 20px;
     width: 200px; /* 원하는 너비설정 */
     padding: .8em .5em; /* 여백으로 높이 설정 */
     font-family: inherit; /* 폰트 상속 */
@@ -54,8 +55,8 @@ button {
 
 .sidebar-container {
     border-radius: 4px;
-    z-index: 9999;
-    margin-right: 50px;
+    z-index: 9900;
+    margin-right: 30px;
     position: fixed;
     top: 50%;
     right: 0;
