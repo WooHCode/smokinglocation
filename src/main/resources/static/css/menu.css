@@ -6,7 +6,7 @@ nav {
 
 nav ul {
     padding: 0;
-    margin: 0;
+    margin-top: 10px;
     width: 100%;
     display: flex;
     justify-content: flex-end;
@@ -15,7 +15,6 @@ nav ul {
 
 nav li {
     display: inline-block;
-    margin-left: 10px;
     white-space: nowrap; /* 글자가 넘칠 경우 줄바꿈 방지 */
 }
 
@@ -97,5 +96,5 @@ nav li.home-li a {
     display: inline-block;
     text-align: center;
     margin-left: 550px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }

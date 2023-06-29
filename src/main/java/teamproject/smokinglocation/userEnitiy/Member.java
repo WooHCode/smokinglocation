@@ -3,7 +3,6 @@ package teamproject.smokinglocation.userEnitiy;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +19,13 @@ import java.util.stream.Collectors;
 public class Member implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @Column(nullable = false)
     private String memberId;
+
+    @Column(nullable = false)
+    private String memberName;
 
     @Column(nullable = false)
     private String password;
@@ -33,6 +38,13 @@ public class Member implements UserDetails {
 
     }
 
+    @Builder
+    public void toEntity(String memberId, String memberName, String password, List<String> roles) {
+        this.memberId = memberId;
+        this.memberName = memberName;
+        this.password = password;
+        this.roles = roles;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
