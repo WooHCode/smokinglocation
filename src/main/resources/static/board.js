@@ -42,6 +42,3 @@ function board() {
         }
     });
 }
-$("#board-form").submit(function (event) {
-
-}

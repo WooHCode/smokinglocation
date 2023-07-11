@@ -141,7 +141,6 @@ $("#login-form").submit(function (event) {
 
 function funLogout() {
     var accessToken = localStorage.getItem("at");
-    console.log(accessToken);
     $.ajax({
         url: "/loggout",
         type: "POST",
