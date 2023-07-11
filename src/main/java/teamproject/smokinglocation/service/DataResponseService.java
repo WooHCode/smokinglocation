@@ -7,6 +7,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.smokinglocation.entity.*;
@@ -30,6 +31,7 @@ public class DataResponseService {
     public List<TotalData> getTotalData() {
        return dataRepository.findAll();
     }
+
     @CacheEvict("totalDataCache")
     public void deleteTotalDataCache() {
         Cache cache = cacheManager.getCache("totalDataCache");

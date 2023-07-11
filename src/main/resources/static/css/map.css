@@ -17,7 +17,8 @@
     z-index: 100; }
 #map {
     width: 100%;
-    height: 500px;
+    height: 700px;
+    z-index: 1;
 }
 .selectContainer{
     display: flex;
@@ -25,19 +26,21 @@
     align-items: end;
 }
 .selectGu {
+    margin-top: 10px;
+    margin-right: 5px;
     text-align: center;
-    margin-bottom: 20px;
     width: 200px; /* 원하는 너비설정 */
     padding: .8em .5em; /* 여백으로 높이 설정 */
     font-family: inherit; /* 폰트 상속 */
-    background: url(https://farm1.staticflickr.com/379/19928272501_4ef877c265_t.jpg) no-repeat 95% 50%; /* 네이티브 화살표 대체 */
-    border: 1px solid #999;
+    /* 네이티브 화살표 대체 */
+    background: #fdfdfd url(../image/selectbox-direction.png) no-repeat 95% 50%;
+    border: 3px solid #f9e001;
     border-radius: 0px; /* iOS 둥근모서리 제거 */
     -webkit-appearance: none; /* 네이티브 외형 감추기 */
     -moz-appearance: none;
     appearance: none;
+    color: #000000;
 }
-
 .button-container {
     display: inline-block;
 }
@@ -54,8 +57,8 @@ button {
 
 .sidebar-container {
     border-radius: 4px;
-    z-index: 9999;
-    margin-right: 50px;
+    z-index: 9900;
+    margin-right: 30px;
     position: fixed;
     top: 50%;
     right: 0;
@@ -80,7 +83,7 @@ button {
     font-family: Arial, sans-serif;
     font-size: 5px;
     color: #fff;
-    background-color: #86c0f8;
+    background-color: #ffea61;
     border: none;
     border-radius: 4px;
     padding: 8px 12px;
@@ -88,15 +91,15 @@ button {
     height: 50px;
 }
 .sidebar-content button:hover {
-    background-color: #3393fc;
+    background-color: #f9e001;
 }
 
 .sidebar-content button.hoverable:hover {
-    background-color: #3393fc;
+    background-color: #f9e001;
 }
 
 .sidebar-content button.clicked {
-    background-color: #3393fc;
+    background-color: #f9e001;
 }
 .drag-button {
     cursor: move;
