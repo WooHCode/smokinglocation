@@ -1,0 +1,13 @@
+<div id="popup" class="popup-overlay">
+  <div class="popup-content">
+    <span class="close-btn" onclick="closePopup()">&times;</span>
+    <h2>회원가입</h2>
+    <form id="register-form">
+      <input type="text" id="name" placeholder="이름">
+      <a id="check-email"> </a>
+      <input type="email" id="emailInput" placeholder="아이디(이메일)" oninput="checkEmailIdDuplicate()">
+      <input type="password" id="password"  placeholder="비밀번호">
+      <input type="submit" value="가입">
+    </form>
+  </div>
+</div>

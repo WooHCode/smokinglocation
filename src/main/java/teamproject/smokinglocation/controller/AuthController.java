@@ -2,10 +2,13 @@ package teamproject.smokinglocation.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import teamproject.smokinglocation.common.TokenInfo;
 import teamproject.smokinglocation.dto.memberDto.MemberLoginRequestDto;
 import teamproject.smokinglocation.dto.memberDto.MemberRegisterRequestDto;
+import teamproject.smokinglocation.dto.tokenDto.MemberLogoutRequestDto;
 import teamproject.smokinglocation.service.MemberService;
 
 import java.util.List;
@@ -13,7 +16,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public class TestController {
+public class AuthController {
     private final MemberService memberService;
 
     @GetMapping("/check-email")
@@ -36,6 +39,9 @@ public class TestController {
         String name = dto.getName();
         String password = dto.getPassword();
         String email = dto.getEmail();
+        if (!email.contains("@")) {
+            return "아이디를 이메일 형식으로 작성해주세요.";
+        }
         boolean registerSuccess = memberService.register(email, name, password);
         if (registerSuccess) {
             memberService.deleteTotalMemberIdCache();
@@ -45,16 +51,21 @@ public class TestController {
     }
 
     @PostMapping("/login")
-    public TokenInfo login(@RequestBody MemberLoginRequestDto dto) {
-        String memberId = dto.getMemberId();
+    public ResponseEntity<?> login(@RequestBody MemberLoginRequestDto dto) {
+        log.info("===========login process start===========");
+        String memberId = dto.getEmail();
         String password = dto.getPassword();
-
+        log.info("===========login success==============");
         TokenInfo tokenInfo = memberService.login(memberId, password);
-        return tokenInfo;
+        return new ResponseEntity<>(tokenInfo, HttpStatus.OK);
     }
 
-    @PostMapping("/test")
-    public String test() {
-        return "success";
+    @PostMapping("/loggout")
+    public ResponseEntity<?> logout(@RequestBody MemberLogoutRequestDto dto) {
+        log.info("=========member logout process=============");
+        String accessToken = dto.getAccessToken();
+        String memberName = memberService.logout(accessToken);
+        log.info("member {} is logged out",memberName);
+        return new ResponseEntity<>(memberName, HttpStatus.OK);
     }
 }

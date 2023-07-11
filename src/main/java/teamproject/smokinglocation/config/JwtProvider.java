@@ -5,6 +5,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,32 +26,43 @@ import java.util.stream.Collectors;
 public class JwtProvider {
     private final Key key;
 
-    public JwtProvider(@Value("${jwt.security}") String secretKey) {
+    private long now = (new Date()).getTime();
+    private final long accessTokenExpirationMs;
+    private final long refreshTokenExpirationMs;
+
+    public JwtProvider(@Value("${jwt.security}") String secretKey,
+                       @Value("${jwt.accessTokenExpirationMs}") long accessTokenExpirationMs,
+                       @Value("${jwt.refreshTokenExpirationMs}") long refreshTokenExpirationMs) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
+        this.accessTokenExpirationMs = accessTokenExpirationMs;
+        this.refreshTokenExpirationMs = refreshTokenExpirationMs;
     }
 
     public TokenInfo generateToken(Authentication authentication) {
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
+        String memberId = authentication.getName();
 
-        long now = (new Date()).getTime();
 
-        Date accessTokenExpiresIn = new Date(now + 1000 * 60);
+        Date accessTokenExpiresIn = new Date(System.currentTimeMillis() + accessTokenExpirationMs);
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim("auth", authorities)
+                .claim("memberId", memberId)
                 .setExpiration(accessTokenExpiresIn)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
+        Date refreshTokenExpiresIn = new Date(System.currentTimeMillis() + refreshTokenExpirationMs);
         String refreshToken = Jwts.builder()
-                .setExpiration(new Date(now + 1000 * 60 * 60))
+                .setExpiration(refreshTokenExpiresIn)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
         return TokenInfo.builder()
+                .status(HttpStatus.OK)
                 .grantType("Bearer")
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
@@ -94,6 +106,24 @@ public class JwtProvider {
             return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
         } catch (ExpiredJwtException e) {
             return e.getClaims();
+        }
+    }
+
+    public String getMemberId(String accessToken) {
+        Authentication authentication = getAuthentication(accessToken);
+       return authentication.getName();
+
+    }
+
+    public boolean validateExpiredToken(String accessToken) {
+        try {
+            Claims claims = parseClaims(accessToken);
+            Date expiration = claims.getExpiration();
+            return expiration !=null && expiration.before(new Date());
+        } catch (ExpiredJwtException e) {
+            return true;
+        } catch (Exception e) {
+            return false;
         }
     }
 }

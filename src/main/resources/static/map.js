@@ -5,6 +5,7 @@ var pathFound = false;
 var map = null;
 var polyline;
 
+
 var nearbyIconUrl = '/image/location-icon-sign.png';
 var nearbyIcon ={
     url: nearbyIconUrl,

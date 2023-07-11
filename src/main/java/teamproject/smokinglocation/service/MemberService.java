@@ -1,9 +1,8 @@
 package teamproject.smokinglocation.service;
 
+import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.Role;
-import org.apache.catalina.UserDatabase;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.smokinglocation.common.TokenInfo;
 import teamproject.smokinglocation.config.JwtProvider;
+import teamproject.smokinglocation.dto.tokenDto.TokenRequestDto;
 import teamproject.smokinglocation.repository.MemberRepository;
 import teamproject.smokinglocation.userEnitiy.Member;
 
@@ -58,12 +58,42 @@ public class MemberService {
 
     @Transactional
     public TokenInfo login(String memberId, String password) {
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(memberId,password);
-
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        Authentication authentication = getAuthentication(memberId, password);
 
         TokenInfo tokenInfo = jwtProvider.generateToken(authentication);
+        memberRepository.updateRefreshToken(tokenInfo.getRefreshToken(), memberId);
 
         return tokenInfo;
+    }
+
+    @Transactional
+    public TokenInfo reissue(String accessToken) {
+        String memberId = jwtProvider.getMemberId(accessToken);
+        String refreshToken = memberRepository.findRefreshToken(memberId);
+        String password = memberRepository.findPasswordByMemberId(memberId);
+
+        if (refreshToken != null && !refreshToken.isEmpty()) {
+            Authentication authenticated = getAuthentication(memberId, password);
+            TokenInfo tokenInfo = jwtProvider.generateToken(authenticated);
+            String regenRefreshToken = tokenInfo.getRefreshToken();
+            log.info("new refreshToken: {}", regenRefreshToken);
+            memberRepository.updateRefreshToken(regenRefreshToken,memberId);
+            return tokenInfo;
+        }
+        return null;
+    }
+
+    @Transactional
+    public String logout(String accessToken) {
+        String memberId = jwtProvider.getMemberId(accessToken);
+        memberRepository.updateRefreshToken(null, memberId);
+        String memberName = memberRepository.findMemberNameByMemberId(memberId);
+        return memberName;
+    }
+
+    private Authentication getAuthentication(String memberId, String password) {
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(memberId, password);
+        Authentication authenticated = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        return authenticated;
     }
 }

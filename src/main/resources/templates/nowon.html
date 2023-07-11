@@ -2,8 +2,12 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>서울시 흡연구역</title>
+    <meta name="keywords" content="서울시, 서울시 흡연구역, 흡연구역">
+    <meta name="description" content="서울시 흡연구역 지도입니다.">
+    <title>서울시 흡연구역 지도</title>
     <link rel="stylesheet" href="/css/map.css">
+    <link rel="stylesheet" href="/css/popup.css">
+    <link rel="stylesheet" href="/css/menu.css">
     <script type="text/javascript"
             th:src="@{'//openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=' + ${naverMapClientId} + '&submodules=geocoder'}"
             defer></script>
@@ -12,64 +16,19 @@
     </script>
 </head>
 <body>
-<div class="pageTitle">
-    <h1 class="myTitle" onclick="gotoHome()">서울시 흡연구역</h1>
-</div>
-<div id="loading"><img id="loading-image" src="/image/loading.gif" alt="Loading..." /></div>
-<div class="selectContainer">
-    <select class="selectGu">
-        <option>전체</option>
-        <option>강남</option>
-        <option>강북</option>
-        <option>강서</option>
-        <option>관악</option>
-        <option>광진</option>
-        <option>구로</option>
-        <option selected>노원</option>
-        <option>동대문</option>
-        <option>동작</option>
-        <option>서대문</option>
-        <option>서초</option>
-        <option>성동</option>
-        <option>성북</option>
-        <option>송파</option>
-        <option>양천</option>
-        <option>영등포</option>
-        <option>용산</option>
-        <option>종로</option>
-        <option>중구</option>
-        <option>중랑</option>
-    </select>
-</div>
+<div th:replace="/body/menu.html::#menu"></div>
+<div th:replace="/body/menu.html::#loading"></div>
+<div th:replace="/body/registerPopup.html::#popup"></div>
+<div th:replace="/body/loginPopup.html::#loginPopup"></div>
 <div id="map"></div>
-<div class="sidebar-container">
-    <div class="sidebar-content">
-        <div class="button-container">
-            <button title="현재위치" onclick="getCurrentPos(true)">
-                <img src="/image/maps-and-flags.png">
-            </button>
-        </div>
-        <button id="getPath" title="길찾기" onclick="readyGetPath(true)">
-            <img src="/image/direction.png">
-        </button>
-        <div class="button-container">
-            <button title="확대" onclick="zoomInMap()">
-                <img src="/image/add.png">
-            </button>
-        </div>
-        <div class="button-container">
-            <button title="축소" onclick="zoomOutMap()">
-                <img src="/image/minus-square-outlined-button.png">
-            </button>
-        </div>
-        <hr>
-        <button class="drag-button">● ● ●</button>
-    </div>
-</div>
+<div id="board"></div>
+<div th:replace="/body/sidebar.html::#sidebar-container"></div>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="/map.js"></script>
 <script src="/selectScript.js"></script>
 <script src="/sidebar.js"></script>
+<script src="/login.js"></script>
+<script src="/board.js"></script>
 </body>
 </html>

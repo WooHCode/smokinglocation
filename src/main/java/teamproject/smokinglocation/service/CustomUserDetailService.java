@@ -1,6 +1,7 @@
 package teamproject.smokinglocation.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,6 +16,7 @@ import teamproject.smokinglocation.userEnitiy.Member;
 public class CustomUserDetailService implements UserDetailsService {
     private  final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return memberRepository.findByMemberId(username)

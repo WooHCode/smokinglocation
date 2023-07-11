@@ -11,12 +11,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import teamproject.smokinglocation.filter.JwtAuthenticationFilter;
+import teamproject.smokinglocation.service.MemberService;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtProvider jwtProvider;
+    private final MemberService memberService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -28,11 +30,11 @@ public class SecurityConfig {
                 .headers().frameOptions().sameOrigin().and()
                 .authorizeRequests()
 /*                .antMatchers("/**").permitAll()*/
-                .antMatchers("/test").hasRole("USER")
+                .antMatchers("/board").hasRole("USER")
                 .anyRequest().permitAll()
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class);
-        return http.build();
+                .addFilterBefore(new JwtAuthenticationFilter(jwtProvider,memberService), UsernamePasswordAuthenticationFilter.class);
+                return http.build();
     }
 
     @Bean

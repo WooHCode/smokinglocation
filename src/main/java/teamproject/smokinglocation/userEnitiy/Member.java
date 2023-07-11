@@ -3,11 +3,14 @@ package teamproject.smokinglocation.userEnitiy;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -16,7 +19,7 @@ import java.util.stream.Collectors;
 @Entity
 @AllArgsConstructor
 @Getter
-public class Member implements UserDetails {
+public class Member extends BaseTime implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -29,6 +32,8 @@ public class Member implements UserDetails {
 
     @Column(nullable = false)
     private String password;
+
+    private String refreshToken;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default

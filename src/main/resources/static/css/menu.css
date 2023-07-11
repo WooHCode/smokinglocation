@@ -51,7 +51,7 @@ html {
 ul {
     margin: 0;
     padding: 0;
-    background-color: #86c0f8;
+    background-color: #ffffff;
     text-align: end;
 }
 
@@ -60,14 +60,13 @@ li {
 }
 
 li a {
-    color: #FFFFFF;
+    color: #000000;
     text-align: center;
     padding: 14.5px 16px;
     text-decoration: none;
 }
-
 li a:hover {
-    color: #FFD400;
+    color: #f9e001;
     font-weight: normal;
 }
 
@@ -78,12 +77,12 @@ li a:hover {
     max-width: 100%;
     background-position: center;
     background-size: cover;
-    background-color: #86c0f8;
-    color: white;
+    background-color: #FFFFFF;
+    color: #000000;
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 9999;
+    z-index: 9997;
 }
 
 nav li.home-li {
