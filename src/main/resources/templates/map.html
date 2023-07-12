@@ -18,13 +18,13 @@
     </script>
 </head>
 <body>
-<div th:replace="menu.html::#menu"></div>
-<div th:replace="menu.html::#loading"></div>
-<div th:replace="registerPopup.html::#popup"></div>
-<div th:replace="loginPopup.html::#loginPopup"></div>
+<div th:replace="body/menu.html::#menu"></div>
+<div th:replace="body/menu.html::#loading"></div>
+<div th:replace="body/registerPopup.html::#popup"></div>
+<div th:replace="body/loginPopup.html::#loginPopup"></div>
 <div id="map"></div>
 <div id="board"></div>
-<div th:replace="sidebar.html::#sidebar-container"></div>
+<div th:replace="body/sidebar.html::#sidebar-container"></div>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="/map.js"></script>
