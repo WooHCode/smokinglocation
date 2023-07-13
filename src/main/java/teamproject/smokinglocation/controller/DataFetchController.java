@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import teamproject.smokinglocation.dto.FacilityData;
 import teamproject.smokinglocation.service.DataService;
 
@@ -16,7 +17,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-@Controller
+@RestController
 @Slf4j
 @RequiredArgsConstructor
 public class DataFetchController {
@@ -26,8 +27,14 @@ public class DataFetchController {
     private final ObjectMapper objectMapper;
     private final DataService dataService;
 
+    /**
+     * 서울시 공공데이터포털에서 데이터를 가져오는 API, Scheduler에서 사용됨
+     * @param urlData
+     * @param uuid
+     * @return
+     * @param <T>
+     */
     @GetMapping("/get-data")
-    @ResponseBody
     public <T> FacilityData<T> fetchData(int urlData, String uuid) {
         String apiUrl = "https://api.odcloud.kr/api/" + urlData + "/v1/uddi:" + uuid +
                 "?serviceKey=" + secretKey +"&perPage=" + perPage;

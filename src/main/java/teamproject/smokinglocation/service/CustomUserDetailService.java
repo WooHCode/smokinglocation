@@ -17,6 +17,12 @@ public class CustomUserDetailService implements UserDetailsService {
     private  final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     * 회원 찾기 메서드
+     * @param username the username identifying the user whose data is required.
+     * @return
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return memberRepository.findByMemberId(username)
@@ -24,6 +30,11 @@ public class CustomUserDetailService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("해당하는 유저를 찾을 수 없습니다."));
     }
 
+    /**
+     * 유저 생성 메서드
+     * @param member
+     * @return
+     */
     private UserDetails createUserDetails(Member member) {
         return User.builder()
                 .username(member.getUsername())

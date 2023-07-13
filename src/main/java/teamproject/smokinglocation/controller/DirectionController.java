@@ -25,6 +25,16 @@ public class DirectionController {
     private final DirectionService directionService;
     private final ObjectMapper objectMapper;
 
+    /**
+     * 길찾기 경로 반환 API
+     * @param myLng
+     * @param myLat
+     * @param endLng
+     * @param endLat
+     * @param model
+     * @return
+     * @throws JsonProcessingException
+     */
     @GetMapping("/directions")
     public List<PathSpot> getDirections(
             @RequestParam("myLng") String myLng,

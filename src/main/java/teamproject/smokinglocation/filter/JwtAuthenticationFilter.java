@@ -25,11 +25,11 @@ public class JwtAuthenticationFilter extends GenericFilter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         String token = resolveAccessToken((HttpServletRequest) request);
-
+        //accessToken이 유효할경우
         if (token != null && jwtProvider.validateToken(token)) {
             Authentication authentication = jwtProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
-        } else if (jwtProvider.validateExpiredToken(token)) {
+        } else if (jwtProvider.validateExpiredToken(token)) { //만료되었을경우
             log.info("reissue token");
             TokenInfo reissueToken = memberService.reissue(token);
             Authentication authentication = jwtProvider.getAuthentication(reissueToken.getAccessToken());

@@ -67,6 +67,12 @@ public class MapController {
         return setModelFacilitiesAndNaverMap(model,gu);
     }
 
+    /**
+     * 현재 위치 주변 500m이내의 좌표들을 추출해서 반환하는 API
+     * @param latitude
+     * @param longitude
+     * @return
+     */
     @GetMapping("/map/nearby")
     @ResponseBody
     public List<NearbyLocationDto> getNearbyLocation(String latitude, String longitude) {

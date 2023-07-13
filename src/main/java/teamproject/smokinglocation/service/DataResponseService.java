@@ -27,6 +27,11 @@ public class DataResponseService {
     private final TotalDataRepository dataRepository;
     private final CacheManager cacheManager;
 
+    /**
+     * 메인화면에 전체 데이터 출력하는 메서드
+     * 자주사용되기에 캐싱하여 쿼리실행 최소화
+     * @return
+     */
     @Cacheable("totalDataCache")
     public List<TotalData> getTotalData() {
        return dataRepository.findAll();

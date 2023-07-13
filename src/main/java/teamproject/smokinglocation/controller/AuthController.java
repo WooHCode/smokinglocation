@@ -19,6 +19,11 @@ import java.util.List;
 public class AuthController {
     private final MemberService memberService;
 
+    /**
+     * 프론트에서 회원가입 시 이메일 중복체크 API
+     * @param email
+     * @return
+     */
     @GetMapping("/check-email")
     public String checkEmail(@RequestParam String email) {
         if (email.length() < 9) {
@@ -34,6 +39,11 @@ public class AuthController {
         return "사용하실 수 있는 아이디 입니다.";
     }
 
+    /**
+     * 회원가입
+     * param:  email, name, password
+     * @return
+     */
     @PostMapping("/register-member")
     public String registerMember(@RequestBody MemberRegisterRequestDto dto) {
         String name = dto.getName();
@@ -42,6 +52,7 @@ public class AuthController {
         if (!email.contains("@")) {
             return "아이디를 이메일 형식으로 작성해주세요.";
         }
+        log.info("register member: {}, {}, {}",name, password, email);
         boolean registerSuccess = memberService.register(email, name, password);
         if (registerSuccess) {
             memberService.deleteTotalMemberIdCache();
@@ -50,6 +61,12 @@ public class AuthController {
         return "success";
     }
 
+    /**
+     * 로그인 API
+     * accessToken, refreshToken 발급
+     * @param dto
+     * @return
+     */
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody MemberLoginRequestDto dto) {
         log.info("===========login process start===========");
@@ -60,6 +77,12 @@ public class AuthController {
         return new ResponseEntity<>(tokenInfo, HttpStatus.OK);
     }
 
+    /**
+     * 로그아웃
+     * 토큰 삭제
+     * @param dto
+     * @return
+     */
     @PostMapping("/loggout")
     public ResponseEntity<?> logout(@RequestBody MemberLogoutRequestDto dto) {
         log.info("=========member logout process=============");
