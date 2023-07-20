@@ -34,17 +34,14 @@ public class DataScheduler {
      */
     @Scheduled(cron = "* * 4 15 * *")
     public void monthlyDataFetch() {
-        //캐시 데이터 삭제
-        log.info("==============cacheDataDelete================");
-        responseService.deleteTotalDataCache();
         log.info("==============OldDataDelete================");
         scheduleDataService.deleteOldData();
         log.info("==============newDatafetch================");
         for (int i = 0; i < UrlData.values().length; i++) {
             UrlData urlData = UrlData.values()[i];
-            System.out.println("urlData = " + urlData.getNumber());
+            log.info("urlData = {}", urlData.getNumber());
             UuidData uuidData = UuidData.values()[i];
-            System.out.println("uuidData = " + uuidData.getUuid());
+            log.info("uuidData = {}", uuidData.getUuid());
             FacilityData<?> data;
             switch (urlData){
                 case DONGJAK:
@@ -88,6 +85,9 @@ public class DataScheduler {
         log.info("===============TotalDataSave==============");
         totalDataService.setTotalData();
         log.info("==============NewDataSave================");
+        //캐시 데이터 삭제
+        log.info("==============cacheDataDelete================");
+        responseService.deleteTotalDataCache();
         //캐시 데이터 저장
         log.info("==============cacheDataSave================");
         responseService.getTotalData();

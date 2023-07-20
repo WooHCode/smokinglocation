@@ -1,0 +1,39 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<div id="menu" class="menu">
+  <nav class="clearfix">
+    <ul class="clearfix">
+      <li class="home-li"><a onclick="gotoHome()">서울시 흡연구역</a></li> <!--""<-여기 부분에 URL 작성하면 됨-->
+      <li><div class="selectContainer">
+        <select class="selectGu">
+          <option>전체</option>
+          <option>강남</option>
+          <option>강북</option>
+          <option>강서</option>
+          <option>관악</option>
+          <option>광진</option>
+          <option>구로</option>
+          <option>노원</option>
+          <option>동대문</option>
+          <option>동작</option>
+          <option>서대문</option>
+          <option>서초</option>
+          <option>성동</option>
+          <option>성북</option>
+          <option>송파</option>
+          <option>양천</option>
+          <option>영등포</option>
+          <option>용산</option>
+          <option>종로</option>
+          <option>중구</option>
+          <option>중랑</option>
+        </select>
+      </div></li>
+      <li><a onclick="board()">고객센터</a></li>
+      <li><a onclick="openPopup()">회원가입</a></li>
+      <li id="login"><a onclick="openRegPopup()">로그인</a></li>
+      <li id="logout"><a onclick="funLogout()">로그아웃</a></li>
+    </ul>
+    <a id="pull" href="#"></a>
+  </nav>
+</div>
+<div id="loading"><img id="loading-image" src="/image/loading.gif" alt="Loading..." /></div>

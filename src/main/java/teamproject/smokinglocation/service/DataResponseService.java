@@ -7,6 +7,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.smokinglocation.entity.*;
@@ -26,10 +27,16 @@ public class DataResponseService {
     private final TotalDataRepository dataRepository;
     private final CacheManager cacheManager;
 
+    /**
+     * 메인화면에 전체 데이터 출력하는 메서드
+     * 자주사용되기에 캐싱하여 쿼리실행 최소화
+     * @return
+     */
     @Cacheable("totalDataCache")
     public List<TotalData> getTotalData() {
        return dataRepository.findAll();
     }
+
     @CacheEvict("totalDataCache")
     public void deleteTotalDataCache() {
         Cache cache = cacheManager.getCache("totalDataCache");
