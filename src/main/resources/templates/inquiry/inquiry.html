@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>문의사항</title>
+</head>
+<body style="text-align: center">
+    <div><h1>문의사항</h1></div>
+    <div>
+        <label for="title">제목 : </label>
+        <input type="text" id="title" value="test" th:value="" readonly>
+    </div>
+    <div>
+        <label for="writer">작성자 : </label>
+        <input type="text" id="writer" value="test" th:value="" readonly>
+    </div>
+    <div style="margin-top:10px">
+        <textarea id="content" value="test" th:value="" readonly>내용샘플</textarea>
+    </div>
+    <div>
+        <h2>답변 내용</h2>
+        <p>답변샘플답변샘플답변샘플답변샘플답변샘플</p>
+    </div>
+    <div>
+        <button type="button">게시판으로</button>
+        <button type="button">수정하기</button>
+        <button type="button">수정완료</button>
+        <button type="button">삭제하기</button>
+    </div>
+</body>
+</html>
