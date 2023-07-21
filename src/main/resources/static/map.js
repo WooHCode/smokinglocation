@@ -1,5 +1,6 @@
 var endLatLng = [0,0];  //경도, 위도 순서
 var myLatLng=[0,0];     //경도, 위도 순서
+var pathLatLng = []; // 경도, 위도 순서
 var getPathReady = false;   //길찾기 버튼 누르면 true (길찾기 준비상태)
 var pathFound = false;
 var map = null;
@@ -140,7 +141,7 @@ function getCurrentPos(isClick) {
                     sendLocationData(latitude, longitude);
                     myLatLng[0] = longitude;
                     myLatLng[1] = latitude;
-                    console.log("나의 위치 위도 : " + myLatLng[1] + " 경도 : " + myLatLng[0]);
+                    console.log("나의 위치 위도 : " + myLatLng[0] + " 경도 : " + myLatLng[1]);
                 },
                 function (error) {
                     // 위치 정보를 가져오는 데 실패했을 때 처리할 로직
@@ -157,16 +158,12 @@ function getCurrentPos(isClick) {
 
 function deleteCurrentMarker(myLat, myLng) {
     console.log("이전의 현재위치 마커 삭제")
-    console.log("현재위치 위도값: ", myLat)
-    console.log("현재위치 경도값: ", myLng)
     for (const marker of markers) {
         var markerPosition = marker.getPosition();
         var markerLat = markerPosition.lat();
         var markerLng = markerPosition.lng();
 
-        if (markerLat === parseFloat(myLat) && markerLng === parseFloat(myLng)) {
-            console.log("현재위치 위도값: ", markerLat)
-            console.log("현재위치 경도값: ", markerLng)
+        if (markerLat === parseFloat(myLng) && markerLng === parseFloat(myLat)) {
             marker.setMap(null);
         }
     }
@@ -183,6 +180,8 @@ function getContinuousLoc() {
                     makeMyPosition(latitude,longitude)
                     myLatLng[0] = longitude;
                     myLatLng[1] = latitude;
+                    console.log(myLatLng)
+                    onLocationUpdate(myLatLng)
                     console.log("나의 위치 위도 : " + myLatLng[1] + " 경도 : " + myLatLng[0]);
                 },
                 function (error) {
@@ -257,10 +256,10 @@ function showPath(myLatLng, endLatLng) {
         // getPolyPath(response);
         console.log("======경로찾기 시작 : getPolyPath()======")
         var polyLinePath = [];
-        console.log(response);
         for (var i = 0; i < response.length; i++) {
             var pathLat = response[i].lat;
             var pathLng = response[i].lng;
+            pathLatLng.push([pathLng,pathLat])
             polyLinePath.push(new naver.maps.LatLng(pathLat, pathLng));
         }
         console.log(polyLinePath);
@@ -353,4 +352,70 @@ function changeDestinationMarker(endLat, endLng) {
 
 function gotoHome() {
     window.location.href = "/map";
+}
+
+//----------------------------------
+
+// 현재 위치와 경로 사이의 거리를 계산하는 함수
+function getDistance(myLat, myLon, targetLat, targetLon) {
+    var R = 6371; // 지구 반경 (단위: km)
+    var dLat = deg2rad(targetLat - myLat);
+    var dLon = deg2rad(targetLon - myLon);
+    var a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(deg2rad(myLat)) * Math.cos(deg2rad(targetLat)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var distance = R * c;
+    return distance * 1000; // 단위를 m로 변환하여 반환
+}
+
+function deg2rad(deg) {
+    return deg * (Math.PI / 180);
+}
+
+// 현재 위치를 기준으로 경로를 그리고, 지나간 부분의 경로 라인을 제거하는 함수
+function drawPathAndRemovePassedLines(myLatLng) {
+    var myLat = myLatLng[1];
+    var myLng = myLatLng[0];
+    var partialPath = [];
+    var passedLineIndex = -1; // 경로 상에서 지나간 부분의 마지막 좌표 인덱스
+
+    // 현재 위치와 경로 사이의 거리를 계산하여 지나간 부분의 인덱스를 찾음
+    for (var i = 0; i < pathLatLng.length; i++) {
+        var pathLat = pathLatLng[i][1];
+        var pathLng = pathLatLng[i][0];
+
+        var distance = getDistance(myLat, myLng, pathLat, pathLng);
+        if (distance < 10) { // 예시로 10m 이내로 지나갔다고 가정
+            passedLineIndex = i;
+        }
+    }
+
+    // 경로의 좌표 중 지나간 부분 이후의 좌표만 추출하여 새로운 경로로 설정
+    if (passedLineIndex !== -1) {
+        partialPath = pathLatLng.slice(passedLineIndex + 1);
+    } else {
+        partialPath = pathLatLng.slice(); // 지나간 부분이 없을 경우 전체 경로를 그대로 사용
+    }
+
+    // 기존 경로 삭제
+    if (polyline) {
+        polyline.setMap(null);
+    }
+
+    // 지나간 부분을 제외한 경로 다시 그리기
+    polyline = new naver.maps.Polyline({
+        path: partialPath.map(coord => new naver.maps.LatLng(coord[1], coord[0])),
+        strokeColor: '#0083ea',
+        strokeOpacity: 0.7,
+        strokeWeight: 4,
+        map: map
+    });
+}
+
+// 사용자의 위치가 변경될 때마다 호출되는 함수
+function onLocationUpdate(myLatLng) {
+    console.log("경로 라인 변경")
+    drawPathAndRemovePassedLines(myLatLng);
 }
