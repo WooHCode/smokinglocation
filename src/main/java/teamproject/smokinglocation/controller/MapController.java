@@ -3,12 +3,10 @@ package teamproject.smokinglocation.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.Cache;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import teamproject.smokinglocation.dto.*;
-import teamproject.smokinglocation.dto.memberDto.MemberRegisterRequestDto;
 import teamproject.smokinglocation.entity.TotalData;
 import teamproject.smokinglocation.service.DataResponseService;
 
@@ -31,19 +29,8 @@ public class MapController {
     private static String myLongitude = "";
 
     @GetMapping("/")
-    public String home(Model model) {
-        List<TotalData> totalData = responseService.getTotalData();
-        if (!myLatitude.equals("") && !myLongitude.equals("")) {
-            model.addAttribute("myLatitude", myLatitude);
-            model.addAttribute("myLongitude",myLongitude);
-        }
-        log.info("===========totalDataLoading===========");
-        log.info("totalData = {}", totalData);
-        log.info("===========totalDataLoadingFinish============");
-        model.addAttribute("facilities", totalData);
-        model.addAttribute("naverMapClientId", naverMapClientId);
-
-        return "map";
+    public String home() {
+        return "redirect:/map";
     }
 
     @GetMapping("/map")

@@ -4,6 +4,7 @@ var getPathReady = false;   //길찾기 버튼 누르면 true (길찾기 준비�
 var pathFound = false;
 var map = null;
 var polyline;
+var isStopped = false; // 길찾기 현재위치 추적 반복(true일 시 추적)
 
 
 var nearbyIconUrl = '/image/location-icon-sign.png';
@@ -105,7 +106,6 @@ function loadNaverMap(mylat, mylon) {
 
                     if (getPathReady === true) {
                         showPath(myLatLng, endLatLng);
-
                         getPathReady = false;
                     }
                 });
@@ -155,6 +155,47 @@ function getCurrentPos(isClick) {
     }
 }
 
+function deleteCurrentMarker(myLat, myLng) {
+    console.log("이전의 현재위치 마커 삭제")
+    console.log("현재위치 위도값: ", myLat)
+    console.log("현재위치 경도값: ", myLng)
+    for (const marker of markers) {
+        var markerPosition = marker.getPosition();
+        var markerLat = markerPosition.lat();
+        var markerLng = markerPosition.lng();
+
+        if (markerLat === parseFloat(myLat) && markerLng === parseFloat(myLng)) {
+            console.log("현재위치 위도값: ", markerLat)
+            console.log("현재위치 경도값: ", markerLng)
+            marker.setMap(null);
+        }
+    }
+}
+function getContinuousLoc() {
+    deleteCurrentMarker(myLatLng[1],myLatLng[0])
+    myLatLng = [0,0];
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function (position) {
+                    // 위치 정보를 가져오는 데 성공했을 때 처리할 로직
+                    var latitude = position.coords.latitude;
+                    var longitude = position.coords.longitude;
+                    makeMyPosition(latitude,longitude)
+                    myLatLng[0] = longitude;
+                    myLatLng[1] = latitude;
+                    console.log("나의 위치 위도 : " + myLatLng[1] + " 경도 : " + myLatLng[0]);
+                },
+                function (error) {
+                    // 위치 정보를 가져오는 데 실패했을 때 처리할 로직
+                    console.error("위치 정보를 가져오는 데 실패했습니다.", error);
+                }
+            );
+        } else {
+            // 브라우저에서 위치 기능을 지원하지 않을 때 처리할 로직
+            console.error("이 브라우저는 위치 정보를 지원하지 않습니다.");
+        }
+}
+
 function readyGetPath(isClick) {
     var getPathButton = document.getElementById("getPath");
     getPathButton.classList.remove("hoverable");
@@ -167,6 +208,14 @@ function readyGetPath(isClick) {
         getPathReady = true;
         console.log("경로 찾기 준비 : 마커를 클릭하면 경로 표시");
         getPathButton.classList.add("clicked"); // 클릭한 상태에 해당하는 클래스 추가
+    }
+}
+
+function replayCurrentMarkerMaker(isStopped) {
+    if (isStopped){
+        setInterval(function () {
+            getContinuousLoc();
+        }, 5000);
     }
 }
 
@@ -188,10 +237,7 @@ function showPath(myLatLng, endLatLng) {
     myLat = myLatLng[1];
     endLng = endLatLng[0];
     endLat = endLatLng[1];
-    console.log("내 경도 : " + myLng)
-    console.log("내 위도 : " + myLat)
-    console.log("도착 경도 : " + endLng)
-    console.log("도착 위도 : " + endLat)
+
     resetShowPath();
     changeDestinationMarker(endLat,endLng)
     $.ajax({
@@ -203,7 +249,6 @@ function showPath(myLatLng, endLatLng) {
             endLat: endLatLng[1]
         }
     }).done(function (response) {
-        console.log(response);
         pathFound = true;
         console.log("=========pathFound : " + pathFound + "==========");
         console.log("=========path 찾기 완료==========");
@@ -217,7 +262,8 @@ function showPath(myLatLng, endLatLng) {
             polyLinePath.push(new naver.maps.LatLng(pathLat, pathLng));
         }
         console.log(polyLinePath);
-
+        isStopped = true;
+        replayCurrentMarkerMaker(isStopped);
         polyline = new naver.maps.Polyline({
             path: polyLinePath,      //선 위치 변수배열
             strokeColor: '#0083ea', //선 색 빨강 #빨강,초록,파랑
