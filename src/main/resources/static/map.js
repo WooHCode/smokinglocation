@@ -210,7 +210,9 @@ function readyGetPath(isClick) {
         getPathButton.classList.add("clicked"); // 클릭한 상태에 해당하는 클래스 추가
     }
 }
-
+// 현재위치 추적 기능(파라미터가 true일때 5초마다 반복)
+//TODO 현재위치가 목적지의 위도 경도와 가까워 졌을때? 종료
+//TODO 현재위치를 이동하면 경로 데이터 시작지점 변경
 function replayCurrentMarkerMaker(isStopped) {
     if (isStopped){
         setInterval(function () {
