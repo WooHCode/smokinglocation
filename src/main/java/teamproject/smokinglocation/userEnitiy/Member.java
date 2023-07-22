@@ -8,6 +8,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import teamproject.smokinglocation.inquiryentity.Inquiry;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -38,6 +39,9 @@ public class Member extends BaseTime implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Inquiry> inquiries = new ArrayList<>();
 
     public Member() {
 
