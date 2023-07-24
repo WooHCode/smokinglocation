@@ -6,6 +6,7 @@ var pathFound = false;
 var map = null;
 var polyline;
 var isStopped = false; // 길찾기 현재위치 추적 반복(true일 시 추적)
+const arrivalDistance = 5; // 도착으로 판단할 거리 (단위: 미터)
 
 
 var nearbyIconUrl = '/image/location-icon-sign.png';
@@ -209,8 +210,6 @@ function readyGetPath(isClick) {
     }
 }
 // 현재위치 추적 기능(파라미터가 true일때 5초마다 반복)
-//TODO 현재위치가 목적지의 위도 경도와 가까워 졌을때? 종료
-//TODO 현재위치를 이동하면 경로 데이터 시작지점 변경
 function replayCurrentMarkerMaker(isStopped) {
     if (isStopped){
         setInterval(function () {
@@ -261,7 +260,6 @@ function showPath(myLatLng, endLatLng) {
             pathLatLng.push([pathLng,pathLat])
             polyLinePath.push(new naver.maps.LatLng(pathLat, pathLng));
         }
-        console.log(polyLinePath);
         isStopped = true;
         replayCurrentMarkerMaker(isStopped);
         polyline = new naver.maps.Polyline({
@@ -271,8 +269,6 @@ function showPath(myLatLng, endLatLng) {
             strokeWeight: 4,   //선 두께
             map: map           //오버레이할 지도
         });
-        console.log("============polyline : " + polyline);
-        console.log("============naver.maps.Polyline(경로) 오버레이 : Done");
 
         pathFound = false;
     });
@@ -411,10 +407,32 @@ function drawPathAndRemovePassedLines(myLatLng) {
         strokeWeight: 4,
         map: map
     });
+    // 도착 여부 확인
+    var lastPolylineIndex = partialPath.length - 1;
+    var lastPolylineLat = partialPath[lastPolylineIndex][1];
+    var lastPolylineLng = partialPath[lastPolylineIndex][0];
+    checkArrival(myLatLng, lastPolylineLat,lastPolylineLng, arrivalDistance); // 5m를 도착 거리로 사용
+
 }
 
 // 사용자의 위치가 변경될 때마다 호출되는 함수
 function onLocationUpdate(myLatLng) {
     console.log("경로 라인 변경")
     drawPathAndRemovePassedLines(myLatLng);
+}
+
+// 도착 여부를 확인하는 함수
+function checkArrival(myLatLng, lastPolylineLat ,lastPolylineLng, arrivalDistance) {
+    var distanceToDestination = getDistance(myLatLng[1], myLatLng[0], lastPolylineLat, lastPolylineLng);
+    console.log("차이값은? ",distanceToDestination)
+    if (distanceToDestination <= arrivalDistance) {
+        // 도착 알림 표시
+        alert("도착하였습니다!");
+        // 경로 및 현재 위치 추적 기능 종료
+        isStopped = false;
+        if (polyline) {
+            polyline.setMap(null);
+            polyline = null;
+        }
+    }
 }
