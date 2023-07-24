@@ -141,7 +141,7 @@ function getCurrentPos(isClick) {
                     sendLocationData(latitude, longitude);
                     myLatLng[0] = longitude;
                     myLatLng[1] = latitude;
-                    console.log("나의 위치 위도 : " + myLatLng[0] + " 경도 : " + myLatLng[1]);
+                    console.log("나의 위치 위도 : " + myLatLng[1] + " 경도 : " + myLatLng[0]);
                 },
                 function (error) {
                     // 위치 정보를 가져오는 데 실패했을 때 처리할 로직
@@ -169,7 +169,7 @@ function deleteCurrentMarker(myLat, myLng) {
     }
 }
 function getContinuousLoc() {
-    deleteCurrentMarker(myLatLng[1],myLatLng[0])
+    deleteCurrentMarker(myLatLng[0],myLatLng[1])
     myLatLng = [0,0];
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -180,7 +180,6 @@ function getContinuousLoc() {
                     makeMyPosition(latitude,longitude)
                     myLatLng[0] = longitude;
                     myLatLng[1] = latitude;
-                    console.log(myLatLng)
                     onLocationUpdate(myLatLng)
                     console.log("나의 위치 위도 : " + myLatLng[1] + " 경도 : " + myLatLng[0]);
                 },
