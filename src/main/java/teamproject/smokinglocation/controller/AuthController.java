@@ -91,4 +91,11 @@ public class AuthController {
         log.info("member {} is logged out",memberName);
         return new ResponseEntity<>(memberName, HttpStatus.OK);
     }
+
+
+    @GetMapping("/mypage")
+    public Long getMemberId(@RequestParam("refreshToken") String refreshToken) {
+        log.info("===========toMypage : refreshToken= {} ========", refreshToken);
+        return memberService.getMemberIdByRefreshToken(refreshToken);
+    }
 }

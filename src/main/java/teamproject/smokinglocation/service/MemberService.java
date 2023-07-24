@@ -91,6 +91,11 @@ public class MemberService {
         return memberName;
     }
 
+    @Transactional
+    public Long getMemberIdByRefreshToken(String refreshToken) {
+        return memberRepository.findMemberIdByRefreshToken(refreshToken);
+    }
+
     private Authentication getAuthentication(String memberId, String password) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(memberId, password);
         Authentication authenticated = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
