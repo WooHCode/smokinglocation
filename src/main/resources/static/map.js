@@ -362,7 +362,7 @@ function getDistance(myLat, myLon, targetLat, targetLon) {
         Math.sin(dLon / 2) * Math.sin(dLon / 2);
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     var distance = R * c;
-    return distance * 1000; // 단위를 m로 변환하여 반환
+    return distance * 1000; // 단위를 m로 변환하여 반환함
 }
 
 function deg2rad(deg) {
