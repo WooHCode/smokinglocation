@@ -29,20 +29,20 @@
     <div><h2>회원정보</h2></div>
     <div>
         <label for="email">이메일 : </label>
-        <input type="text" id="email" value="test">
+        <input type="text" id="email" value="test" th:value="${email}" readonly>
     </div>
 
     <div>
         <form action="" method="post">
             <div>
                 <label for="pw-change">비밀번호 변경 : </label>
-                <input type="password" id="pw-change" value="test">
+                <input type="password" name="password" id="pw-change" value="test" th:value="${password}">
             </div>
             <div>
                 <label for="pw-change-re">비밀번호 변경 확인 : </label>
-                <input type="password" id="pw-change-re" value="test">
+                <input type="password" id="pw-change-re">
             </div>
-            <button type="submit">변경하기</button>
+            <button class="password-change-submit" type="submit">변경하기</button>
         </form>
     </div>
 
@@ -83,6 +83,10 @@
     </div>
     <div>
         <button type="button">문의 게시판</button>
+        <button type="button" onclick="location.href='/'">홈으로</button>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="/mypage.js"></script>
 </body>
 </html>

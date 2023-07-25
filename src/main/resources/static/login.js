@@ -1,6 +1,8 @@
 var checkEmailMessage;
 var login = document.getElementById("login");
 var logout = document.getElementById("logout");
+var register = document.getElementById("register");
+var mypage = document.getElementById("mypage");
 
 
 function openPopup() {
@@ -25,9 +27,13 @@ function visibleLogout() {
     if (isLoggedIn === "true") {
         login.style.display = "none";
         logout.style.display = "block";
+        register.style.display = "none";
+        mypage.style.display = "block";
     }else {
         login.style.display = "block";
         logout.style.display = "none";
+        register.style.display = "block";
+        mypage.style.display = "none";
     }
 }
 window.addEventListener("DOMContentLoaded", function() {

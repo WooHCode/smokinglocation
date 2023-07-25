@@ -38,6 +38,7 @@ public class MemberService {
     public List<String> findAllMemberId() {
         return memberRepository.findMemberId();
     }
+
     @CacheEvict("totalMemberId")
     public void deleteTotalMemberIdCache() {
         Cache cache = cacheManager.getCache("totalMemberId");
@@ -94,6 +95,16 @@ public class MemberService {
     @Transactional
     public Long getMemberIdByRefreshToken(String refreshToken) {
         return memberRepository.findMemberIdByRefreshToken(refreshToken);
+    }
+
+    @Transactional
+    public Member findById(Long memberId) {
+        return memberRepository.findById(memberId).orElseThrow();
+    }
+
+    @Transactional
+    public void updateMemberPassword(Member member, String password) {
+        member.updatePassword(password);
     }
 
     private Authentication getAuthentication(String memberId, String password) {
