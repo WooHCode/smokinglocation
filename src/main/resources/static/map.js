@@ -127,8 +127,6 @@ function getCurrentPos(isClick) {
                     // 위치 정보를 가져오는 데 성공했을 때 처리할 로직
                     var latitude = position.coords.latitude;
                     var longitude = position.coords.longitude;
-                    console.log("위도 =", latitude);
-                    console.log("경도 =", longitude);
                     if (localStorage.getItem("lat") !== null && localStorage.getItem("lng") !== null) {
                         localStorage.removeItem("lat");
                         localStorage.removeItem("lng");
