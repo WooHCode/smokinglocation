@@ -32,25 +32,23 @@ window.onload = function () {
 };
 
 function makeMyPosition(mylat, mylon) {
-    if (localStorage.getItem("lat") !== "" && localStorage.getItem("lng") !== "") {
-        var myLat = localStorage.getItem("lat");
-        var myLng = localStorage.getItem("lng");
-        var newMarker;
-        newMarker = new naver.maps.Marker({
-            position: new naver.maps.LatLng(myLat, myLng),
-            map: map,
-            icon: icon
-        })
-        markers.push(newMarker);
-    }else {
-        var newMarker;
-        newMarker = new naver.maps.Marker({
-            position: new naver.maps.LatLng(mylat, mylon),
-            map: map,
-            icon: icon
-        })
-        markers.push(newMarker);
+    // 사용자의 현재 위치 마커를 모두 제거
+    for (var i = 0; i < markers.length; i++) {
+        var marker = markers[i];
+        if (marker.getIcon() === icon) {
+            marker.setMap(null);
+            markers.splice(i, 1);
+            i--;
+        }
     }
+
+    // 새로운 사용자의 현재 위치 마커 생성
+    var newMarker = new naver.maps.Marker({
+        position: new naver.maps.LatLng(mylat, mylon),
+        map: map,
+        icon: icon
+    });
+    markers.push(newMarker);
 }
 function hideLoading() {
     var loadingDiv = document.getElementById("loading");
@@ -143,6 +141,8 @@ function getCurrentPos(isClick) {
                     myLatLng[0] = longitude;
                     myLatLng[1] = latitude;
                     console.log("나의 위치 위도 : " + myLatLng[1] + " 경도 : " + myLatLng[0]);
+
+                    makeMyPosition(latitude,longitude);
                 },
                 function (error) {
                     // 위치 정보를 가져오는 데 실패했을 때 처리할 로직
@@ -419,6 +419,7 @@ function drawPathAndRemovePassedLines(myLatLng) {
 function onLocationUpdate(myLatLng) {
     console.log("경로 라인 변경")
     drawPathAndRemovePassedLines(myLatLng);
+    makeMyPosition(myLatLng[1], myLatLng[0]);
 }
 
 // 도착 여부를 확인하는 함수
