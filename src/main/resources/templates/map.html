@@ -13,8 +13,19 @@
             defer></script>
     <script th:inline="javascript">
         var facilities = [[${facilities}]];
+        var socialLoginDto = [[${socialLoginDto}]];
         localStorage.removeItem("lat");
         localStorage.removeItem("lng");
+        var accessToken = [[${accessToken}]];
+        var refreshToken = [[${refreshToken}]];
+        if(accessToken != null && accessToken != "" && refreshToken != null && refreshToken != "") {
+			localStorage.setItem("at",accessToken);
+			sessionStorage.setItem("rf", refreshToken);
+			window.alert("로그인에 성공하였습니다.")
+			localStorage.setItem("isLoggedIn","true");
+			visibleLogout();
+			closeLoginPopup();
+		}
     </script>
 </head>
 <body>

@@ -1,18 +1,27 @@
 package teamproject.smokinglocation.userEnitiy;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import teamproject.smokinglocation.inquiryentity.Inquiry;
-
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import teamproject.smokinglocation.inquiryentity.Inquiry;
 
 @Entity
 @AllArgsConstructor
@@ -31,7 +40,14 @@ public class Member extends BaseTime implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
     private String refreshToken;
+
+    @Column(nullable = true)
+    private String provider;
+
+    @Column(nullable = true)
+    private String accessToken;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
@@ -53,6 +69,16 @@ public class Member extends BaseTime implements UserDetails {
         this.memberName = memberName;
         this.password = password;
         this.roles = roles;
+    }
+    
+    // 소셜 로그인 개인정보 저장을 위해 추가
+    @Builder
+    public void SocialRegisterEntity(String memberId, String memberName, String provider, String accessToken, String refreshToken) {
+        this.memberId = memberId;
+        this.memberName = memberName;
+        this.provider = provider;
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken; 
     }
 
     @Override
@@ -91,7 +117,7 @@ public class Member extends BaseTime implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
+    
     public void updatePassword(String password) {
         this.password = password;
     }

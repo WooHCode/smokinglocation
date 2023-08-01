@@ -1,19 +1,21 @@
 package teamproject.smokinglocation.controller;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import teamproject.smokinglocation.dto.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import teamproject.smokinglocation.dto.NearbyLocationDto;
 import teamproject.smokinglocation.entity.TotalData;
 import teamproject.smokinglocation.service.DataResponseService;
-
 import teamproject.smokinglocation.service.LocationNearbyService;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -22,12 +24,12 @@ public class MapController {
 
     @Value("${naver.map.client.id}")
     private String naverMapClientId;
-
+    
     private final DataResponseService responseService;
     private final LocationNearbyService nearbyService;
     private static String myLatitude = "";
     private static String myLongitude = "";
-
+    
     @GetMapping("/")
     public String home() {
         return "redirect:/map";
@@ -40,12 +42,20 @@ public class MapController {
             model.addAttribute("myLatitude", myLatitude);
             model.addAttribute("myLongitude",myLongitude);
         }
-        log.info("===========totalDataLoading===========");
-        log.info("totalData = {}", totalData);
-        log.info("===========totalDataLoadingFinish============");
+
+        String accessToken = (String) model.getAttribute("accessToken") == null ? "" : (String) model.getAttribute("accessToken");
+        String refreshToken = (String) model.getAttribute("refreshToken") == null ? "" : (String) model.getAttribute("refreshToken"); 
+
+        model.addAttribute("accessToken", accessToken);
+        model.addAttribute("refreshToken", refreshToken);
         model.addAttribute("facilities", totalData);
         model.addAttribute("naverMapClientId", naverMapClientId);
 
+        log.info("===========totalDataLoading===========");
+        log.info("totalData = {}", totalData);
+        log.info("accessToken = {}", accessToken);
+        log.info("refreshToken = {}", refreshToken);
+        log.info("===========totalDataLoadingFinish============");
         return "map";
     }
 
@@ -229,4 +239,3 @@ public class MapController {
         return null;
     }
 }
-
