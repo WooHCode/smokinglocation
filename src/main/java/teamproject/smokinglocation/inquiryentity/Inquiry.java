@@ -9,7 +9,10 @@ import javax.persistence.*;
 @Getter
 public class Inquiry {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="inquiry_id")
+    private Long id;
     private String title;
     private String content;
     private String reply;
