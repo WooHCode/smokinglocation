@@ -91,4 +91,7 @@ public class AuthController {
         log.info("member {} is logged out",memberName);
         return new ResponseEntity<>(memberName, HttpStatus.OK);
     }
+
+
+
 }

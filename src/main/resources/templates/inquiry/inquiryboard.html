@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>문의 게시판</title>
+    <style>
+        table {
+            border-top:solid;
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th,td{
+            border-bottom: 1px solid;
+            border-left:1px solid;
+            border-collapse: collapse;
+            padding:5px;
+        }
+        th{
+            border-bottom: solid;
+        }
+        th:first-child,td:first-child{
+            border-left:none;
+        }
+
+    </style>
+</head>
+<body style="text-align: center">
+<div><h1>문의 게시판</h1></div>
+<div>
+    <table style="">
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>작성일시</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr>
+            <td>번호</td>
+            <td>제목</td>
+            <td>작성자</td>
+            <td>작성일시</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div style="text-align: left; margin-left: 100px">
+    <label for="search">검색 : </label>
+    <input type="text" id="search" placeholder="검색어 입력">
+    <button>검색</button>
+</div>
+<div>
+    <!--        페이징처리-->
+</div>
+<div>
+    <button>홈으로</button>
+</div>
+</body>
+</html>
