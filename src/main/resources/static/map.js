@@ -108,6 +108,27 @@ function loadNaverMap(mylat, mylon) {
 
                         getPathReady = false;
                     }
+
+                    // TODO : ajax -> 최근 검색한 위치 데이터로 넘기기
+                    var data={
+                        findLng:endLatLng[0],
+                        findLat:endLatLng[1],
+                        findLoc:loc,
+                        refreshToken: sessionStorage.getItem('rf'),
+                    }
+                    console.log(data.findLng);
+                    console.log(data.findLat);
+                    console.log(data.findLoc);
+                    $.ajax({
+                        url:"/member/savespot",
+                        type:"POST",
+                        data:JSON.stringify(data),
+                        contentType: "application/json",
+                        success: function(){
+                            console.log("DONE");
+                        }
+                    })
+
                 });
                 markers.push(marker);
                 // 마커 지도에 추가

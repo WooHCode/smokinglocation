@@ -15,9 +15,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.smokinglocation.common.TokenInfo;
 import teamproject.smokinglocation.config.JwtProvider;
+import teamproject.smokinglocation.dto.memberDto.SaveSpotDto;
 import teamproject.smokinglocation.dto.tokenDto.TokenRequestDto;
 import teamproject.smokinglocation.repository.MemberRepository;
+import teamproject.smokinglocation.repository.SpotRepository;
 import teamproject.smokinglocation.userEnitiy.Member;
+import teamproject.smokinglocation.userEnitiy.SavedSpot;
 
 import java.util.Collections;
 import java.util.List;
@@ -32,6 +35,7 @@ public class MemberService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtProvider jwtProvider;
     private final CacheManager cacheManager;
+    private final SpotRepository spotRepository;
 
     @Transactional
     @Cacheable("totalMemberId")
@@ -111,5 +115,29 @@ public class MemberService {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(memberId, password);
         Authentication authenticated = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         return authenticated;
+    }
+
+    /**
+     * memberId : null 나옴
+     * 내부 호출 문제인듯 => createSavedSpot 메서드를 다른 클래스로 옮겨봄 => 실패
+     * @param dto
+     * @return
+     */
+    @Transactional
+    public SavedSpot createSavedSpot(SaveSpotDto dto) {
+        log.info("===============MemberService : createSaveSpot() ==============");
+        String refreshToken = dto.getRefreshToken();
+        log.info("refreshToken : {}",refreshToken);
+        Long memberId = getMemberIdByRefreshToken(refreshToken);
+        log.info("memberId : {}", memberId);
+        Member member = findById(memberId);
+        SavedSpot savedSpot = SavedSpot.builder()
+                .lng(dto.getFindLng())
+                .lat(dto.getFindLat())
+                .loc(dto.getFindLoc())
+                .member(member)
+                .build();
+        spotRepository.save(savedSpot);
+        return savedSpot;
     }
 }

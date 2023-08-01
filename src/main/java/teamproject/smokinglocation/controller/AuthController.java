@@ -93,9 +93,5 @@ public class AuthController {
     }
 
 
-    @GetMapping("/mypage")
-    public Long getMemberId(@RequestParam("refreshToken") String refreshToken) {
-        log.info("===========toMypage : refreshToken= {} ========", refreshToken);
-        return memberService.getMemberIdByRefreshToken(refreshToken);
-    }
+
 }

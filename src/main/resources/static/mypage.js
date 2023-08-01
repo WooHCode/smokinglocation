@@ -1,13 +1,13 @@
 function toMypage(){
     var refreshToken=sessionStorage.getItem("rf")
     $.ajax({
-        url:"/mypage",
+        url:"/member/auth",
         type:"GET",
         data: {
             refreshToken: refreshToken,
         },
         success: function(res){
-            window.location.replace("/mypage/" + res);
+            window.location.replace("/member/" + res);
         }
     });
 }

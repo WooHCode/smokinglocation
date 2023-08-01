@@ -3,15 +3,12 @@ package teamproject.smokinglocation.userEnitiy;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import teamproject.smokinglocation.inquiryentity.Inquiry;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -42,6 +39,9 @@ public class Member extends BaseTime implements UserDetails {
 
     @OneToMany(mappedBy = "member")
     private List<Inquiry> inquiries = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<SavedSpot> savedSpotList = new ArrayList<>();
 
     public Member() {
 

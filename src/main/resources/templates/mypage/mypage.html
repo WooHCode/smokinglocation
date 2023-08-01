@@ -51,14 +51,12 @@
         <table>
             <thead>
                 <tr>
-                    <th>구</th>
                     <th>위치정보</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>구</td>
-                    <td>위치정보</td>
+                <tr th:each="spot:${savedSpot}">
+                    <td th:text="${spot.loc}">위치정보</td>
                 </tr>
             </tbody>
         </table>
