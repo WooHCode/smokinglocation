@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>마이페이지</title>
+    <style>
+        table {
+            border-top:solid;
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th,td{
+            border-bottom: 1px solid;
+            border-left:1px solid;
+            border-collapse: collapse;
+            padding:5px;
+        }
+        th{
+            border-bottom: solid;
+        }
+        th:first-child,td:first-child{
+            border-left:none;
+        }
+
+    </style>
+</head>
+<body style="text-align: center">
+    <div><h1>마이페이지</h1></div>
+    <div><h2>회원정보</h2></div>
+    <div>
+        <label for="email">이메일 : </label>
+        <input type="text" id="email" value="test" th:value="${email}" readonly>
+    </div>
+
+    <div>
+        <form action="" method="post">
+            <div>
+                <label for="pw-change">비밀번호 변경 : </label>
+                <input type="password" name="password" id="pw-change" value="test" th:value="${password}">
+            </div>
+            <div>
+                <label for="pw-change-re">비밀번호 변경 확인 : </label>
+                <input type="password" id="pw-change-re">
+            </div>
+            <button class="password-change-submit" type="submit">변경하기</button>
+        </form>
+    </div>
+
+    <div>
+        <h2>내가 찾아본 흡연구역</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>위치정보</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="spot:${savedSpot}">
+                    <td th:text="${spot.loc}">위치정보</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <h2>나의 문의내역</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>제목</th>
+                <th>답변여부</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>제목</td>
+                <td>답변여부</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <button type="button">문의 게시판</button>
+        <button type="button" onclick="location.href='/'">홈으로</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="/mypage.js"></script>
+</body>
+</html>
