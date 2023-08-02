@@ -45,6 +45,7 @@ public class SocialService {
 	        params.add("code"         , code);
 	        params.add("redirect_uri" , env.getProperty("kakao.redirect.url"));
 
+	        //HttpHeader 담기
 	        RestTemplate restTemplate = new RestTemplate();
 	        HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(params, headers);
 
@@ -54,6 +55,7 @@ public class SocialService {
 	                httpEntity,
 	                String.class
 	        );
+	        //Response 데이터 파싱
 	        JSONObject jsonObj = new JSONObject(response.getBody());
 
             accessToken  = (String) jsonObj.get("access_token");
@@ -85,6 +87,7 @@ public class SocialService {
                 httpEntity,
                 String.class
         );
+
         //Response 데이터 파싱
         JSONObject jsonObj    = new JSONObject(response.getBody()); 
         JSONObject account = (JSONObject) jsonObj.get("kakao_account");
@@ -203,7 +206,7 @@ public class SocialService {
             refreshToken = (String) jsonObj.get("id_token");
             
             log.info("accessToken : " + accessToken + "refreshToken : " + refreshToken);
-            log.info("===========NaverLogin process end===========");
+            log.info("===========googleLogin process end===========");
         } catch (Exception e) {
             throw new Exception("API call failed");
         }
@@ -242,7 +245,6 @@ public class SocialService {
         log.info("member : " + member.getMemberId()+ "," + member.getMemberName() + "," + member.getProvider() + "," + member.getAccessToken());
         log.info("===========NaverLogin process end===========");
         return member;
-                    //.nickname(nickname).build();
     }
     
     // 소셜 로그인 공통 회원가입

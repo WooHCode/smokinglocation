@@ -49,7 +49,7 @@ public class SocialLoginController {
     }
     
     /**
-     * 카카오 소셜 로그인
+     * 카카오 소셜 로그인 호출
      * accessToken, refreshToken 발급
      * @param dto
      * @return
@@ -64,6 +64,7 @@ public class SocialLoginController {
     		socialService.registerSocialUser(kakaoInfo);
     	}
 
+    	// 로컬 스토리지,세션에 저장할 accessToken,refreshToken
     	model.addAttribute("accessToken", kakaoInfo.getAccessToken());
     	model.addAttribute("refreshToken", kakaoInfo.getRefreshToken());
     	log.info("===========kakaoLogin process end===========");
@@ -81,7 +82,7 @@ public class SocialLoginController {
     public String naverLogin(@RequestParam("code") String code, @RequestParam("state") String state, RedirectAttributes redirectAttributes, Model model) throws Exception {
     	
     	log.info("===========naverLogin process start===========");
-    	Member naverInfo = socialService.naverLogin(code,state);
+    	Member naverInfo = socialService.naverLogin(code,state);	// 토큰 발급 후 개인정보 조회
 
     	log.info("naverInfo = {}", naverInfo);
 
@@ -89,7 +90,8 @@ public class SocialLoginController {
     		// 회원가입
     		socialService.registerSocialUser(naverInfo);
     	}
-        // 로컬 스토리지에 저장할 accessToken,refreshToken
+
+    	// 로컬 스토리지,세션에 저장할 accessToken,refreshToken
     	model.addAttribute("accessToken", naverInfo.getAccessToken());
     	model.addAttribute("refreshToken", naverInfo.getRefreshToken());    
     	log.info("===========naverLogin process end===========");
@@ -108,12 +110,13 @@ public class SocialLoginController {
    public String googleLogin(@RequestParam("code") String code, Model model) throws Exception {
    	
    	log.info("===========googleLogin process start===========");
-   	Member googleLogin = socialService.googleLogin(code);
+   	Member googleLogin = socialService.googleLogin(code);	// 토큰 발급 후 개인정보 조회
    	if(googleLogin != null) {
    		// 회원가입
    		socialService.registerSocialUser(googleLogin);
    	}
-    // 로컬 스토리지에 저장할 accessToken,refreshToken
+
+    // 로컬 스토리지,세션에 저장할 accessToken,refreshToken
    	model.addAttribute("accessToken", googleLogin.getAccessToken());
    	model.addAttribute("refreshToken", googleLogin.getRefreshToken());    
    	log.info("googleLogin = {}", googleLogin);

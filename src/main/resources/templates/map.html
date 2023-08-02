@@ -14,17 +14,24 @@
     <script th:inline="javascript">
         var facilities = [[${facilities}]];
         var socialLoginDto = [[${socialLoginDto}]];
+		var accessToken = [[${accessToken}]];	// 소셜로그인 인증토큰
+        var refreshToken = [[${refreshToken}]]; // 소셜로그인 발급토큰
+        var storageAccessToken = localStorage.getItem("at");
+        var sessionRefreshToken = sessionStorage.getItem("rf");
         localStorage.removeItem("lat");
         localStorage.removeItem("lng");
-        var accessToken = [[${accessToken}]];
-        var refreshToken = [[${refreshToken}]];
+		
+		// accessToken과 refreshToken이 비어있지 않은 경우에만 처리합니다. 
         if(accessToken != null && accessToken != "" && refreshToken != null && refreshToken != "") {
-			localStorage.setItem("at",accessToken);
-			sessionStorage.setItem("rf", refreshToken);
-			window.alert("로그인에 성공하였습니다.")
-			localStorage.setItem("isLoggedIn","true");
-			visibleLogout();
-			closeLoginPopup();
+			// storedAccessToken과 sessionRefreshToken이 모두 존재하는 경우에만 처리합니다.
+        	if (storedAccessToken && sessionRefreshToken) {
+				localStorage.setItem("at",accessToken);
+				sessionStorage.setItem("rf", refreshToken);
+				// 사용자에게 로그인 성공을 알립니다.
+				window.alert("로그인에 성공하였습니다.")
+				visibleLogout();
+				closeLoginPopup();
+			}
 		}
     </script>
 </head>
