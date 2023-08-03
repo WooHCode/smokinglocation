@@ -73,8 +73,9 @@ public class Member extends BaseTime implements UserDetails {
     
     // 소셜 로그인 개인정보 저장을 위해 추가
     @Builder
-    public void SocialRegisterEntity(String memberId, String memberName, String provider, String accessToken, String refreshToken) {
+    public void SocialRegisterEntity(String memberId, String password, String memberName, String provider, String accessToken, String refreshToken) {
         this.memberId = memberId;
+        this.password = password;
         this.memberName = memberName;
         this.provider = provider;
         this.accessToken = accessToken;

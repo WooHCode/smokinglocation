@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
@@ -28,6 +29,7 @@ public class SocialService {
 	
 	private final Environment env;
 	private final MemberRepository memberRepository;
+	private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public Member kakaoLogin(String code) throws Exception{
@@ -61,7 +63,8 @@ public class SocialService {
             accessToken  = (String) jsonObj.get("access_token");
             refreshToken = (String) jsonObj.get("refresh_token");
             
-            log.info("accessToken : " + accessToken + "refreshToken : " + refreshToken);
+            log.info("accessToken : " + accessToken);
+            log.info("refreshToken : " + refreshToken);
             log.info("===========kakaoLogin process end===========");
         } catch (Exception e) {
             throw new Exception("API call failed");
@@ -97,9 +100,15 @@ public class SocialService {
         long id = (long) jsonObj.get("id");
         String email = String.valueOf(account.get("email"));
         String name = String.valueOf(profile.get("nickname"));
+        String provider = "kakao";
+        String password = passwordEncoder.encode("");
 
-        member.SocialRegisterEntity(email, name, "kakao", accessToken, refreshToken);
-        log.info("member : " + member.getMemberId()+ "," + member.getMemberName() + "," + member.getProvider() + "," + member.getAccessToken());
+        member.SocialRegisterEntity(email, password, name, provider, accessToken, refreshToken);
+        log.info("email : " + member.getMemberId());
+        log.info("name : " + member.getMemberName());
+        log.info("provider : " + member.getProvider());
+        log.info("accessToken : " + member.getAccessToken());
+        log.info("refreshToken : " + member.getRefreshToken());
         log.info("===========kakaoLogin process end===========");
         return member;
     }
@@ -135,7 +144,8 @@ public class SocialService {
             accessToken  = (String) jsonObj.get("access_token");
             refreshToken = (String) jsonObj.get("refresh_token");
             
-            log.info("accessToken : " + accessToken + "refreshToken : " + refreshToken);
+            log.info("accessToken : " + accessToken);
+            log.info("refreshToken : " + refreshToken);
             log.info("===========NaverLogin process end===========");
         } catch (Exception e) {
             throw new Exception("API call failed");
@@ -170,9 +180,15 @@ public class SocialService {
         String name = String.valueOf(account.get("name"));
         String nickname = String.valueOf(account.get("nickname"));
         String email = String.valueOf(account.get("email"));
+        String provider = "naver";
+        String password = passwordEncoder.encode("");
 
-        member.SocialRegisterEntity(email, name, "Naver", accessToken, refreshToken);
-        log.info(nickname+","+"member : " + member.getMemberId()+ "," + member.getMemberName() + "," + member.getProvider() + "," + member.getAccessToken());
+        member.SocialRegisterEntity(email, password, name, "naver", accessToken, refreshToken);
+        log.info("email : " + member.getMemberId());
+        log.info("name : " + member.getMemberName());
+        log.info("provider : " + member.getProvider());
+        log.info("accessToken : " + member.getAccessToken());
+        log.info("refreshToken : " + member.getRefreshToken());
         log.info("===========NaverLogin process end===========");
         return member;
     }
@@ -184,6 +200,7 @@ public class SocialService {
     	try {
     		log.info("===========googleLogin process start===========");
             HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
 	        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 	        params.add("grant_type"   , "authorization_code");
@@ -205,7 +222,8 @@ public class SocialService {
             accessToken  = (String) jsonObj.get("access_token");
             refreshToken = (String) jsonObj.get("id_token");
             
-            log.info("accessToken : " + accessToken + "refreshToken : " + refreshToken);
+            log.info("accessToken : " + accessToken);
+            log.info("refreshToken : " + refreshToken);
             log.info("===========googleLogin process end===========");
         } catch (Exception e) {
             throw new Exception("API call failed");
@@ -219,29 +237,30 @@ public class SocialService {
         //HttpHeader 생성
     	log.info("===========NaverLogin process start===========");
         HttpHeaders headers = new HttpHeaders();
-        //headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         headers.set("Authorization", "Bearer " + accessToken);
-        //headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-
+        System.out.println("fffffffffffffffffffffff");
         //HttpHeader 담기
         RestTemplate rt = new RestTemplate();
         HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<String> response = rt.exchange(
                 env.getProperty("Google.api.url")+"/oauth2/v2/userinfo",
-                HttpMethod.POST,
+                HttpMethod.GET,
                 httpEntity,
                 String.class
         );
         //Response 데이터 파싱
-        JSONObject jsonObj    = new JSONObject(response.getBody());
-        JSONObject account = (JSONObject) jsonObj.get("response");
+        JSONObject jsonObj = new JSONObject(response.getBody());
+        System.out.println(response.getBody());
         
         Member member = new Member();
-        String name = String.valueOf(account.get("name"));
-        String nickname = String.valueOf(account.get("nickname"));
-        String email = String.valueOf(account.get("email"));
-       
-        member.SocialRegisterEntity(email, name, "Naver", accessToken, refreshToken);
+        String name = String.valueOf(jsonObj.get("id"));
+        String email = String.valueOf(jsonObj.get("email"));
+        String verified_email = String.valueOf(jsonObj.get("verified_email"));
+        String picture = String.valueOf(jsonObj.get("picture"));
+        String password = passwordEncoder.encode("");
+        
+        member.SocialRegisterEntity(email, password, name, "Naver", accessToken, refreshToken);
         log.info("member : " + member.getMemberId()+ "," + member.getMemberName() + "," + member.getProvider() + "," + member.getAccessToken());
         log.info("===========NaverLogin process end===========");
         return member;
