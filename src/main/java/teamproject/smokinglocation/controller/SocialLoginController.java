@@ -65,8 +65,8 @@ public class SocialLoginController {
     	}
 
     	// 로컬 스토리지,세션에 저장할 accessToken,refreshToken
-    	model.addAttribute("accessToken", kakaoInfo.getAccessToken());
-    	model.addAttribute("refreshToken", kakaoInfo.getRefreshToken());
+       	redirectAttributes.addFlashAttribute("accessToken", kakaoInfo.getAccessToken());
+       	redirectAttributes.addFlashAttribute("refreshToken", kakaoInfo.getRefreshToken());
     	log.info("===========kakaoLogin process end===========");
     	return "redirect:/map";
     }
@@ -90,12 +90,10 @@ public class SocialLoginController {
     		// 회원가입
     		socialService.registerSocialUser(naverInfo);
     	}
-
     	// 로컬 스토리지,세션에 저장할 accessToken,refreshToken
-    	model.addAttribute("accessToken", naverInfo.getAccessToken());
-    	model.addAttribute("refreshToken", naverInfo.getRefreshToken());    
+       	redirectAttributes.addFlashAttribute("accessToken", naverInfo.getAccessToken());
+       	redirectAttributes.addFlashAttribute("refreshToken", naverInfo.getRefreshToken());
     	log.info("===========naverLogin process end===========");
-    	
     	return "redirect:/map";
     }
     
@@ -107,7 +105,7 @@ public class SocialLoginController {
     * @throws Exception 
     */
    @GetMapping("/googleLogin")
-   public String googleLogin(@RequestParam("code") String code, Model model) throws Exception {
+   public String googleLogin(@RequestParam("code") String code, RedirectAttributes redirectAttributes, Model model) throws Exception {
    	
    	log.info("===========googleLogin process start===========");
    	Member googleLogin = socialService.googleLogin(code);	// 토큰 발급 후 개인정보 조회
@@ -115,10 +113,9 @@ public class SocialLoginController {
    		// 회원가입
    		socialService.registerSocialUser(googleLogin);
    	}
-
-    // 로컬 스토리지,세션에 저장할 accessToken,refreshToken
-   	model.addAttribute("accessToken", googleLogin.getAccessToken());
-   	model.addAttribute("refreshToken", googleLogin.getRefreshToken());    
+   	// 로컬 스토리지,세션에 저장할 accessToken,refreshToken
+   	redirectAttributes.addFlashAttribute("accessToken", googleLogin.getAccessToken());
+   	redirectAttributes.addFlashAttribute("refreshToken", googleLogin.getRefreshToken());
    	log.info("googleLogin = {}", googleLogin);
    	log.info("===========googleLogin process end===========");
    	

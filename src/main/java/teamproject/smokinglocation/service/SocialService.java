@@ -1,6 +1,8 @@
 package teamproject.smokinglocation.service;
 
 import java.net.URLEncoder;
+import java.util.Collections;
+import java.util.List;
 
 import org.json.JSONObject;
 import org.springframework.core.env.Environment;
@@ -97,16 +99,19 @@ public class SocialService {
         JSONObject profile = (JSONObject) account.get("profile");
         
         Member member = new Member();
-        long id = (long) jsonObj.get("id");
+        String id = String.valueOf(jsonObj.get("id"));
         String email = String.valueOf(account.get("email"));
         String name = String.valueOf(profile.get("nickname"));
         String provider = "kakao";
-        String password = passwordEncoder.encode("");
-
-        member.SocialRegisterEntity(email, password, name, provider, accessToken, refreshToken);
+        String password = passwordEncoder.encode(id);
+        List<String> roles = Collections.singletonList("USER"); // 사용자 역할 설정
+        
+        member.SocialRegisterEntity(email, password, name, provider, accessToken, refreshToken,roles);
+        log.info("id : " + id);
         log.info("email : " + member.getMemberId());
         log.info("name : " + member.getMemberName());
         log.info("provider : " + member.getProvider());
+        log.info("password : " + password);
         log.info("accessToken : " + member.getAccessToken());
         log.info("refreshToken : " + member.getRefreshToken());
         log.info("===========kakaoLogin process end===========");
@@ -177,16 +182,19 @@ public class SocialService {
         JSONObject account = (JSONObject) jsonObj.get("response");
 
         Member member = new Member();
-        String name = String.valueOf(account.get("name"));
-        String nickname = String.valueOf(account.get("nickname"));
-        String email = String.valueOf(account.get("email"));
-        String provider = "naver";
-        String password = passwordEncoder.encode("");
-
-        member.SocialRegisterEntity(email, password, name, "naver", accessToken, refreshToken);
+        String id = String.valueOf(account.get("id"));				// ID 고유의 값
+        String name = String.valueOf(account.get("name"));			// 성명
+        String nickname = String.valueOf(account.get("nickname"));	// 
+        String email = String.valueOf(account.get("email"));		// 이메일
+        String provider = "naver";									// 제공자
+        String password = passwordEncoder.encode(id);				// 비밀번호(암호화)
+        List<String> roles = Collections.singletonList("USER"); // 사용자 역할 설정
+        
+        member.SocialRegisterEntity(email, password, name, "naver", accessToken, refreshToken, roles);
         log.info("email : " + member.getMemberId());
         log.info("name : " + member.getMemberName());
         log.info("provider : " + member.getProvider());
+        log.info("password : " + password);
         log.info("accessToken : " + member.getAccessToken());
         log.info("refreshToken : " + member.getRefreshToken());
         log.info("===========NaverLogin process end===========");
@@ -239,7 +247,7 @@ public class SocialService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         headers.set("Authorization", "Bearer " + accessToken);
-        System.out.println("fffffffffffffffffffffff");
+
         //HttpHeader 담기
         RestTemplate rt = new RestTemplate();
         HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(headers);
@@ -254,14 +262,22 @@ public class SocialService {
         System.out.println(response.getBody());
         
         Member member = new Member();
-        String name = String.valueOf(jsonObj.get("id"));
-        String email = String.valueOf(jsonObj.get("email"));
-        String verified_email = String.valueOf(jsonObj.get("verified_email"));
-        String picture = String.valueOf(jsonObj.get("picture"));
-        String password = passwordEncoder.encode("");
+        String name = String.valueOf(jsonObj.get("id"));						// ID 고유의 값
+        String email = String.valueOf(jsonObj.get("email"));					// 이메일
+        String verified_email = String.valueOf(jsonObj.get("verified_email"));	// 
+        String picture = String.valueOf(jsonObj.get("picture"));				// 프로필
+        String password = passwordEncoder.encode(name);							// 비밀번호(암호화)
+        refreshToken = refreshToken.substring(0, 255);							// 구글 리플레시 토큰 길이가 255 자리 넘어서 255자리까지 잘르는 부분
+        List<String> roles = Collections.singletonList("USER"); // 사용자 역할 설정
         
-        member.SocialRegisterEntity(email, password, name, "Naver", accessToken, refreshToken);
-        log.info("member : " + member.getMemberId()+ "," + member.getMemberName() + "," + member.getProvider() + "," + member.getAccessToken());
+        member.SocialRegisterEntity(email, password, name, "Naver", accessToken, refreshToken, roles);
+        log.info("email : " + member.getMemberId());
+        log.info("id : " + name);
+        log.info("verified_email : " + verified_email);
+        log.info("picture : " + picture);
+        log.info("password : " + member.getPassword());
+        log.info("accessToken : " + member.getAccessToken());
+        log.info("refreshToken : " + member.getRefreshToken());
         log.info("===========NaverLogin process end===========");
         return member;
     }
@@ -271,6 +287,7 @@ public class SocialService {
 	public void registerSocialUser(Member member) throws Exception {
     	// 회원정보 있는지 체크
     	int dup_check = memberRepository.findMemberEmailCountByMemberId(member.getMemberId());
+    	System.out.println(dup_check+"=============="+member.getMemberId());
     	if(dup_check == 0) {
     		// 소셜 로그인 회원가입
     		memberRepository.save(member);
