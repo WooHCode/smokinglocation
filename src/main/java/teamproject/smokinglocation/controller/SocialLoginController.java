@@ -12,7 +12,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import teamproject.smokinglocation.common.TokenInfo;
 import teamproject.smokinglocation.dto.socialDto.SocialLoginDto;
+import teamproject.smokinglocation.service.MemberService;
 import teamproject.smokinglocation.service.SocialService;
 import teamproject.smokinglocation.userEnitiy.Member;
 
@@ -21,6 +23,7 @@ import teamproject.smokinglocation.userEnitiy.Member;
 @RequiredArgsConstructor
 public class SocialLoginController {
 	private final SocialService socialService;
+	private final MemberService memberService;
 	private final Environment env;
 
     /**
@@ -63,10 +66,13 @@ public class SocialLoginController {
     		// 회원가입
     		socialService.registerSocialUser(kakaoInfo);
     	}
+    	TokenInfo tokenInfo = memberService.login(kakaoInfo.getMemberId(), kakaoInfo.getPassword());
 
     	// 로컬 스토리지,세션에 저장할 accessToken,refreshToken
-       	redirectAttributes.addFlashAttribute("accessToken", kakaoInfo.getAccessToken());
-       	redirectAttributes.addFlashAttribute("refreshToken", kakaoInfo.getRefreshToken());
+    	redirectAttributes.addFlashAttribute("provider", kakaoInfo.getProvider());
+    	redirectAttributes.addFlashAttribute("OAuthToken", kakaoInfo.getOAuthToken());
+       	redirectAttributes.addFlashAttribute("accessToken", tokenInfo.getAccessToken());
+       	redirectAttributes.addFlashAttribute("refreshToken", tokenInfo.getRefreshToken());
     	log.info("===========kakaoLogin process end===========");
     	return "redirect:/map";
     }
@@ -90,9 +96,13 @@ public class SocialLoginController {
     		// 회원가입
     		socialService.registerSocialUser(naverInfo);
     	}
+    	TokenInfo tokenInfo = memberService.login(naverInfo.getMemberId(), naverInfo.getPassword());
+
     	// 로컬 스토리지,세션에 저장할 accessToken,refreshToken
-       	redirectAttributes.addFlashAttribute("accessToken", naverInfo.getAccessToken());
-       	redirectAttributes.addFlashAttribute("refreshToken", naverInfo.getRefreshToken());
+    	redirectAttributes.addFlashAttribute("provider", naverInfo.getProvider());
+    	redirectAttributes.addFlashAttribute("OAuthToken", naverInfo.getOAuthToken());
+       	redirectAttributes.addFlashAttribute("accessToken", tokenInfo.getAccessToken());
+       	redirectAttributes.addFlashAttribute("refreshToken", tokenInfo.getRefreshToken());
     	log.info("===========naverLogin process end===========");
     	return "redirect:/map";
     }
@@ -113,9 +123,13 @@ public class SocialLoginController {
    		// 회원가입
    		socialService.registerSocialUser(googleLogin);
    	}
+   	TokenInfo tokenInfo = memberService.login(googleLogin.getMemberId(), googleLogin.getPassword());
+
    	// 로컬 스토리지,세션에 저장할 accessToken,refreshToken
-   	redirectAttributes.addFlashAttribute("accessToken", googleLogin.getAccessToken());
-   	redirectAttributes.addFlashAttribute("refreshToken", googleLogin.getRefreshToken());
+	redirectAttributes.addFlashAttribute("provider", googleLogin.getProvider());
+	redirectAttributes.addFlashAttribute("OAuthToken", googleLogin.getOAuthToken());
+   	redirectAttributes.addFlashAttribute("accessToken", tokenInfo.getAccessToken());
+   	redirectAttributes.addFlashAttribute("refreshToken", tokenInfo.getRefreshToken());
    	log.info("googleLogin = {}", googleLogin);
    	log.info("===========googleLogin process end===========");
    	

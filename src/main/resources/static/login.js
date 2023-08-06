@@ -158,6 +158,8 @@ function funLogout() {
         },
     });
     localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("OAuthToken");
+    localStorage.removeItem("provider");
     localStorage.removeItem("at");
     sessionStorage.removeItem("rf");
     visibleLogout();

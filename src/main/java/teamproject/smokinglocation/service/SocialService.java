@@ -63,20 +63,18 @@ public class SocialService {
 	        JSONObject jsonObj = new JSONObject(response.getBody());
 
             accessToken  = (String) jsonObj.get("access_token");
-            refreshToken = (String) jsonObj.get("refresh_token");
             
             log.info("accessToken : " + accessToken);
-            log.info("refreshToken : " + refreshToken);
             log.info("===========kakaoLogin process end===========");
         } catch (Exception e) {
             throw new Exception("API call failed");
         }
 
-        return getUserInfoWithToken(accessToken,refreshToken);
+        return getUserInfoWithToken(accessToken);
     }
     
     @Transactional
-    private Member getUserInfoWithToken(String accessToken, String refreshToken) throws Exception {
+    private Member getUserInfoWithToken(String accessToken) throws Exception {
         //HttpHeader 생성
     	log.info("===========kakaoLogin process start===========");
         HttpHeaders headers = new HttpHeaders();
@@ -103,17 +101,16 @@ public class SocialService {
         String email = String.valueOf(account.get("email"));
         String name = String.valueOf(profile.get("nickname"));
         String provider = "kakao";
-        String password = passwordEncoder.encode(id);
+        String password = id;
         List<String> roles = Collections.singletonList("USER"); // 사용자 역할 설정
         
-        member.SocialRegisterEntity(email, password, name, provider, accessToken, refreshToken,roles);
+        member.SocialRegisterEntity(email, password, name, accessToken, provider, roles);
         log.info("id : " + id);
         log.info("email : " + member.getMemberId());
         log.info("name : " + member.getMemberName());
         log.info("provider : " + member.getProvider());
         log.info("password : " + password);
-        log.info("accessToken : " + member.getAccessToken());
-        log.info("refreshToken : " + member.getRefreshToken());
+        log.info("accessToken : " + accessToken);
         log.info("===========kakaoLogin process end===========");
         return member;
     }
@@ -147,20 +144,18 @@ public class SocialService {
 	        JSONObject jsonObj = new JSONObject(response.getBody());
 
             accessToken  = (String) jsonObj.get("access_token");
-            refreshToken = (String) jsonObj.get("refresh_token");
             
             log.info("accessToken : " + accessToken);
-            log.info("refreshToken : " + refreshToken);
             log.info("===========NaverLogin process end===========");
         } catch (Exception e) {
             throw new Exception("API call failed");
         }
 
-        return getNaverUserInfoWithToken(accessToken,refreshToken);
+        return getNaverUserInfoWithToken(accessToken);
     }
     
     @Transactional
-    private Member getNaverUserInfoWithToken(String accessToken, String refreshToken) throws Exception {
+    private Member getNaverUserInfoWithToken(String accessToken) throws Exception {
         //HttpHeader 생성
     	log.info("===========NaverLogin process start===========");
         HttpHeaders headers = new HttpHeaders();
@@ -187,16 +182,15 @@ public class SocialService {
         String nickname = String.valueOf(account.get("nickname"));	// 
         String email = String.valueOf(account.get("email"));		// 이메일
         String provider = "naver";									// 제공자
-        String password = passwordEncoder.encode(id);				// 비밀번호(암호화)
+        String password = id;				// 비밀번호(암호화)
         List<String> roles = Collections.singletonList("USER"); // 사용자 역할 설정
         
-        member.SocialRegisterEntity(email, password, name, "naver", accessToken, refreshToken, roles);
+        member.SocialRegisterEntity(email, password, name, accessToken, "naver", roles);
         log.info("email : " + member.getMemberId());
         log.info("name : " + member.getMemberName());
         log.info("provider : " + member.getProvider());
         log.info("password : " + password);
-        log.info("accessToken : " + member.getAccessToken());
-        log.info("refreshToken : " + member.getRefreshToken());
+        log.info("accessToken : " + accessToken);
         log.info("===========NaverLogin process end===========");
         return member;
     }
@@ -231,17 +225,16 @@ public class SocialService {
             refreshToken = (String) jsonObj.get("id_token");
             
             log.info("accessToken : " + accessToken);
-            log.info("refreshToken : " + refreshToken);
             log.info("===========googleLogin process end===========");
         } catch (Exception e) {
             throw new Exception("API call failed");
         }
 
-        return getGoogleUserInfoWithToken(accessToken,refreshToken);
+        return getGoogleUserInfoWithToken(accessToken);
     }
     
     @Transactional
-    private Member getGoogleUserInfoWithToken(String accessToken, String refreshToken) throws Exception {
+    private Member getGoogleUserInfoWithToken(String accessToken) throws Exception {
         //HttpHeader 생성
     	log.info("===========NaverLogin process start===========");
         HttpHeaders headers = new HttpHeaders();
@@ -259,25 +252,22 @@ public class SocialService {
         );
         //Response 데이터 파싱
         JSONObject jsonObj = new JSONObject(response.getBody());
-        System.out.println(response.getBody());
         
         Member member = new Member();
         String name = String.valueOf(jsonObj.get("id"));						// ID 고유의 값
         String email = String.valueOf(jsonObj.get("email"));					// 이메일
         String verified_email = String.valueOf(jsonObj.get("verified_email"));	// 
         String picture = String.valueOf(jsonObj.get("picture"));				// 프로필
-        String password = passwordEncoder.encode(name);							// 비밀번호(암호화)
-        refreshToken = refreshToken.substring(0, 255);							// 구글 리플레시 토큰 길이가 255 자리 넘어서 255자리까지 잘르는 부분
+        String password = name;							// 비밀번호(암호화)
         List<String> roles = Collections.singletonList("USER"); // 사용자 역할 설정
         
-        member.SocialRegisterEntity(email, password, name, "Naver", accessToken, refreshToken, roles);
+        member.SocialRegisterEntity(email, password, name, accessToken, "google", roles);
         log.info("email : " + member.getMemberId());
         log.info("id : " + name);
         log.info("verified_email : " + verified_email);
         log.info("picture : " + picture);
         log.info("password : " + member.getPassword());
-        log.info("accessToken : " + member.getAccessToken());
-        log.info("refreshToken : " + member.getRefreshToken());
+        log.info("accessToken : " + accessToken);
         log.info("===========NaverLogin process end===========");
         return member;
     }
@@ -287,7 +277,7 @@ public class SocialService {
 	public void registerSocialUser(Member member) throws Exception {
     	// 회원정보 있는지 체크
     	int dup_check = memberRepository.findMemberEmailCountByMemberId(member.getMemberId());
-    	System.out.println(dup_check+"=============="+member.getMemberId());
+
     	if(dup_check == 0) {
     		// 소셜 로그인 회원가입
     		memberRepository.save(member);

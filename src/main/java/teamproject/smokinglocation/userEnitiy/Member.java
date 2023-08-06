@@ -41,14 +41,12 @@ public class Member extends BaseTime implements UserDetails {
     private String password;
 
     @Column(nullable = true)
-    private String refreshToken;
-
-    @Column(nullable = true)
     private String provider;
 
-    @Column(nullable = true)
-    private String accessToken;
-
+    private String refreshToken;
+    
+    private String OAuthToken;
+    
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();
@@ -73,13 +71,12 @@ public class Member extends BaseTime implements UserDetails {
     
     // 소셜 로그인 개인정보 저장을 위해 추가
     @Builder
-    public void SocialRegisterEntity(String memberId, String password, String memberName, String provider, String accessToken, String refreshToken, List<String> roles) {
+    public void SocialRegisterEntity(String memberId, String password, String memberName, String OAuthToken, String provider, List<String> roles) {
         this.memberId = memberId;
         this.password = password;
         this.memberName = memberName;
+        this.OAuthToken = OAuthToken;
         this.provider = provider;
-        this.accessToken = accessToken;
-        this.refreshToken = refreshToken;
         this.roles = roles;
     }
 
