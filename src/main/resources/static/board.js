@@ -19,6 +19,24 @@ function closeBoardPopup() {
     popup.style.opacity = "0";
 }
 
+function openChatPopup() {
+    $.ajax({
+        url: "/chat/open-chat",
+        type: "GET",
+        success: function (res, status, xhr) {
+            var boardContent = document.getElementById("board");
+
+            boardContent.innerHTML = res;
+            boardContent.style.zIndex="9999"
+        },
+        error: function (xhr, status, error){
+            if (xhr.status === 403) {
+                window.alert("로그인 후 이용가능합니다.")
+            }
+        }
+    })
+}
+
 function board() {
     var accessToken = localStorage.getItem("at");
     $.ajax({
