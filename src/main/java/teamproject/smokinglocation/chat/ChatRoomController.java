@@ -14,11 +14,6 @@ public class ChatRoomController {
 
     private final ChatRoomRepository chatRoomRepository;
 
-    // 채팅 리스트 화면
-    @GetMapping("/open-chat")
-    public String rooms() {
-        return "/chat/room";
-    }
     // 모든 채팅방 목록 반환
     @GetMapping("/rooms")
     @ResponseBody
@@ -28,8 +23,9 @@ public class ChatRoomController {
     // 채팅방 생성
     @PostMapping("/room")
     @ResponseBody
-    public ChatRoom createRoom(@RequestParam String name) {
-        return chatRoomRepository.createChatRoom(name);
+    public String createRoom(@RequestParam String name) {
+        ChatRoom chatRoom = chatRoomRepository.createChatRoom(name);
+        return chatRoom.getRoomId();
     }
     // 채팅방 입장 화면
     @GetMapping("/room/enter/{roomId}")
