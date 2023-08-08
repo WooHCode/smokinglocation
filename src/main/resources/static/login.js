@@ -156,6 +156,7 @@ function funLogout() {
         }),
         success: function(res) {
             alert(res+"님 로그아웃 되었습니다.")
+            localStorage.setItem("temp",res)
         },
     });
     localStorage.removeItem("isLoggedIn");
