@@ -456,3 +456,10 @@ function checkArrival(myLatLng, lastPolylineLat ,lastPolylineLng, arrivalDistanc
         }
     }
 }
+
+function showSavedSpot(spotInfo) {
+    if (spotInfo == null) {
+        return null;
+    }
+
+}

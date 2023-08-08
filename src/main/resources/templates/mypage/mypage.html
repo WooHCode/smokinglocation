@@ -56,7 +56,9 @@
             </thead>
             <tbody>
                 <tr th:each="spot:${savedSpot}">
-                    <td th:text="${spot.loc}">위치정보</td>
+                    <td><button
+                            th:onclick="|location.href='@{/map?id={id} (id=${spot.id})}'|"
+                            th:text="${spot.loc}">위치정보</button></td>
                 </tr>
             </tbody>
         </table>

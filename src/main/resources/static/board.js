@@ -7,6 +7,7 @@ function refreshEveryTokens(xhr) {
         sessionStorage.setItem("rf", newRefreshToken);
     }
 }
+
 function openBoardPopup() {
     var popup = document.getElementById("boardPopup");
     popup.style.visibility = "visible";
@@ -18,6 +19,8 @@ function closeBoardPopup() {
     popup.style.visibility = "hidden";
     popup.style.opacity = "0";
 }
+
+
 
 function board() {
     var accessToken = localStorage.getItem("at");
