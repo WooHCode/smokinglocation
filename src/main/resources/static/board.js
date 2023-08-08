@@ -66,7 +66,6 @@ function getChatPopup() {
     ws.connect({}, function (frame) {
         ws.subscribe("/sub/chat/room/" + roomId, function (message) {
             var recv = JSON.parse(message.body);
-            console.log("message = "+recv)
             var chatElement = document.createElement("div");
             chatElement.classList.add(recv.sender === "myname" ? "message user" : "message admin");
             var chatText = document.createElement("p");
@@ -76,18 +75,39 @@ function getChatPopup() {
 
             // 채팅 창 스크롤을 맨 아래로 이동
             chatWindow.scrollTop = chatWindow.scrollHeight;
+
+            if (recv.sender === "myname") {
+                displaySentMessage(recv.message);
+            }
         });
-        var data = JSON.stringify({type:'ENTER', roomId:roomId, sender:"myname"});
-        ws.send("/pub/chat/message",{},data)
     });
 }
 
 function sendMessage() {
-    var message = document.getElementById("message")
-    var data = JSON.stringify({type:'TALK', roomId:roomId, sender:"myname", message:message.value});
-    ws.send("/pub/chat/message",{},data)
-    message.innerText=''
+    var message = document.getElementById("message").value;
+    var data = JSON.stringify({ type: 'TALK', roomId: roomId, sender: "myname", message: message });
+    ws.send("/pub/chat/message", {}, data);
+    var initMessage = document.getElementById("message-user");
+    if (initMessage.innerText === '') {
+        initMessage.innerText = message;
+    } else {
+        displaySentMessage(message);
+    }
+    document.getElementById("message").value = '';
+}
 
+function displaySentMessage(message) {
+    console.log("displaySentMessage = " + message)
+    var chatWindow = document.getElementById("chatWindow");
+    var chatElement = document.createElement("div");
+    chatElement.classList.add("message", "user");
+    var chatText = document.createElement("p");
+    chatText.innerText = message;
+    chatElement.appendChild(chatText);
+    chatWindow.appendChild(chatElement);
+
+    // 채팅 창 스크롤을 맨 아래로 이동
+    chatWindow.scrollTop = chatWindow.scrollHeight;
 }
 
 function board() {

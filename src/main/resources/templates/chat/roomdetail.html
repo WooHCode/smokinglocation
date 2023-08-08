@@ -5,22 +5,21 @@
       <a class="close-btn" onclick="closeChatPopup()">&times;</a>
     </div>
     <div class="chat-container">
-      <div class="chat-window">
+      <div class="chat-window" id="chatWindow">
         <div class="message admin">
           <p>안녕하세요! 무엇을 도와드릴까요?</p>
         </div>
         <div class="message user">
-          <p>안녕하세요!</p>
+          <p id="message-user"></p>
         </div>
       </div>
       <div class="input-area">
         <input type="text" id="message" placeholder="상담원에게 메세지 보내기">
-        <button onclick="sendMessage()">전송</button>
+        <button class="sendingButton" onclick="sendMessage()">전송</button>
       </div>
     </div>
   </div>
 </div>
-
 
 <style>
   .c-popup-overlay {
@@ -41,7 +40,7 @@
 
   .c-popup-content {
     background-color: #DEE2ED;
-    width: 300px;
+    width: 500px;
     height: 80%;
     display: flex;
     flex-direction: column;
@@ -58,11 +57,18 @@
     margin: 0;
   }
   .title {
-    margin: 0; /* 여백 제거 */
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 180px;
+    font-size: medium;
   }
   .close-btn {
     cursor: pointer;
     font-size: 20px; /* 닫기 버튼 크기 조정 */
+    margin-right: 20px;
+  }
+  .sendingButton{
+    margin-right:30px
   }
   .btn img {
     border-radius: 5px;
