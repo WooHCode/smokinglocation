@@ -6,21 +6,19 @@
     </div>
     <div class="chat-container">
       <div class="chat-window" id="chatWindow">
-        <div class="message admin">
-          <p id="message-admin">안녕하세요! 무엇을 도와드릴까요?</p>
+        <div id="message-admin" class="message admin">
         </div>
-        <div id="message-user1" class="message user">
-          <p id="message-user"></p>
+        <div id="message-user" class="message user">
         </div>
       </div>
       <div class="input-area">
         <input type="text" id="message" placeholder="상담원에게 메세지 보내기">
-        <button class="sendingButton" onclick="sendMessage()">전송</button>
+        <button id="button-send" class="sendingButton" onclick="sendingMessage()">전송</button>
+        <button id="startChat" class="sendingButton" onclick="afterChatPopupLoaded()">채팅시작</button>
       </div>
     </div>
   </div>
 </div>
-
 <style>
   .c-popup-overlay {
     position: fixed;
@@ -148,3 +146,4 @@
   }
 
 </style>
+</html>
