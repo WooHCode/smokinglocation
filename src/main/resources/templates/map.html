@@ -18,6 +18,7 @@
     </script>
     <script th:inline="javascript">
         var spotInfo = [[${spotInfo}]];
+        var readySpotInfo = [[${readySpotInfo}]];
         console.log("spotInfo : Lng=" + spotInfo[0] + " Lat=" + spotInfo[1] + " Loc=" + spotInfo[2]);
         // TODO : 지도에 해당 spot 마커 표시 메서드 구현
     </script>

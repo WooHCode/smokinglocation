@@ -56,6 +56,7 @@ public class MapController {
             log.info("==========즐겨찾는 spot으로 이동");
             String[] lngLatById = savedSpotService.getLngLatById(spotId);
             model.addAttribute("spotInfo", lngLatById);
+            model.addAttribute("readySpotInfo", true);
         }
 
         return "map";

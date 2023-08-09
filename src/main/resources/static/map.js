@@ -109,7 +109,7 @@ function loadNaverMap(mylat, mylon) {
                         getPathReady = false;
                     }
 
-                    // TODO : ajax -> 최근 검색한 위치 데이터로 넘기기
+                    // 마커 클릭 시, 해당 위치 정보를 저장 -> 마이페이지 최근 찾아본 흡연구역 리스트업
                     var data={
                         findLng:endLatLng[0],
                         findLat:endLatLng[1],
@@ -125,7 +125,7 @@ function loadNaverMap(mylat, mylon) {
                         data:JSON.stringify(data),
                         contentType: "application/json",
                         success: function(){
-                            console.log("DONE");
+                            console.log("클릭 위치 저장 완료");
                         }
                     })
 
@@ -135,6 +135,9 @@ function loadNaverMap(mylat, mylon) {
                 marker.setMap(map);
             })(title, loc);
         }
+    }
+    if (readySpotInfo != null) {
+        showSavedSpot();
     }
 }
 
@@ -457,9 +460,18 @@ function checkArrival(myLatLng, lastPolylineLat ,lastPolylineLng, arrivalDistanc
     }
 }
 
-function showSavedSpot(spotInfo) {
-    if (spotInfo == null) {
-        return null;
-    }
+/**
+ * 마이페이지에서 최근 본 위치 클릭하면 해당 위치 지도에서 보여줌
+ */
+function showSavedSpot(){
+    console.log("showSavedSpot 진입============");
+    var marker = new naver.maps.Marker({
+        position: new naver.maps.LatLng(spotInfo[1], spotInfo[0]),
+        title: spotInfo[2],
+        map: map
+    });
+    map.setCenter(new naver.maps.LatLng(spotInfo[1], spotInfo[0]));
+    map.setZoom(15);
 
+    spotInfo = null;
 }
