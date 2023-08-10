@@ -7,14 +7,13 @@
     <div class="chat-container">
       <div class="chat-window" id="chatWindow">
         <div id="message-admin" class="message admin">
-        </div>
-        <div id="message-user" class="message user">
+          <b>안녕하세요. 고객센터입니다.</b>
         </div>
       </div>
       <div class="input-area">
         <input type="text" id="message" placeholder="상담원에게 메세지 보내기">
         <button id="button-send" class="sendingButton" onclick="sendingMessage()">전송</button>
-        <button id="startChat" class="sendingButton" onclick="afterChatPopupLoaded()">채팅시작</button>
+        <button id="startChat" class="sendingButtonStart" onclick="afterChatPopupLoaded()">채팅시작</button>
       </div>
     </div>
   </div>
@@ -43,7 +42,7 @@
     display: flex;
     flex-direction: column;
     border-radius: 10px;
-    overflow: hidden;
+    overflow: scroll;
   }
   .title-content {
     width: 100%;
@@ -65,8 +64,12 @@
     font-size: 20px; /* 닫기 버튼 크기 조정 */
     margin-right: 20px;
   }
-  .sendingButton{
+  .sendingButtonStart{
     margin-right:30px
+  }
+  .sendingButton{
+    margin-right:30px;
+    display: none;
   }
   .btn img {
     border-radius: 5px;
@@ -91,6 +94,7 @@
     flex-grow: 1;
     padding: 10px;
     overflow-y: auto;
+    max-height: 470px;
     background-color: #DEE2ED;
   }
   .message {
@@ -99,20 +103,7 @@
     max-width: 70%;
   }
 
-  .message.admin {
-    background-color: #FFFFFF;
-    color: #000;
-    margin-left: 0; /* 왼쪽 정렬 */
-    margin-right: auto; /* 오른쪽 공간을 자동으로 채움 */
-    margin-bottom: 10px;
-  }
-  .message.user {
-    background-color: #123597;
-    color: #FFFFFF;
-    margin-left: auto; /* 왼쪽 공간을 자동으로 채움 */
-    margin-right: 0; /* 오른쪽 정렬 */
-    margin-bottom: 10px;
-  }
+
   .input-area {
     background-color: #123597;
     padding: 10px;

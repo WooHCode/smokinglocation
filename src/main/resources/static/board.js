@@ -52,6 +52,10 @@ function getChatPopup() {
             boardContent.style.zIndex="9999"
             openChatPopup()
             afterChatPopupLoaded()
+            var sendingButton = document.getElementById("button-send")
+            sendingButton.style.display = "none"
+            var connectionButton = document.getElementById("startChat")
+            connectionButton.style.display = "block"
         },
         error: function (xhr, status, error){
             if (xhr.status === 403) {
