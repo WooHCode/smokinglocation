@@ -206,7 +206,7 @@ function googleLogin(provider) {
         data: { "provider": provider }, // provider 값을 JSON 데이터로 만들어 전달
         success: function(res) {
 			// 구글 소셜 로그인 URL을 생성하여 리다이렉트
-			window.location.href = "https://accounts.google.com/o/oauth2/v2/auth?client_id="+res.clientId+"&redirect_uri="+res.redirectUrl+"&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email";;
+			window.location.href = "https://accounts.google.com/o/oauth2/v2/auth?client_id="+res.clientId+"&redirect_uri="+res.redirectUrl+"&response_type=code&scope=https://www.googleapis.com/auth/drive.metadata.readonly";
         },
         error: function(xhr, status, error) {
 			// 오류가 발생한 경우 사용자에게 알림
