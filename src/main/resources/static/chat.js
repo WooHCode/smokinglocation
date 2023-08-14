@@ -39,7 +39,14 @@ function onConnected() {
         }
         // 스크롤을 최하단으로 이동시키는 로직
         var chatWindow = document.getElementById("chatWindow");
+        // 스크롤이 최하단에 있는지 확인
+        if (chatWindow.scrollTop + chatWindow.clientHeight >= chatWindow.scrollHeight - 5) {
+            // 스크롤바 보이기
+            chatWindow.style.overflow = 'auto';
+        }
+        // 새로운 메시지가 추가된 후 스크롤을 최하단으로 이동
         chatWindow.scrollTop = chatWindow.scrollHeight;
+
     });
     stomp.send('/pub/chat/message', {}, JSON.stringify({type: "ENTER", roomId: roomId, sender: username}))
 }

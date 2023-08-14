@@ -12,7 +12,7 @@
       </div>
       <div class="input-area">
         <input type="text" id="message" placeholder="상담원에게 메세지 보내기">
-        <button id="button-send" class="sendingButton" onclick="sendingMessage()">전송</button>
+        <button id="button-send" class="sendingButton" onclick="sendingMessage()"></button>
         <button id="startChat" class="sendingButtonStart" onclick="afterChatPopupLoaded()">채팅시작</button>
       </div>
     </div>
@@ -42,7 +42,7 @@
     display: flex;
     flex-direction: column;
     border-radius: 10px;
-    overflow: scroll;
+    overflow: hidden;
   }
   .title-content {
     width: 100%;
@@ -68,8 +68,11 @@
     margin-right:30px
   }
   .sendingButton{
-    margin-right:30px;
+/*    margin-right:50px;
+    margin-bottom: 30px;*/
     display: none;
+    background: url('/image/sending-button.png') no-repeat;
+    margin-bottom: 10px;
   }
   .btn img {
     border-radius: 5px;
@@ -93,7 +96,7 @@
     flex-direction: column; /* 세로 정렬 */
     flex-grow: 1;
     padding: 10px;
-    overflow-y: auto;
+    overflow: hidden;
     max-height: 470px;
     background-color: #DEE2ED;
   }
@@ -105,7 +108,7 @@
 
 
   .input-area {
-    background-color: #123597;
+    background-color: #ffffff;
     padding: 10px;
     display: flex;
     align-items: center;
@@ -115,9 +118,8 @@
   .input-area input {
     flex-grow: 1;
     padding: 10px;
-    border: 1px solid #6B8CE8;
+    border: none;
     border-radius: 20px;
-    margin-right: 10px;
     outline: none;
   }
 
