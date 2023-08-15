@@ -43,8 +43,24 @@ public class MapController {
             model.addAttribute("myLatitude", myLatitude);
             model.addAttribute("myLongitude",myLongitude);
         }
+        String accessToken = (String)model.asMap().get("accessToken");
+        String refreshToken = (String)model.asMap().get("refreshToken");
+        String OAuthToken = (String)model.asMap().get("OAuthToken");
+        String provider = (String)model.asMap().get("provider");
+
+        model.addAttribute("provider", provider);
+        model.addAttribute("OAuthToken", OAuthToken);
+        model.addAttribute("accessToken", accessToken);
+        model.addAttribute("refreshToken", refreshToken);
+        model.addAttribute("facilities", totalData);
+        model.addAttribute("naverMapClientId", naverMapClientId);
+
         log.info("===========totalDataLoading===========");
         log.info("totalData = {}", totalData);
+        log.info("accessToken = {}", accessToken);
+        log.info("refreshToken = {}", refreshToken);
+        log.info("OAuthToken = {}", OAuthToken);
+        log.info("provider = {}", provider);
         log.info("===========totalDataLoadingFinish============");
         model.addAttribute("facilities", totalData);
         model.addAttribute("naverMapClientId", naverMapClientId);
