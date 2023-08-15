@@ -22,6 +22,15 @@
             border-left:none;
         }
 
+        a {
+            text-decoration-line: none;
+            color: black;
+        }
+
+        a:hover {
+            color: blue;
+        }
+
     </style>
 </head>
 <body style="text-align: center">
@@ -56,9 +65,9 @@
             </thead>
             <tbody>
                 <tr th:each="spot:${savedSpot}">
-                    <td><button
-                            th:onclick="|location.href='@{/map?id={id} (id=${spot.id})}'|"
-                            th:text="${spot.loc}">위치정보</button></td>
+                    <td><a
+                            th:href="@{/map(id=${spot.id})}"
+                            th:text="${spot.loc}">위치정보</a></td>
                 </tr>
             </tbody>
         </table>

@@ -136,9 +136,35 @@ function loadNaverMap(mylat, mylon) {
             })(title, loc);
         }
     }
-    if (readySpotInfo != null) {
+    if(readySpotInfo){
         showSavedSpot();
     }
+}
+
+
+/**
+ * 마이페이지에서 최근 본 위치 클릭하면 해당 위치 지도에서 보여줌
+ */
+function showSavedSpot() {
+    console.log("showSavedSpot 진입========");
+    console.log("최근 위치 찾기(readySpotInfo) : " + readySpotInfo);
+    console.log("찾는 위치 Lng : " + spotInfo[0] + " / 찾는 위치 Lat : " + spotInfo[1]);
+    map.setCenter(new naver.maps.LatLng(spotInfo[1], spotInfo[0]));
+    map.setZoom(17);
+    var marker = new naver.maps.Marker({
+        position: new naver.maps.LatLng(spotInfo[1], spotInfo[0]),
+        title: spotInfo[2],
+        map: map
+    });
+    var infoWindow = new naver.maps.InfoWindow({
+        content: spotInfo[2]
+    });
+    naver.maps.Event.addListener(marker, "click", function () {
+        infoWindow.open(map, marker);
+    });
+
+    spotInfo = null;
+    readySpotInfo = null;
 }
 
 function getCurrentPos(isClick) {
@@ -460,18 +486,4 @@ function checkArrival(myLatLng, lastPolylineLat ,lastPolylineLng, arrivalDistanc
     }
 }
 
-/**
- * 마이페이지에서 최근 본 위치 클릭하면 해당 위치 지도에서 보여줌
- */
-function showSavedSpot(){
-    console.log("showSavedSpot 진입============");
-    var marker = new naver.maps.Marker({
-        position: new naver.maps.LatLng(spotInfo[1], spotInfo[0]),
-        title: spotInfo[2],
-        map: map
-    });
-    map.setCenter(new naver.maps.LatLng(spotInfo[1], spotInfo[0]));
-    map.setZoom(15);
 
-    spotInfo = null;
-}
