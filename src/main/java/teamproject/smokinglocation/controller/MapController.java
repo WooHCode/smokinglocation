@@ -1,21 +1,21 @@
 package teamproject.smokinglocation.controller;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import teamproject.smokinglocation.dto.NearbyLocationDto;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import teamproject.smokinglocation.dto.*;
 import teamproject.smokinglocation.entity.TotalData;
 import teamproject.smokinglocation.service.DataResponseService;
+
 import teamproject.smokinglocation.service.LocationNearbyService;
+import teamproject.smokinglocation.service.SavedSpotService;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -24,19 +24,20 @@ public class MapController {
 
     @Value("${naver.map.client.id}")
     private String naverMapClientId;
-    
+
     private final DataResponseService responseService;
     private final LocationNearbyService nearbyService;
+    private final SavedSpotService savedSpotService;
     private static String myLatitude = "";
     private static String myLongitude = "";
-    
+
     @GetMapping("/")
     public String home() {
         return "redirect:/map";
     }
 
     @GetMapping("/map")
-    public String showMap(Model model) {
+    public String showMap(Model model, @Nullable @RequestParam("id") Long spotId) {
         List<TotalData> totalData = responseService.getTotalData();
         if (!myLatitude.equals("") && !myLongitude.equals("")) {
             model.addAttribute("myLatitude", myLatitude);
@@ -61,6 +62,19 @@ public class MapController {
         log.info("OAuthToken = {}", OAuthToken);
         log.info("provider = {}", provider);
         log.info("===========totalDataLoadingFinish============");
+        model.addAttribute("facilities", totalData);
+        model.addAttribute("naverMapClientId", naverMapClientId);
+
+        /**
+         * SavedSpotId 를 PathVariable로 받아서 해당 지점 위도 경도를 map.html로 넘겨주어 marker표시
+         */
+        if (spotId != null) {
+            log.info("==========즐겨찾는 spot으로 이동");
+            String[] lngLatById = savedSpotService.getLngLatById(spotId);
+            model.addAttribute("spotInfo", lngLatById);
+            model.addAttribute("readySpotInfo", true);
+        }
+
         return "map";
     }
 
@@ -244,3 +258,4 @@ public class MapController {
         return null;
     }
 }
+

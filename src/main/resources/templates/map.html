@@ -35,6 +35,13 @@
 			closeLoginPopup();
 		}
     </script>
+    <script th:inline="javascript">
+        // 마이페이지에서 최근 위치 클릭 시 해당 데이터 넘겨주어 저장
+        var spotInfo = [[${spotInfo}]];
+        var readySpotInfo = [[${readySpotInfo}]];
+        console.log("spotInfo : Lng=" + spotInfo[0] + " Lat=" + spotInfo[1] + " Loc=" + spotInfo[2]);
+        // TODO : 지도에 해당 spot 마커 표시 메서드 구현
+    </script>
 </head>
 <body>
 <div th:replace="body/menu.html::#menu"></div>
