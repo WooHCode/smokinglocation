@@ -1,0 +1,87 @@
+<div id="boardPopup" class="popup-overlay">
+    <div class="popup-content">
+        <span class="close-btn" onclick="closeBoardPopup()">
+            <img class="close-btn-button"><img src="/image/xbox.png"></button>
+        </span>
+        <div class="buttons">
+            <div class="btn-row">
+            <button id="chat_btn" class="btn" onclick="getChatPopup()"><img src="/image/chat-image.png" alt="E"></button>
+            <button class="btn"><img src="/image/ask-image.png" alt="W"></button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .popup-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s, opacity 0.3s ease;
+        z-index: 9999;
+
+
+    }
+
+    .popup-content {
+        text-align: center;
+        width: 400px;
+        height: 200px; /* Increased the height of the popup */
+        padding: 20px;
+        background-color: #6B8CE8; /* Changed the background color to blue */
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+    .close-btn {
+        margin-bottom: 5px;
+    }
+    .buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        height: 100%; /* Added to ensure the buttons take up the full height of the popup */
+        justify-content: center; /* Added to center the buttons vertically */
+        margin-bottom: 25px;
+    }
+
+    .btn-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around; /* Adjusted to create more space between the images */
+    }
+
+    .btn {
+        display: flex;
+        align-items: center;
+        justify-content: center; /* Adjusted to center the image in the button */
+        padding: 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: transparent;
+        font-size: 1.2em;
+        height: 60px;
+        flex: 1;
+    }
+
+    .btn img {
+        border-radius: 5px;
+        width: 150px; /* Increased the size of the images */
+        height: 150px; /* Increased the size of the images */
+    }
+
+    .popup-content .close-btn {
+        align-self: flex-end;
+        cursor: pointer;
+
+    }
+
+
+</style>

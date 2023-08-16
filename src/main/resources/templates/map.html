@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="/css/map.css">
     <link rel="stylesheet" href="/css/popup.css">
     <link rel="stylesheet" href="/css/menu.css">
+    <script src="/webjars/sockjs-client/1.1.2/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/2.3.3-1/stomp.min.js"></script>
     <script type="text/javascript"
             th:src="@{'//openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=' + ${naverMapClientId} + '&submodules=geocoder'}"
             defer></script>
@@ -54,6 +56,7 @@
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="/map.js"></script>
+<script src="/chat.js"></script>
 <script src="/selectScript.js"></script>
 <script src="/sidebar.js"></script>
 <script src="/login.js"></script>
