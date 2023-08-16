@@ -5,35 +5,223 @@
     <title>마이페이지</title>
     <style>
         table {
-            border-top:solid;
             width: 100%;
             border-collapse: collapse;
+            text-align: left;
+            border-color: black;
+            background-color: white;
+            color:black;
+            font-weight: bold;
+            /**
+            왜 안되지
+             */
+            border-radius: 20px;
+
         }
-        th,td{
+        tr{
+            height: 50px;
             border-bottom: 1px solid;
-            border-left:1px solid;
             border-collapse: collapse;
+        }
+
+        th{
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            border-bottom: solid;
+            background-color: #123597;
+            padding:5px;
+            font-size: large;
+        }
+
+        td{
             padding:5px;
         }
-        th{
-            border-bottom: solid;
+
+        /*안먹힘;;*/
+        #inquiries:last-child {
+            border-bottom: none;
         }
-        th:first-child,td:first-child{
-            border-left:none;
+        #saved-spot:last-child{
+            border-bottom: none;
         }
 
-        a {
-            text-decoration-line: none;
-            color: black;
+        body{
+            background-color: #97ABFF;
         }
 
-        a:hover {
-            color: blue;
+        /*body 는 기본적으로 높이값이 나오지 않아서 .container 에 height 100% 주기위해 부모태그 높이 설정*/
+        html, body{
+            margin:0;
+            heigth:100%;
+            overflow: hidden;
+        }
+        .container{
+            width: 95%;
+            height: 100%;
+            background-color: #97ABFF;
+            display: flex;
+            flex-direction: row;
+            margin-top:100px;
+            padding: 20px;
         }
 
+        #p1{
+            width:60%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #p2{
+            width:50%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #p1-1{
+            width:100%;
+            display: flex;
+            flex-direction: row;
+        }
+
+        #p1-1-1{
+            width:30%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #p1-1-2{
+            width:70%;
+            display:flex;
+            flex-direction: column;
+        }
+
+        .image{
+            width: 150px;
+            height: 150px;
+            border-radius: 70%;
+            overflow: hidden;
+            margin-right:10%;
+        }
+
+        .logout-btn {
+            width: 286px;
+            height: 64px;
+            top: 182px;
+            left: 362px;
+            border-radius: 100px;
+            background-color: #123597;
+            color: white;
+        }
+
+        .general-btn{
+            width: 100px;
+            height: 80px;
+            border-radius: 10px;
+            margin-top:40px;
+            margin-right:5%;
+            border: none;
+        }
     </style>
+    <link rel="stylesheet" href="/css/popup.css">
+    <link rel="stylesheet" href="/css/menu.css">
 </head>
 <body style="text-align: center">
+<div id="menu" class="menu"  style="background-color: #123597;">
+    <nav class="clearfix" >
+        <ul class="clearfix" style="background-color: #123597;">
+            <!--            a태그가 li태그를 감싸게 해야 폰트 색깔이 입혀짐-->
+            <a onclick="gotoHome()"><li class="home-li">서울시 흡연구역</li></a> <!--""<-여기 부분에 URL 작성하면 됨-->
+
+            <!--            적당한 기능 배치해야함-->
+            <li><a onclick="">쇼핑</a></li>
+            <li><a onclick="">고객센터</a></li>
+            <li><a onclick="">마이페이지</a></li>
+            <!--            적당한 기능 배치해야함-->
+
+        </ul>
+        <a id="pull" href="#"></a>
+    </nav>
+</div>
+
+<div class="container">
+    <div id="p1">
+        <div id="p1-1">
+            <div id="p1-1-1">
+                <div class="image">
+                    <!--            프로필 사진-->
+                    <img src="/image/test_profile_img.jpg">
+                </div>
+                <!--            유저 id-->
+                <div>
+                    <p style="color:white; font-size: 20px">user name</p>
+                </div>
+            </div>
+
+            <div id="p1-1-2">
+                <div>
+                    <button class="logout-btn">로그아웃</button>
+                </div>
+                <div>
+                    <button class="general-btn">
+                        <img src="/image/Setting-two%20(设置).png" alt=""><br>설정</button>
+                    <button class="general-btn">
+                        <img src="/image/Message-emoji%20(表情信息).png" alt=""><br>문의</button>
+                    <button class="general-btn">
+                        <img src="/image/Bookmark-one%20(书签).png" alt=""><br>저장</button>
+                </div>
+            </div>
+        </div>
+
+        <!--        문의내용-->
+        <div id="inquiry" style="text-align: center">
+            <table>
+                <thead>
+                <tr>
+                    <th><p style="color:white">문의내용</p></th>
+                </tr>
+                </thead>
+                <tbody  id="inquiries">
+                <tr>
+                    <td>제목</td>
+                </tr>
+                <tr>
+                    <td>제목</td>
+                </tr>
+                <tr>
+                    <td>제목</td>
+                </tr>
+                <tr>
+                    <td>제목</td>
+                </tr>
+                <tr>
+                    <td>제목</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="p2" style="margin-left:50px">
+        <!--        이력-->
+        <table>
+            <thead>
+            <tr>
+                <th><p style="color:white">내가 찾아본 흡연구역</p></th>
+            </tr>
+            </thead>
+            <tbody id="saved-spot">
+            <tr th:each="spot:${savedSpot}">
+                <td><a
+                        th:href="@{/map(id=${spot.id})}"
+                        th:text="${spot.loc}">위치정보</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<!--
     <div><h1>마이페이지</h1></div>
     <div><h2>회원정보</h2></div>
     <div>
@@ -55,47 +243,13 @@
         </form>
     </div>
 
-    <div>
-        <h2>내가 찾아본 흡연구역</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>위치정보</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="spot:${savedSpot}">
-                    <td><a
-                            th:href="@{/map(id=${spot.id})}"
-                            th:text="${spot.loc}">위치정보</a></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
 
-    <div>
-        <h2>나의 문의내역</h2>
-        <table>
-            <thead>
-            <tr>
-                <th>제목</th>
-                <th>답변여부</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>제목</td>
-                <td>답변여부</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div>
-        <button type="button">문의 게시판</button>
-        <button type="button" onclick="location.href='/'">홈으로</button>
-    </div>
+-->
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="/mypage.js"></script>
+<script src="/map.js"></script>
+<script src="/login.js"></script>
+<script src="/board.js"></script>
 </body>
 </html>
