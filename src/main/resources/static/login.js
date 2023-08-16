@@ -4,7 +4,6 @@ var logout = document.getElementById("logout");
 var register = document.getElementById("register");
 var mypage = document.getElementById("mypage");
 
-
 function openPopup() {
     var popup = document.getElementById("popup");
     popup.style.visibility = "visible";
@@ -27,12 +26,12 @@ function visibleLogout() {
     if (isLoggedIn === "true") {
         login.style.display = "none";
         logout.style.display = "block";
-        register.style.display = "none";
+		register.style.display = "none";
         mypage.style.display = "block";
     }else {
         login.style.display = "block";
         logout.style.display = "none";
-        register.style.display = "block";
+		register.style.display = "block";
         mypage.style.display = "none";
     }
 }
@@ -160,7 +159,59 @@ function funLogout() {
         },
     });
     localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("OAuthToken");
+    localStorage.removeItem("provider");
     localStorage.removeItem("at");
     sessionStorage.removeItem("rf");
     visibleLogout();
+}
+// 카카오 소셜 로그인 호출 함수
+function kakaoLogin(provider) {
+    $.ajax({
+        url: "/getSocialAuthUrl", // 서버에서 카카오 인증 URL을 가져오는 엔드포인트
+        type: "POST",
+        data: { "provider": provider }, // provider 값을 JSON 데이터로 만들어 전달
+        success: function(res) {
+			// 카카오 소셜 로그인 URL을 생성하여 리다이렉트
+			window.location.href = "https://kauth.kakao.com/oauth/authorize?client_id=" + res.clientId + "&redirect_uri=" + res.redirectUrl + "&response_type=code";
+        },
+        error: function(xhr, status, error) {
+			// 오류가 발생한 경우 사용자에게 알림
+            alert("카카오 로그인 오류가 발생했습니다.");
+        }
+    });
+}
+
+// 카카오 소셜 로그인 호출 함수
+function naverLogin(provider) {
+	    $.ajax({
+        url: "/getSocialAuthUrl", // 서버에서 카카오 인증 URL을 가져오는 엔드포인트
+        type: "POST",
+        data: { "provider": provider }, // provider 값을 JSON 데이터로 만들어 전달
+        success: function(res) {
+			// 카카오 소셜 로그인 URL을 생성하여 리다이렉트
+			window.location.href = "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id="+res.clientId+"&state=STATE_STRING&redirect_uri="+res.redirectUrl;
+        },
+        error: function(xhr, status, error) {
+			// 오류가 발생한 경우 사용자에게 알림
+            alert("네이버 로그인 오류가 발생했습니다.");
+        }
+    });
+}
+
+// 구글 소셜 로그인 호출 함수
+function googleLogin(provider) {
+	    $.ajax({
+        url: "/getSocialAuthUrl", // 서버에서 카카오 인증 URL을 가져오는 엔드포인트
+        type: "POST",
+        data: { "provider": provider }, // provider 값을 JSON 데이터로 만들어 전달
+        success: function(res) {
+			// 구글 소셜 로그인 URL을 생성하여 리다이렉트
+			window.location.href = "https://accounts.google.com/o/oauth2/v2/auth?client_id="+res.clientId+"&redirect_uri="+res.redirectUrl+"&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email";;
+        },
+        error: function(xhr, status, error) {
+			// 오류가 발생한 경우 사용자에게 알림
+            alert("구글 로그인 오류가 발생했습니다.");
+        }
+    });
 }

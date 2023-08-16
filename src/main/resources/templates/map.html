@@ -15,8 +15,34 @@
             defer></script>
     <script th:inline="javascript">
         var facilities = [[${facilities}]];
+        var socialLoginDto = [[${socialLoginDto}]];
+		var accessToken = [[${accessToken}]];	
+        var refreshToken = [[${refreshToken}]]; 
+        var OAuthToken = [[${OAuthToken}]];
+        var provider = [[${provider}]]; 
+
         localStorage.removeItem("lat");
         localStorage.removeItem("lng");
+		
+		// accessToken과 refreshToken이 비어있지 않은 경우에만 처리합니다. 
+        if(accessToken && refreshToken) {
+			localStorage.setItem("at",accessToken);
+			localStorage.setItem("OAuthToken",OAuthToken);
+			localStorage.setItem("provider",provider);
+			sessionStorage.setItem("rf", refreshToken);
+			// 사용자에게 로그인 성공을 알립니다.
+			window.alert("로그인에 성공하였습니다.")
+			localStorage.setItem("isLoggedIn","true");
+			visibleLogout();
+			closeLoginPopup();
+		}
+    </script>
+    <script th:inline="javascript">
+        // 마이페이지에서 최근 위치 클릭 시 해당 데이터 넘겨주어 저장
+        var spotInfo = [[${spotInfo}]];
+        var readySpotInfo = [[${readySpotInfo}]];
+        console.log("spotInfo : Lng=" + spotInfo[0] + " Lat=" + spotInfo[1] + " Loc=" + spotInfo[2]);
+        // TODO : 지도에 해당 spot 마커 표시 메서드 구현
     </script>
 </head>
 <body>
@@ -36,5 +62,6 @@
 <script src="/login.js"></script>
 <script src="/board.js"></script>
 <script src="/mypage.js"></script>
+<script src="/notification.js"></script>
 </body>
 </html>

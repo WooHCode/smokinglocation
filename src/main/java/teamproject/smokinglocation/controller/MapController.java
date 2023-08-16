@@ -3,6 +3,7 @@ package teamproject.smokinglocation.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import teamproject.smokinglocation.entity.TotalData;
 import teamproject.smokinglocation.service.DataResponseService;
 
 import teamproject.smokinglocation.service.LocationNearbyService;
+import teamproject.smokinglocation.service.SavedSpotService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,6 +27,7 @@ public class MapController {
 
     private final DataResponseService responseService;
     private final LocationNearbyService nearbyService;
+    private final SavedSpotService savedSpotService;
     private static String myLatitude = "";
     private static String myLongitude = "";
 
@@ -34,17 +37,43 @@ public class MapController {
     }
 
     @GetMapping("/map")
-    public String showMap(Model model) {
+    public String showMap(Model model, @Nullable @RequestParam("id") Long spotId) {
         List<TotalData> totalData = responseService.getTotalData();
         if (!myLatitude.equals("") && !myLongitude.equals("")) {
             model.addAttribute("myLatitude", myLatitude);
             model.addAttribute("myLongitude",myLongitude);
         }
+        String accessToken = (String)model.asMap().get("accessToken");
+        String refreshToken = (String)model.asMap().get("refreshToken");
+        String OAuthToken = (String)model.asMap().get("OAuthToken");
+        String provider = (String)model.asMap().get("provider");
+
+        model.addAttribute("provider", provider);
+        model.addAttribute("OAuthToken", OAuthToken);
+        model.addAttribute("accessToken", accessToken);
+        model.addAttribute("refreshToken", refreshToken);
+        model.addAttribute("facilities", totalData);
+        model.addAttribute("naverMapClientId", naverMapClientId);
+
         log.info("===========totalDataLoading===========");
         log.info("totalData = {}", totalData);
+        log.info("accessToken = {}", accessToken);
+        log.info("refreshToken = {}", refreshToken);
+        log.info("OAuthToken = {}", OAuthToken);
+        log.info("provider = {}", provider);
         log.info("===========totalDataLoadingFinish============");
         model.addAttribute("facilities", totalData);
         model.addAttribute("naverMapClientId", naverMapClientId);
+
+        /**
+         * SavedSpotId 를 PathVariable로 받아서 해당 지점 위도 경도를 map.html로 넘겨주어 marker표시
+         */
+        if (spotId != null) {
+            log.info("==========즐겨찾는 spot으로 이동");
+            String[] lngLatById = savedSpotService.getLngLatById(spotId);
+            model.addAttribute("spotInfo", lngLatById);
+            model.addAttribute("readySpotInfo", true);
+        }
 
         return "map";
     }
