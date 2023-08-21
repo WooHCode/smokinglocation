@@ -224,7 +224,6 @@ public class SocialService {
 	        JSONObject jsonObj = new JSONObject(response.getBody());
             accessToken  = (String) jsonObj.get("access_token");
             //refreshToken = (String) jsonObj.get("id_token");
-            System.out.println(response.getBody()+"33333333333333333333");
             log.info("accessToken : " + accessToken);
             log.info("===========googleLogin process end===========");
         } catch (Exception e) {
@@ -273,7 +272,6 @@ public class SocialService {
                 email = ownerObject.getString("emailAddress");	// 이메일
                 id = ownerObject.getString("permissionId");	// 고유 아이디
             }
-            log.info(name+email+id+"777777777777777777777777777");
         }
         
         

@@ -2,6 +2,13 @@ a {
   text-decoration: none;
 }
 
+ul {
+  background-color: transparent;  
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
 .popup-overlay {
     position: fixed;
     top: 0;
@@ -35,8 +42,6 @@ a {
 .popup-content form {
     display: flex;
     flex-direction: column;
-    width: 400px;
-    margin-bottom: 20px;
 }
 
 #login-form .login-item {
@@ -79,6 +84,7 @@ a {
 	flex-direction: row; /* 세로 방향으로 정렬 */
 	justify-content: center;
 }
+
 .popup-content .login-item3 a{
     width: 190px;
     background-color: #FFFFFF;
@@ -88,6 +94,16 @@ a {
     margin: 15px;
     border-radius: 25px;
 }
+
+.popup-content .login-item4 .item-list{
+	display: flex; /* Flex 컨테이너로 설정 */
+	justify-content: space-between; /* 양 옆으로 벌어지게 정렬 */
+}
+
+.popup-content .login-item4 a{
+	color: #FFFFFF;
+}
+
 
 .popup-content input[type="submit"]:hover {
     background-color: #303f9f;
@@ -104,7 +120,86 @@ a {
     vertical-align: middle;
 }
 
-.findPw-text {
-	font-size: 14px;
-	color: #ccc;
+/*비밀번호 찾기*/
+.findPw-form input {
+    width: 320px;
+    height: 40px;
+    background-color: #FFFFFF;
+}
+
+#findPw-item2 findPw-item2 {
+	width: 190px;
+    background-color: #FFFFFF;
+    color: #123597;
+    text-align: center;
+    line-height: 50px;
+    margin: 15px;
+    border-radius: 25px;
+}
+
+/* 회원가입*/
+#register-form input {
+    width: 320px;
+    height: 40px;
+    background-color: #FFFFFF;
+}
+
+#register-form div{
+	display: flex;
+	flex-direction: column; /* 세로 방향으로 정렬 */
+	align-items: center; /* 수직 정렬 */
+}
+
+#register-form .register-item input{
+	width: 320px;
+    border-radius: 8px;
+    color: #123597;
+}
+
+#register-form .register-item2 a{
+	width: 200px;
+    border-radius: 25px;
+    text-align: center;
+    color: #123597;
+    margin-top: 40px;
+	height: 40px;
+	line-height: 40px;
+    background-color: #FFFFFF;
+}
+
+/* 비밀번호 찾기 */
+#findPw-form div{
+	display: flex;
+	flex-direction: column; /* 세로 방향으로 정렬 */
+	align-items: center; /* 수직 정렬 */
+}
+
+#findPw-form .findPw-item input{
+	width: 320px;
+	height: 40px;
+    border-radius: 8px;
+    color: #123597;
+    background-color: #FFFFFF;
+}
+
+#findPw-form .findPw-item2 a{
+	width: 200px;
+	height: 40px;
+	line-height: 40px;
+    border-radius: 25px;
+    text-align: center;
+    color: #123597;
+    background-color: #FFFFFF;
+    margin-top: 40px;
+}
+
+/* 비밀번호 찾기 결과*/
+.findPw-item h2{
+	color: #FFFFFF;
+}
+
+.findPw-item p{
+	color: #FFFFFF;
+	text-align: center;
+	
 }

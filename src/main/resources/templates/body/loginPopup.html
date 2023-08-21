@@ -1,37 +1,37 @@
 <div id="loginPopup" class="popup-overlay">
   <div class="popup-content">
     <span class="close-btn" onclick="closeRegPopup()">
-		<img src="/image/close-btn.png" alt="닫기 아이콘">
+		<img src="/image/close-btn.png" alt="닫기">
 	</span>
     <form id="login-form">
 	  <div class="login-item">
 		<input type="text" id="loginEmail" placeholder="아이디(이메일)">
-		<input type="text" id="loginPassword"  placeholder="비밀번호">
+		<input type="password" id="loginPassword"  placeholder="비밀번호">
 	  </div>
       <div class="login-item2">
-		<a href="" onclick="kakaoLogin('kakao')">
-			<img src="/image/kakaotalk_sharing_btn_small_ov.png" alt="닫기 아이콘">
+		<a href="#" onclick="kakaoLogin('kakao')">
+			<img src="/image/kakaotalk_sharing_btn_small_ov.png" alt="카카오로그인">
 		</a>
-		<a href="" onclick="naverLogin('naver')">네이버</a>
-		<a href="" onclick="googleLogin('google')">구글</a>
+		<a href="#" onclick="naverLogin('naver')">
+			<img src="/image/naver_btnW.png" alt="네이버로그인">
+		</a>
+		<a href="#" onclick="googleLogin('google')">
+			<img src="/image/google_btn.png" alt="구글로그인">
+		</a>
 	  </div>
 	  <div class="login-item3">
-		<a href="" onclick="login()">로그인</a>
+		<a href="#" onclick="fnLogin()">로그인</a>
 	  </div>
 	  <div class="login-item4">
 		<ul class="item-list">
 			<li>
-				<a href="" onclick="openPopup()">회원가입</a>
+				<a href="#" onclick="openPopup()">회원가입</a>
 			</li>
 			<li>
-				<a href="" onclick="findPw()">비밀번호 찾기</a>
+				<a href="#" onclick="findPw()">비밀번호 찾기</a>
 			</li>
 		</ul>
-	  </div><!--
-	  <!--
-      <input type="button" onclick="kakaoLogin('kakao')" value="카카오">
-      <input type="button" onclick="naverLogin('naver')" value="네이버">
-      <input type="button" onclick="googleLogin('google')" value="구글">-->
+	  </div>
     </form>
   </div>
 </div>
