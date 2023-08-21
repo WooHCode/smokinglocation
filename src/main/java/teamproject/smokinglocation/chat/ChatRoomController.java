@@ -18,14 +18,15 @@ public class ChatRoomController {
     @GetMapping("/rooms")
     @ResponseBody
     public List<ChatRoom> room() {
-        return chatRoomRepository.findAllRoom();
+        return chatRoomRepository.findAll();
     }
     // 채팅방 생성
     @PostMapping("/room")
     @ResponseBody
     public String createRoom(@RequestParam String name) {
-        ChatRoom chatRoom = chatRoomRepository.createChatRoom(name);
-        return chatRoom.getRoomId();
+        ChatRoom chatRoom = ChatRoom.create(name);
+        ChatRoom savedChatRoom = chatRoomRepository.save(chatRoom);
+        return savedChatRoom.getRoomId();
     }
     // 채팅방 입장 화면
     @GetMapping("/room/enter/{roomId}")
