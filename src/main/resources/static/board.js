@@ -64,7 +64,14 @@ function getChatPopup() {
         }
     })
 }
+
+function getBoardPopup() {
+
+}
+
+
 function board() {
+    console.log("board() 진입");
     var accessToken = localStorage.getItem("at");
     $.ajax({
         url: "/board",
