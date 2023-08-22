@@ -109,7 +109,7 @@ function loadNaverMap(mylat, mylon) {
                         getPathReady = false;
                     }
 
-                    // TODO : ajax -> 최근 검색한 위치 데이터로 넘기기
+                    // 마커 클릭 시, 해당 위치 정보를 저장 -> 마이페이지 최근 찾아본 흡연구역 리스트업
                     var data={
                         findLng:endLatLng[0],
                         findLat:endLatLng[1],
@@ -125,7 +125,7 @@ function loadNaverMap(mylat, mylon) {
                         data:JSON.stringify(data),
                         contentType: "application/json",
                         success: function(){
-                            console.log("DONE");
+                            console.log("클릭 위치 저장 완료");
                         }
                     })
 
@@ -136,6 +136,35 @@ function loadNaverMap(mylat, mylon) {
             })(title, loc);
         }
     }
+    if(readySpotInfo){
+        showSavedSpot();
+    }
+}
+
+
+/**
+ * 마이페이지에서 최근 본 위치 클릭하면 해당 위치 지도에서 보여줌
+ */
+function showSavedSpot() {
+    console.log("showSavedSpot 진입========");
+    console.log("최근 위치 찾기(readySpotInfo) : " + readySpotInfo);
+    console.log("찾는 위치 Lng : " + spotInfo[0] + " / 찾는 위치 Lat : " + spotInfo[1]);
+    map.setCenter(new naver.maps.LatLng(spotInfo[1], spotInfo[0]));
+    map.setZoom(17);
+    var marker = new naver.maps.Marker({
+        position: new naver.maps.LatLng(spotInfo[1], spotInfo[0]),
+        title: spotInfo[2],
+        map: map
+    });
+    var infoWindow = new naver.maps.InfoWindow({
+        content: spotInfo[2]
+    });
+    naver.maps.Event.addListener(marker, "click", function () {
+        infoWindow.open(map, marker);
+    });
+
+    spotInfo = null;
+    readySpotInfo = null;
 }
 
 function getCurrentPos(isClick) {
@@ -456,3 +485,5 @@ function checkArrival(myLatLng, lastPolylineLat ,lastPolylineLng, arrivalDistanc
         }
     }
 }
+
+

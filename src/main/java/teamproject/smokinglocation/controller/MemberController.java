@@ -55,10 +55,10 @@ public class MemberController {
     @PostMapping("/savespot")
     public String saveSpot(@RequestBody SaveSpotDto dto) {
         log.info("===========saveSpot 진입===========");
-        log.info("dto.getRefreshToken : {}",dto.getRefreshToken());
-        log.info("dto.getFindLng : {}",dto.getFindLng());
-        log.info("dto.getFindLat : {}",dto.getFindLat());
-        log.info("dto.getFindLoc : {}",dto.getFindLoc());
+        log.info("dto.getRefreshToken : {}", dto.getRefreshToken());
+        log.info("dto.getFindLng : {}", dto.getFindLng());
+        log.info("dto.getFindLat : {}", dto.getFindLat());
+        log.info("dto.getFindLoc : {}", dto.getFindLoc());
         memberService.createSavedSpot(dto);
         return "ok";
     }
@@ -85,5 +85,14 @@ public class MemberController {
         }
         log.info("===========findPw success==============");
         return new ResponseEntity<>(message, HttpStatus.OK);
+	}
+
+    /**
+     * 관리자 페이지 확인을 위한 테스트 메서드
+     * @return
+     */
+    @GetMapping("/admin")
+    public String adminPage() {
+        return "mypage/adminmypage";
     }
 }

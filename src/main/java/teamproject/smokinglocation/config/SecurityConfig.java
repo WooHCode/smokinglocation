@@ -30,6 +30,7 @@ public class SecurityConfig {
                 .headers().frameOptions().sameOrigin().and()
                 .authorizeRequests()
 /*                .antMatchers("/**").permitAll()*/
+                .antMatchers("/stomp/chat/**").permitAll()
                 .antMatchers("/board").hasRole("USER")
                 .anyRequest().permitAll()
                 .and()

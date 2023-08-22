@@ -1,3 +1,17 @@
+.message.admin {
+    background-color: #FFFFFF;
+    color: #000;
+    margin-left: 0; /* 왼쪽 정렬 */
+    margin-right: auto; /* 오른쪽 공간을 자동으로 채움 */
+    margin-bottom: 10px;
+}
+.message.user {
+    background-color: #123597;
+    color: #FFFFFF;
+    margin-left: auto; /* 왼쪽 공간을 자동으로 채움 */
+    margin-right: 0; /* 오른쪽 정렬 */
+    margin-bottom: 10px;
+}
 .popup-overlay {
     position: fixed;
     top: 0;
