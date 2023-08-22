@@ -4,45 +4,57 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import teamproject.smokinglocation.common.LongPollingEventSimulator;
 import teamproject.smokinglocation.common.LongPollingSession;
-import teamproject.smokinglocation.repository.NotificationRepository;
+import teamproject.smokinglocation.dto.MailDto;
+import teamproject.smokinglocation.service.MailService;
+import teamproject.smokinglocation.service.MemberService;
+import teamproject.smokinglocation.service.NotificationService;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @Slf4j
 public class NotificationController {
 
-    @Autowired
-    private NotificationRepository dao;
-
-    @Autowired
-    LongPollingEventSimulator simulator;
-
+    private final LongPollingEventSimulator simulator;
+    
+    private final MemberService memberService;
+    
+    private final NotificationService notificationService;
+    
+    private final MailService mailService;
+    
+    private long userId;
+    
     @RequestMapping("/register")
     @ResponseBody
-    public DeferredResult<String> registerClient(@PathVariable("dossierId") final long dossierId) {
+    public DeferredResult<String> registerClient(@RequestParam("refreshToken") String refreshToken) {
+    	userId = memberService.getMemberIdByRefreshToken(refreshToken);
+        log.info("NotificationController - registerClient START for " + userId);
         
         final DeferredResult<String> deferredResult = new DeferredResult<>();
         // Add paused http requests to event queue
-        simulator.getPollingQueue().add(new LongPollingSession( dossierId, deferredResult));
-        log.info(String.valueOf(deferredResult));
+        notificationService.getPollingQueue().add(new LongPollingSession(userId, deferredResult));
+        log.info("NotificationController - registerClient END for " + userId);
         return deferredResult;
     }
 
-    @RequestMapping("/simulate/{dossierId}")
+    @RequestMapping("/simulate")
     @ResponseBody
-    public String simulateEvent(@PathVariable("dossierId") final long dossierId) {
-        log.info("Simulating event for dossier id: " + dossierId);
-        simulator.simulateIncomingNotification(dossierId);
-        return "Simulating event for dossier Id: " + dossierId;
+    public String simulateEvent(@RequestParam("refreshToken") String refreshToken) {
+        log.info("NotificationController - simulateEvent START for " + userId);
+    	simulator.simulateIncomingNotification(userId);
+    	
+    	MailDto mailDto = null;
+    	mailService.sendSimpleMessage(mailDto);
+    	
+    	log.info("NotificationController - simulateEvent END for "+ userId);
+        return "NotificationController - simulateEvent END for  " + userId;
     }
+    
 }
 

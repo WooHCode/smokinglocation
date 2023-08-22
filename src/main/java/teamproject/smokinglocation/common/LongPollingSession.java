@@ -5,16 +5,16 @@ import org.springframework.web.context.request.async.DeferredResult;
 
 public class LongPollingSession {
 
-    private final Long dossierId;
+    private final long userId;
     private final DeferredResult<String> deferredResult;
     
-    public LongPollingSession(final Long dossierId, final DeferredResult<String> deferredResult) {
-        this.dossierId = dossierId;
+    public LongPollingSession(final long userId, final DeferredResult<String> deferredResult) {
+        this.userId = userId;
         this.deferredResult = deferredResult;
     }
     
-    public Long getDossierId() {
-        return dossierId;
+    public long getUserId() {
+        return userId;
     }
 
     public DeferredResult<String> getDeferredResult() {

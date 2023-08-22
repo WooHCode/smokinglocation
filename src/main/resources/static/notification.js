@@ -4,31 +4,34 @@
 		
 	}
 
-   /* long-polling 펑션 
+    /* long-polling 펑션 
      * 서버에서 전송 받은 데이터가 없으면 3초 주기로 계속 요청함
      * 서버에서 전송 받은 데이터가 있을 시 즉시 동작
      */
-    function poll(dossierId){
+    function poll(){
+		var refreshToken=sessionStorage.getItem("rf");
         $.ajax({
-            url: "register/"+dossierId,
+			//dataType: "text",
+            type:'GET',
+            url: "/register",
+            data: {
+            	refreshToken: refreshToken,
+        	},
             success: function(data) {
                 // do something with the data
-                console.log(data);
-                $('#results').append("<li style=\"color:purple;\"><pre>"+JSON.stringify(JSON.parse(data), null, 4)+"</pre></li>");
-                setTimeout( poll(dossierId), 10 );
+                console.log("return data :::: \n" + data);
+                setTimeout(poll(), 10);
             },
-            error: function(status) {
+            error: function(request, status, error) {
                 if (status=='timeout') {
-                    console.log( 'request timed out.' );
-                    setTimeout( poll(dossierId), 10 );
-                }                else {
-                    console.log(status);
-                    setTimeout( poll(dossierId), 60000 );
+                    //console.log( 'request timed out.' );
+                    setTimeout(poll(), 10 );
+                } else {
+					//console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                    setTimeout(poll(), 60000 );
                 }
             },
-            dataType: "text",
-            type:'GET',
-            timeout: 3000 // 3초 간격으로 확인 
+            timeout: 3600000 // 1시간 간격으로 확인 
             //timeout: 60000 // 60초 간격으로 확인 
         });
     }
@@ -37,13 +40,16 @@
     테스트용 
     */
     
-    function simulate(dossierId){
+    function simulate(){
+		var refreshToken=sessionStorage.getItem("rf");
         $.ajax({
-            url: "simulate/"+dossierId,
+            url: "/simulate",
+            data: {
+            	refreshToken: refreshToken,
+        	},
             success: function(data, status, jqXHR) {
                 // do something with the data
                 console.log("Event simulated successfully.");
-                alert("Event simulated successfully.");
             },
             type:'POST'
         });

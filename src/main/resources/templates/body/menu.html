@@ -1,11 +1,21 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <div id="menu" class="menu">
-  <nav class="clearfix">
-    <ul class="clearfix">
-      <li class="home-li"><a onclick="gotoHome()">서울시 흡연구역</a></li> <!--""<-여기 부분에 URL 작성하면 됨-->
-      <li><div class="selectContainer">
+  <nav>
+	<a class="home-a" onclick="gotoHome()">서울시<br> 흡연구역</a>  
+    <ul>
+      <li><a>쇼핑</a></li>
+      <li><a onclick="board()">고객센터</a></li>
+      <li id="register"><a onclick="openPopup()">회원가입</a></li>
+      <li id="mypage"><a onclick="toMypage()">마이페이지</a></li>
+      <li id="login"><a onclick="openRegPopup()">로그인</a></li>
+      <li id="logout"><a onclick="funLogout()">로그아웃</a></li>
+      <li><a onclick="poll('999111222')">REGISTER</a></li>
+      <li><a onclick="simulate('999111222')">SIMULATOR</a></li>
+    </ul>
+    <a id="pull" href="#"></a>
+    <div class="selectContainer">
         <select class="selectGu">
-          <option>전체</option>
+          <option></option>
           <option>강남</option>
           <option>강북</option>
           <option>강서</option>
@@ -27,16 +37,11 @@
           <option>중구</option>
           <option>중랑</option>
         </select>
-      </div></li>
-      <li><a onclick="board()">고객센터</a></li>
-      <li id="register"><a onclick="openPopup()">회원가입</a></li>
-      <li id="mypage"><a onclick="toMypage()">마이페이지</a></li>
-      <li id="login"><a onclick="openRegPopup()">로그인</a></li>
-      <li id="logout"><a onclick="funLogout()">로그아웃</a></li>
-            <li><a onclick="poll('999111222')">REGISTER</a></li>
-      <li><a onclick="simulate('999111222')">SIMULATOR</a></li>
-    </ul>
-    <a id="pull" href="#"></a>
+      </div>
   </nav>
+    
 </div>
+  
 <div id="loading"><img id="loading-image" src="/image/loading.gif" alt="Loading..." /></div>
+
+
