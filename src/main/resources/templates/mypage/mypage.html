@@ -252,12 +252,12 @@
 
             <div id="p1-1-2">
                 <div>
-                    <button class="logout-btn">로그아웃</button>
+                    <button class="logout-btn" type="button" onclick="funLogout()">로그아웃</button>
                 </div>
                 <div id="p1-1-2-1">
                     <button class="general-btn">
                         <img src="/image/Setting-two%20(设置).png" alt=""><br>설정</button>
-                    <button class="general-btn">
+                    <button class="general-btn" id="createRoom">
                         <img src="/image/Message-emoji%20(表情信息).png" alt=""><br>문의</button>
                     <button class="general-btn">
                         <img src="/image/Bookmark-one%20(书签).png" alt=""><br>저장</button>
@@ -357,5 +357,15 @@
 <script src="/map.js"></script>
 <script src="/login.js"></script>
 <script src="/board.js"></script>
+<script>
+    /*$('#createRoom').click(function(){
+        $.ajax({
+            url: "/chat/room",
+            type: "POST",
+
+        })
+    })*/
+</script>
+
 </body>
 </html>
