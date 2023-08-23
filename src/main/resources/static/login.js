@@ -68,6 +68,10 @@ window.addEventListener("DOMContentLoaded", function() {
 /* 회원가입 닫기*/
 function closePopup() {
     var popup = document.getElementById("popup");
+    $("#name").val("");
+    $("#emailInput").val("");
+    $("#password").val("");
+    $("#password2").val("");
     popup.style.visibility = "hidden";
     popup.style.opacity = "0";
 }
@@ -75,6 +79,8 @@ function closePopup() {
 /* 로그인 닫기*/
 function closeRegPopup() {
     var popup = document.getElementById("loginPopup");
+    $("#loginEmail").val("");
+    $("#loginPassword").val("");
     popup.style.visibility = "hidden";
     popup.style.opacity = "0";
 }
@@ -82,6 +88,8 @@ function closeRegPopup() {
 /* 비밀번호 찾기 닫기 */
 function closeFindPwPopup() {
     var popup = document.getElementById("findPwPopup");
+    $("#findPwEmail").val("");
+    $("#findPwName").val("");
     popup.style.visibility = "hidden";
     popup.style.opacity = "0";
 }
@@ -295,4 +303,34 @@ function googleLogin(provider) {
             alert("구글 로그인 오류가 발생했습니다.");
         }
     });
+}
+
+function fnLoginTgPw() {
+    var passwordInput = document.getElementById("loginPassword");
+
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+    } else {
+        passwordInput.type = "password";
+    }
+}
+
+function fnResiterTgPw() {
+    var passwordInput = document.getElementById("password");
+
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+    } else {
+        passwordInput.type = "password";
+    }
+}
+
+function fnResiterTgPw2() {
+    var passwordInput = document.getElementById("password2");
+
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+    } else {
+        passwordInput.type = "password";
+    }
 }

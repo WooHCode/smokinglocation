@@ -59,6 +59,14 @@ ul {
     border-radius: 15px;
 }
 
+#login-form .login-item .password-toggle {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    margin-left: 285px;
+    margin-top: 115px;
+}
+
 #login-form .login-item input::placeholder {
     color: #6B8CE8;
 }
@@ -150,10 +158,20 @@ ul {
 	align-items: center; /* 수직 정렬 */
 }
 
-#register-form .register-item input{
-	width: 320px;
-    border-radius: 8px;
-    color: #123597;
+#register-form .register-item .password-toggle{
+	width: 20px;
+	height: 20px;
+    margin-left: 300px;
+    margin-top: 163px;
+	position: fixed;
+}
+
+#register-form .register-item .password-toggle2{
+	width: 20px;
+	height: 20px;
+	margin-left: 300px;
+    margin-top: 230px;
+	position: fixed;
 }
 
 #register-form .register-item2 a{
