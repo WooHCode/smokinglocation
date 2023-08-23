@@ -1,6 +1,7 @@
 package teamproject.smokinglocation.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.smokinglocation.inquiryentity.Inquiry;
@@ -9,8 +10,10 @@ import teamproject.smokinglocation.repository.InquiryRepository;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class InquiryService {
 
     private final InquiryRepository inquiryRepository;
@@ -24,26 +27,41 @@ public class InquiryService {
     }
 
     public List<Inquiry> findAll() {
+        log.info("====================InquiryService.findAll");
         return inquiryRepository.findAll();
     }
 
+    public List<Inquiry> findAllByMemberId(Long memberId) {
+        log.info("====================InquiryService.findAllByMemberId");
+        return inquiryRepository.findAllByMemberId(memberId);
+    }
 
     public Inquiry findOne(Long id) {
+        log.info("====================InquiryService.findOne");
         return inquiryRepository.findById(id).orElseThrow();
     }
 
     @Transactional
     public Inquiry addReply(Long id,String reply) {
+        log.info("===============reply : {}", reply);
         Inquiry inquiry = inquiryRepository.findById(id).orElseThrow();
         inquiry.addReply(reply);
         return inquiry;
     }
 
-
-
-
-
-    public List<Inquiry> getAllMine(Long memberId) {
-        return inquiryRepository.findAllByMemberId(memberId);
+    public InquiryDto entityToDto(Inquiry entity) {
+        InquiryDto inquiryDto = new InquiryDto();
+        inquiryDto.setId(entity.getId());
+        inquiryDto.setTitle(entity.getTitle());
+        inquiryDto.setContent(entity.getContent());
+        return inquiryDto;
     }
+
+    @Transactional
+    public void deleteInquiry(Long id) {
+        inquiryRepository.delete(inquiryRepository.findById(id).orElseThrow());
+    }
+
+
+
 }

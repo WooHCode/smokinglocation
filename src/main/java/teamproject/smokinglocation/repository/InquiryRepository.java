@@ -11,4 +11,7 @@ public interface InquiryRepository extends JpaRepository<Inquiry, Long> {
 
     @Query("select i from Inquiry i, Member m where m.id=:memberId")
     public List<Inquiry> findAllByMemberId(@Param("memberId") Long memberId);
+
+//    @Query("select i from Inquiry i where i.id=:inquiryId")
+//    public Inquiry findById(@Param("inquiryId") Long inquiryId);
 }

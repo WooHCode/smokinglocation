@@ -237,7 +237,7 @@
 
                 <button class="general-btn">
                     <img src="/image/Setting-two%20(设置).png" alt=""><br>설정</button>
-                <button class="general-btn">
+                <button class="general-btn" onclick="board()">
                     <img src="/image/Message-emoji%20(表情信息).png" alt=""><br>문의</button>
                 <button class="general-btn">
                     <img src="/image/Bookmark-one%20(书签).png" alt=""><br>저장</button>
@@ -261,15 +261,10 @@
                 </tr>
                 </thead>
                 <tbody  id="inquiries">
-                <tr>
-                    <td><a href="">제목제목제목제목제목제목제목</a></td>
+                <tr th:each="inquiry:${inquiries}">
+                    <td><a th:text="${inquiry.title}">제목제목제목제목제목제목제목</a></td>
                 </tr>
-                <tr>
-                    <td><a href="">제목제목제목제목제목제목제목</a></td>
-                </tr>
-                <tr>
-                    <td><a href="">제목제목제목제목제목제목제목</a></td>
-                </tr>
+
 
                 </tbody>
             </table>

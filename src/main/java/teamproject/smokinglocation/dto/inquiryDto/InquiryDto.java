@@ -10,7 +10,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class InquiryDto {
+    private Long id;
     private String title;
     private String content;
-    private String memberEmail;
+    private String reply;
 }

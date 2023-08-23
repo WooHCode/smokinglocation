@@ -257,8 +257,7 @@
                 <div id="p1-1-2-1">
                     <button class="general-btn">
                         <img src="/image/Setting-two%20(设置).png" alt=""><br>설정</button>
-<!--                    <button class="general-btn" type="button" onclick="board()">-->
-                    <button class="general-btn" type="button" id="create-inquiry">
+                    <button class="general-btn" type="button" onclick="board()">
                         <img src="/image/Message-emoji%20(表情信息).png" alt=""><br>문의</button>
                     <button class="general-btn">
                         <img src="/image/Bookmark-one%20(书签).png" alt=""><br>저장</button>
@@ -278,7 +277,7 @@
                 <tr th:each="inquiry:${inquiries}">
 <!--                    th:href가 안먹음-->
                     <td><a
-                            th:href="@{/inquiry/get-one(inquiryId=${inquiry.id})}"
+                            th:href="@{/inquiry/getone(inquiryId=${inquiry.id})}"
                             th:text="${inquiry.title}">제목</a></td>
                 </tr>
                 </tbody>
@@ -333,15 +332,10 @@
 
 -->
 
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/mypage.js"></script>
 <script src="/map.js"></script>
 <script src="/login.js"></script>
 <script src="/board.js"></script>
-<script>
-    $('#create-inquiry').click(function () {
-        location.href=''
-    });
-</script>
 </body>
 </html>

@@ -7,9 +7,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import teamproject.smokinglocation.dto.memberDto.SaveSpotDto;
+import teamproject.smokinglocation.inquiryentity.Inquiry;
+import teamproject.smokinglocation.service.InquiryService;
 import teamproject.smokinglocation.service.MemberService;
 import teamproject.smokinglocation.userEnitiy.Member;
 import teamproject.smokinglocation.userEnitiy.SavedSpot;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/member")
@@ -18,6 +22,7 @@ import teamproject.smokinglocation.userEnitiy.SavedSpot;
 public class MemberController {
 
     private final MemberService memberService;
+    private final InquiryService inquiryService;
 
     @ResponseBody
     @GetMapping("/auth")
@@ -33,7 +38,8 @@ public class MemberController {
         model.addAttribute("email", member.getMemberId());
         model.addAttribute("password", member.getPassword());
         model.addAttribute("savedSpot", member.getSavedSpotList());
-        model.addAttribute("inquiries", member.getInquiries());
+        List<Inquiry> inquiries = inquiryService.findAllByMemberId(member.getId());
+        model.addAttribute("inquiries",inquiries );
         return "mypage/mypage";
     }
 
@@ -59,10 +65,12 @@ public class MemberController {
 
     /**
      * 관리자 페이지 확인을 위한 테스트 메서드
+     *
      * @return
      */
     @GetMapping("/admin")
-    public String adminPage() {
+    public String adminPage(Model model) {
+        model.addAttribute("inquiries", inquiryService.findAll());
         return "mypage/adminmypage";
     }
 }

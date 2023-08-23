@@ -5,9 +5,14 @@
     <title>Document</title>
 </head>
 <body>
-<div th:object="${inq}">
-    <p th:field="*{title}"></p>
-    <p th:field="*{content}"></p>
+<div >
+    <form th:action="@{/inquiry/add-reply(id=*{id})}" th:object="${inquiry}" method="post">
+        <p th:text="*{title}"></p>
+        <p th:text="*{content}"></p>
+        <input type="text" th:field="*{reply}">
+        <button type="submit">답변달기</button>
+        <button type="button" th:onclick="|location.href='@{/inquiry/delete(id=*{id})}'|">삭제</button>
+    </form>
 </div>
 </body>
 </html>

@@ -20,13 +20,14 @@ public class InquiryController {
 
     private final InquiryService inquiryService;
 
-//    /**
-//     * 문의 작성 폼 입장 화면
-//     */
-//    @GetMapping("/write/enter")
-//    public String boardPopup() {
-//    }
-//
+    /**
+     * 문의 작성 폼 입장 화면
+     */
+    @GetMapping("/write/enter")
+    public String boardPopup() {
+        return "inquiry/inquiry";
+    }
+
 
     /**
      * 문의 작성 완료
@@ -52,12 +53,11 @@ public class InquiryController {
     /**
      * 문의 상세 조회
      */
-    @GetMapping("/get-one?inquiryId={id}")
-    public String getOneInquiry(@PathVariable Long id, Model model) {
-        log.info("=======================");
-        Inquiry inquiry = inquiryService.findOne(id);
-        model.addAttribute("inq", inquiry);
-        log.info("{}============", inquiry.getContent());
+    @GetMapping("/getone")
+    public String getOneInquiry(@RequestParam Long inquiryId, Model model) {
+        Inquiry inquiry = inquiryService.findOne(inquiryId);
+        InquiryDto inquiryDto = inquiryService.entityToDto(inquiry);
+        model.addAttribute("inquiry", inquiryDto);
         return "testPage/findOne";
     }
 
@@ -66,10 +66,20 @@ public class InquiryController {
      * 답변 작성
      */
     @ResponseBody
-    @GetMapping("/add-reply")
-    public String addReply() {
-        inquiryService.addReply(1L, "reply");
-        return "ok";
+    @PostMapping("/add-reply")
+    public String addReply(@ModelAttribute InquiryDto inquiryDto, @RequestParam Long id) {
+        Inquiry inquiry1 = inquiryService.addReply(id, inquiryDto.getReply());
+        return inquiry1.getReply();
+    }
+
+    /**
+     * 문의 삭제
+     */
+    @ResponseBody
+    @GetMapping("/delete")
+    public String deleteInquiry(@RequestParam Long id) {
+        inquiryService.deleteInquiry(id);
+        return "deleted";
     }
 
     //test

@@ -34,5 +34,7 @@ public class Inquiry {
 
     public void addReply(String reply) {
         this.reply = reply;
+        this.hasReply = true;
+
     }
 }
