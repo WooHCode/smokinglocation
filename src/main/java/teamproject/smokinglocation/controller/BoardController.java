@@ -15,6 +15,6 @@ public class BoardController {
      */
     @GetMapping("/board")
     public String getBoard() {
-        return "body/board";
+        return "body/customerService";
     }
 }
