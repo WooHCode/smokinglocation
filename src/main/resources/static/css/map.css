@@ -20,26 +20,7 @@
 	width: 94%;
 	height:900px;
 }
-.selectContainer{
-    clear: right;
-    float: right;
-    margin-top: 30px;
-}
-.selectGu {
-    margin-right: 5px;
-    text-align: center;
-    width: 300px; /* 원하는 너비설정 */
-    height: 50px;
-    padding: .8em .5em; /* 여백으로 높이 설정 */
-    font-family: inherit; /* 폰트 상속 */
-    /* 네이티브 화살표 대체 */
-    background: #DEE2ED url(../image/selectbox-direction2.png) no-repeat 95% 50%;
-    border-radius: 25px; /* iOS 둥근모서리 제거 */
-    -webkit-appearance: none; /* 네이티브 외형 감추기 */
-    -moz-appearance: none;
-    appearance: none;
-    color: #000000;
-}
+
 .button-container {
     display: inline-block;
 }
@@ -78,7 +59,7 @@ button {
     height: calc(100% - 82px);
 }
 .sidebar-content button {
-    margin-top: 5px;
+    margin-top: 10px;
     font-family: Arial, sans-serif;
     font-size: 5px;
     color: #fff;

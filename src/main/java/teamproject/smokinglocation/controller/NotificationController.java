@@ -26,11 +26,9 @@ public class NotificationController {
     
     private final NotificationService notificationService;
     
-    private final MailService mailService;
-    
     private long userId;
     
-    @RequestMapping("/register")
+    @RequestMapping("/polling-register")
     @ResponseBody
     public DeferredResult<String> registerClient(@RequestParam("refreshToken") String refreshToken) {
     	userId = memberService.getMemberIdByRefreshToken(refreshToken);
@@ -43,18 +41,6 @@ public class NotificationController {
         return deferredResult;
     }
 
-    @RequestMapping("/simulate")
-    @ResponseBody
-    public String simulateEvent(@RequestParam("refreshToken") String refreshToken) {
-        log.info("NotificationController - simulateEvent START for " + userId);
-    	simulator.simulateIncomingNotification(userId);
-    	
-    	MailDto mailDto = null;
-    	mailService.sendSimpleMessage(mailDto);
-    	
-    	log.info("NotificationController - simulateEvent END for "+ userId);
-        return "NotificationController - simulateEvent END for  " + userId;
-    }
     
 }
 

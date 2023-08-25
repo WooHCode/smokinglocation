@@ -6,38 +6,37 @@
       <li><a>쇼핑</a></li>
       <li><a onclick="board()">고객센터</a></li>
       <li id="register"><a onclick="openPopup()">회원가입</a></li>
-      <li id="mypage"><a onclick="toMypage()">마이페이지</a></li>
-      <li id="login"><a onclick="openRegPopup()">로그인</a></li>
+      <li id="login"><a class="loginText" onclick="openRegPopup()">로그인</a></li>
       <li id="logout"><a onclick="funLogout()">로그아웃</a></li>
-      <li><a onclick="poll('999111222')">REGISTER</a></li>
-      <li><a onclick="simulate('999111222')">SIMULATOR</a></li>
+      <li id="mypage"><a class="mypageText" onclick="toMypage()">마이페이지</a></li>
+      <li id="adminPage"><a class="adminPageText" onclick="">관리자페이지</a></li>
     </ul>
     <a id="pull" href="#"></a>
     <div class="selectContainer">
-        <select class="selectGu">
-          <option></option>
-          <option>강남</option>
-          <option>강북</option>
-          <option>강서</option>
-          <option>관악</option>
-          <option>광진</option>
-          <option>구로</option>
-          <option>노원</option>
-          <option>동대문</option>
-          <option>동작</option>
-          <option>서대문</option>
-          <option>서초</option>
-          <option>성동</option>
-          <option>성북</option>
-          <option>송파</option>
-          <option>양천</option>
-          <option>영등포</option>
-          <option>용산</option>
-          <option>종로</option>
-          <option>중구</option>
-          <option>중랑</option>
-        </select>
-      </div>
+	   <button type="button" class="selectGu"></button>
+	   <ul class="selectGu-option">
+		  <li><button type="button">강남</button></li>
+          <li><button type="button">강북</button></li>
+          <li><button type="button">강서</button></li>
+          <li><button type="button">관악</button></li>
+          <li><button type="button">광진</button></li>
+          <li><button type="button">구로</button></li>
+          <li><button type="button">노원</button></li>
+          <li><button type="button">동대문</button></li>
+          <li><button type="button">동작</button></li>
+          <li><button type="button">서대문</button></li>
+          <li><button type="button">서초</button></li>
+          <li><button type="button">성동</button></li>
+          <li><button type="button">성북</button></li>
+          <li><button type="button">송파</button></li>
+          <li><button type="button">양천</button></li>
+          <li><button type="button">영등포</button></li>
+          <li><button type="button">용산</button></li>
+          <li><button type="button">종로</button></li>
+          <li><button type="button">중구</button></li>
+          <li><button type="button">중랑</button></li> 
+	   </ul>
+	 </div>
   </nav>
     
 </div>

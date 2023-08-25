@@ -8,7 +8,6 @@ var polyline;
 var isStopped = false; // 길찾기 현재위치 추적 반복(true일 시 추적)
 const arrivalDistance = 5; // 도착으로 판단할 거리 (단위: 미터)
 
-
 var nearbyIconUrl = '/image/location-icon-sign.png';
 var nearbyIcon ={
     url: nearbyIconUrl,
