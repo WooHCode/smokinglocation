@@ -5,12 +5,7 @@ nav {
 }
 
 nav ul {
-    padding: 0;
-    margin-top: 10px;
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    flex-wrap: nowrap; /* 가로로 정렬하고 줄바꿈 방지 */
+    padding-top: 50px;
 }
 
 nav li {
@@ -27,9 +22,7 @@ nav li a {
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
-    margin-right: 30px;
 }
-
 nav li:last-child a {
     border-right: 0;
 }
@@ -48,52 +41,130 @@ html {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-ul {
-    margin: 0;
-    padding: 0;
-    background-color: #ffffff;
-    text-align: end;
+ul,li {margin:0; padding:0;}
+ul{
+	margin:0; 
+	padding:0;
+	float:right;
 }
-
 li {
-    display: inline-block;
+   margin:0; 
+   padding:0;
+   float: left;
 }
 
 li a {
-    color: #000000;
-    text-align: center;
+    color: #FFFFFF;
     padding: 14.5px 16px;
     text-decoration: none;
+    text-align: left;
+    font-size:35px;
+    border-right: #FFFFFF solid 3px;
+    padding: 0px 20px 0px 20px;
+}
+.loginText,
+.mypageText,
+.adminPageText{
+	border-right: 0px;
 }
 li a:hover {
-    color: #f9e001;
+    color: #97ABFF;
     font-weight: normal;
 }
 
 .menu {
-    width: 100%;
     height: 50px;
-    text-align: center;
+    margin-left: 3%;
+    margin-right: 3%;
     max-width: 100%;
     background-position: center;
     background-size: cover;
-    background-color: #FFFFFF;
     color: #000000;
-    position: fixed;
     top: 0;
     left: 0;
     z-index: 9997;
 }
 
-nav li.home-li {
-    text-align: center;
-    flex: 1;
-    font-size: 2vw;
+.home-a {
+    float:left;
+    margin-top: 50px;
+    font-size: 70px;
+    line-height : 70px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: left;
+    color: #FFFFFF;
 }
 
-nav li.home-li a {
-    display: inline-block;
+
+.selectContainer{
+    clear: right;
+    float: right;
+    margin-top: 30px;
+    position: relative;
+    width: 300px;
+}
+.selectGu {
+	border: none;
+    margin-right: 5px;
     text-align: center;
-    margin-left: 550px;
-    margin-bottom: 15px;
+    width: 300px; /* 원하는 너비설정 */
+    height: 50px;
+    padding: .8em .5em; /* 여백으로 높이 설정 */
+    font-family: inherit; /* 폰트 상속 */
+    /* 네이티브 화살표 대체 */
+    background: #DEE2ED url(../image/selectbox-direction2.png) no-repeat 95% 50%;
+    border-radius: 25px; /* iOS 둥근모서리 제거 */
+    -webkit-appearance: none; /* 네이티브 외형 감추기 */
+    -moz-appearance: none;
+    appearance: none;
+    color: #000000;
+}
+.selectGu:focus{
+	border: #000000 solid 2px; 
+}
+
+.selectGu-option {
+	display: none;
+	z-index : 1;
+	position: absolute;
+	padding-top: 0px;
+	padding-bottom: 15px;
+	width: 100%;
+	top: 51px;
+	left: 0;
+	background-color: #DEE2ED; 
+	box-sizing: border-box;
+	box-shadow: 4px 4px 14px rgba(0, 0, 0, 0.15);
+	border-radius: 25px;
+}
+
+.selectGu.on+.selectGu-option {
+	display: block;
+}
+
+.selectGu-option li {
+	width:100%;
+    height: 30px;
+    padding: 5px 8px;
+    box-sizing: border-box;
+}
+
+.selectGu-option li button {
+    width: 100%;
+    padding: 5px 10px;
+    border: none;
+    background-color: #DEE2ED;
+    cursor: pointer;
+    text-align: center;
+    /* 말줄임 */
+    white-space: nowrap;
+	text-overflow: ellipsis;
+    overflow: hidden;
+    border-radius: 25px;
+}
+
+.selectGu-option li button:hover,
+.selectGu-option li button:focus {
+    background-color: #FFFFFF;
 }

@@ -20,11 +20,8 @@ public class Notifications implements Serializable {
 
     private String nodeId;
 
-    private Long dossierId;
+    private Long userId;
 
     private String payload;
-
-
-
 
 }

@@ -3,6 +3,7 @@ var login = document.getElementById("login");
 var logout = document.getElementById("logout");
 var register = document.getElementById("register");
 var mypage = document.getElementById("mypage");
+var adminPage = document.getElementById("adminPage");
 
 function openPopup() {
     var popup = document.getElementById("popup");
@@ -27,12 +28,19 @@ function visibleLogout() {
         login.style.display = "none";
         logout.style.display = "block";
 		register.style.display = "none";
+		
+		
         mypage.style.display = "block";
+        
+        adminPage.style.display = "block";
+        
+    
     }else {
         login.style.display = "block";
         logout.style.display = "none";
 		register.style.display = "block";
         mypage.style.display = "none";
+        adminPage.style.display = "none";
     }
 }
 window.addEventListener("DOMContentLoaded", function() {
