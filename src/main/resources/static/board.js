@@ -97,7 +97,7 @@ function board() {
     console.log("board() 진입");
     var accessToken = localStorage.getItem("at");
     $.ajax({
-        url: "/board",
+        url: "/customerService",
         type: "GET",
         headers: {
             Authorization : "Bearer " + accessToken,
@@ -106,6 +106,42 @@ function board() {
             refreshEveryTokens(xhr);
             var boardContent = document.getElementById("board");
 
+            boardContent.innerHTML = res;
+            openBoardPopup();
+            boardContent.style.zIndex = "9999";
+        },
+        error: function (xhr, status, error){
+            if (xhr.status === 403) {
+                window.alert("로그인 후 이용가능합니다.")
+            }
+        }
+    });
+}
+
+function getBoardPopup() {
+    $.ajax({
+        url: "/board",
+        type: "GET",
+        success: function (res, status, xhr) {
+            var boardContent = document.getElementById("board");
+            boardContent.innerHTML = res;
+            openBoardPopup();
+            boardContent.style.zIndex = "9999";
+        },
+        error: function (xhr, status, error){
+            if (xhr.status === 403) {
+                window.alert("로그인 후 이용가능합니다.")
+            }
+        }
+    });
+}
+function submitForm() {
+    $.ajax({
+        url: "/ask-complete",
+        type: "GET",
+        success: function (res, status, xhr) {
+            var boardContent = document.getElementById("board");
+            console.log(res)
             boardContent.innerHTML = res;
             openBoardPopup();
             boardContent.style.zIndex = "9999";

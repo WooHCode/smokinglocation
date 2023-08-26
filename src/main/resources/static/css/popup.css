@@ -57,18 +57,6 @@
     border-radius: 3px;
     border: 1px solid #ccc;
 }
-.popup-content input[type="submit"] {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 3px;
-    background-color: #3f51b5;
-    color: #fff;
-    cursor: pointer;
-}
-.popup-content input[type="submit"]:hover {
-    background-color: #303f9f;
-}
-
 .popup-content .close-btn {
     align-self: flex-end;
     cursor: pointer;
