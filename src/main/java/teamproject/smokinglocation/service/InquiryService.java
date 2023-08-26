@@ -54,6 +54,8 @@ public class InquiryService {
         inquiryDto.setId(entity.getId());
         inquiryDto.setTitle(entity.getTitle());
         inquiryDto.setContent(entity.getContent());
+        inquiryDto.setReply(entity.getReply());
+
         return inquiryDto;
     }
 

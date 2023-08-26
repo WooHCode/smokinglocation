@@ -61,6 +61,17 @@ public class InquiryController {
         return "testPage/findOne";
     }
 
+    /**
+     * 문의 상세 조회 ADMIN
+     */
+    @GetMapping("/getone/admin")
+    public String getOneAdmin(@RequestParam Long inquiryId, Model model) {
+        Inquiry inquiry = inquiryService.findOne(inquiryId);
+        InquiryDto inquiryDto = inquiryService.entityToDto(inquiry);
+        model.addAttribute("inquiry", inquiryDto);
+        return "testPage/findOneAdmin";
+    }
+
 
     /**
      * 답변 작성

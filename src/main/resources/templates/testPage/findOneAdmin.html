@@ -9,7 +9,8 @@
     <form th:action="@{/inquiry/add-reply(id=*{id})}" th:object="${inquiry}" method="post">
         <p th:text="*{title}"></p>
         <p th:text="*{content}"></p>
-
+        <input type="text" th:field="*{reply}">
+        <button type="submit">답변달기</button>
         <button type="button" th:onclick="|location.href='@{/inquiry/delete(id=*{id})}'|">삭제</button>
     </form>
 </div>

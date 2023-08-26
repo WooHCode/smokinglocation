@@ -262,7 +262,9 @@
                 </thead>
                 <tbody  id="inquiries">
                 <tr th:each="inquiry:${inquiries}">
-                    <td><a th:text="${inquiry.title}">제목제목제목제목제목제목제목</a></td>
+                    <td><a
+                            th:href="@{/inquiry/getone/admin(inquiryId=${inquiry.id})}"
+                            th:text="${inquiry.title}">제목</a></td>
                 </tr>
 
 
