@@ -27,6 +27,10 @@ public class SecurityConfig {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/map")
+                .and()
                 .headers().frameOptions().sameOrigin().and()
                 .authorizeRequests()
 /*                .antMatchers("/**").permitAll()*/
@@ -34,7 +38,8 @@ public class SecurityConfig {
                 .antMatchers("/customerService").hasRole("USER")
                 .anyRequest().permitAll()
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtProvider,memberService), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtAuthenticationFilter(jwtProvider, memberService), UsernamePasswordAuthenticationFilter.class);
+
                 return http.build();
     }
 
