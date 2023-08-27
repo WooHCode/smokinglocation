@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import teamproject.smokinglocation.dto.inquiryDto.InquiryDto;
 import teamproject.smokinglocation.inquiryentity.Inquiry;
 import teamproject.smokinglocation.service.InquiryService;
+import teamproject.smokinglocation.service.MemberService;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ import java.util.List;
 public class InquiryController {
 
     private final InquiryService inquiryService;
+    private final MemberService memberService;
 
     /**
      * 문의 작성 폼 입장 화면
@@ -58,7 +60,8 @@ public class InquiryController {
         Inquiry inquiry = inquiryService.findOne(inquiryId);
         InquiryDto inquiryDto = inquiryService.entityToDto(inquiry);
         model.addAttribute("inquiry", inquiryDto);
-        return "testPage/findOne";
+        model.addAttribute("member", inquiry.getMember());
+        return "inquiry/inquiry";
     }
 
     /**
@@ -69,7 +72,8 @@ public class InquiryController {
         Inquiry inquiry = inquiryService.findOne(inquiryId);
         InquiryDto inquiryDto = inquiryService.entityToDto(inquiry);
         model.addAttribute("inquiry", inquiryDto);
-        return "testPage/findOneAdmin";
+        model.addAttribute("member", inquiry.getMember());
+        return "inquiry/inquiryAdmin";
     }
 
 
