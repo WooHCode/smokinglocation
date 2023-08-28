@@ -35,6 +35,10 @@ public class Inquiry {
     public void addReply(String reply) {
         this.reply = reply;
         this.hasReply = true;
+    }
 
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
     }
 }

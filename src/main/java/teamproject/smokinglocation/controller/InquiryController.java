@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import teamproject.smokinglocation.dto.inquiryDto.InquiryDto;
 import teamproject.smokinglocation.inquiryentity.Inquiry;
 import teamproject.smokinglocation.service.InquiryService;
@@ -65,6 +66,19 @@ public class InquiryController {
     }
 
     /**
+     * 문의 글 수정
+     */
+    @PostMapping("/getone")
+    public String editInquiry(@RequestParam Long inquiryId, @ModelAttribute InquiryDto inquiry, RedirectAttributes redirectAttributes) {
+        inquiryService.update(inquiryId, inquiry);
+        Long memberId = inquiryService.findOne(inquiryId).getMember().getId();
+        redirectAttributes.addAttribute("id", memberId);
+        return "redirect:/member/{id}";
+    }
+
+
+
+    /**
      * 문의 상세 조회 ADMIN
      */
     @GetMapping("/getone/admin")
@@ -80,11 +94,10 @@ public class InquiryController {
     /**
      * 답변 작성
      */
-    @ResponseBody
     @PostMapping("/add-reply")
     public String addReply(@ModelAttribute InquiryDto inquiryDto, @RequestParam Long id) {
         Inquiry inquiry1 = inquiryService.addReply(id, inquiryDto.getReply());
-        return inquiry1.getReply();
+        return "redirect:/member/admin";
     }
 
     /**

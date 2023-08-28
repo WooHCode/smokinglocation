@@ -16,11 +16,11 @@
         <input type="text" id="writer" value="test" th:value="${member.memberName}" readonly>
     </div>
     <div style="margin-top:10px">
-        <textarea id="content" value="test" th:field="*{content}" readonly>내용샘플</textarea>
+        <textarea id="content" cols="50" rows="10" value="test" th:field="*{content}" readonly>내용샘플</textarea>
     </div>
     <div>
         <h2>답변 내용</h2>
-        <input th:field="*{reply}">
+        <textarea cols="50" rows="10" th:field="*{reply}"></textarea>
     </div>
     <div>
         <button type="button" onclick="toMypage()">뒤로</button>
