@@ -8,7 +8,6 @@ var polyline;
 var isStopped = false; // 길찾기 현재위치 추적 반복(true일 시 추적)
 const arrivalDistance = 5; // 도착으로 판단할 거리 (단위: 미터)
 
-
 var nearbyIconUrl = '/image/location-icon-sign.png';
 var nearbyIcon ={
     url: nearbyIconUrl,
@@ -30,6 +29,26 @@ window.onload = function () {
     getCurrentPos(false);
     makeMyPosition(localStorage.getItem("lat"), localStorage.getItem("lng"));
 };
+
+/* 메인화면 셀렉트 박스 제어 함수 시작 */
+const btn = document.querySelector('.selectGu');
+const list = document.querySelector('.selectGu-option');
+
+btn.addEventListener('click', () => {
+    btn.classList.toggle('on');
+});
+
+list.addEventListener('click', (event) => {
+    if (event.target.nodeName === "BUTTON") {
+		if($('.selectGu').eq(0).val()=='전체'){
+	        window.location.replace('/map');
+	    }else {
+	        window.location.replace('/map/select?gu='+event.target.innerText);
+	    }
+        btn.classList.remove('on');
+    }
+});
+/* 메인화면 셀렉트 박스 제어 함수 끝 */
 
 function makeMyPosition(mylat, mylon) {
     // 사용자의 현재 위치 마커를 모두 제거

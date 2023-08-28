@@ -13,8 +13,18 @@ public class BoardController {
      * 화면 반환 API
      * @return
      */
+    @GetMapping("/customerService")
+    public String getCustomerService() {
+        return "body/customerService";
+    }
+
     @GetMapping("/board")
     public String getBoard() {
-        return "body/customerService";
+        return "body/board";
+    }
+
+    @GetMapping("/ask-complete")
+    public String getAskComplete() {
+        return "body/ask-complete";
     }
 }

@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<form action="/inquiry/save" method="post" th:object="${dto}">
+    <input type="text" width="100px" th:field="*{title}">
+    <input type="text" width="100px" th:field="*{content}">
+    <button type="submit">btn</button>
+</form>
+
+</body>
+</html>

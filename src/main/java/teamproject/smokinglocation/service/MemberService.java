@@ -117,12 +117,7 @@ public class MemberService {
         return authenticated;
     }
 
-    /**
-     * memberId : null 나옴
-     * 내부 호출 문제인듯 => createSavedSpot 메서드를 다른 클래스로 옮겨봄 => 실패
-     * @param dto
-     * @return
-     */
+
     @Transactional
     public SavedSpot createSavedSpot(SaveSpotDto dto) {
         log.info("===============MemberService : createSaveSpot() ==============");

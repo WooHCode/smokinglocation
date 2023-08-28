@@ -225,11 +225,11 @@
         <div id="p1-1">
             <div class="image">
                 <!--            프로필 사진-->
-                <img src="/image/test_profile_img.jpg" alt="img">
+                <img id="profile-image">
             </div>
             <!--            유저 id-->
             <div>
-                <p id="user-name">user name</p>
+                <p id="user-name">ADMIN</p>
             </div>
         </div>
 
@@ -237,13 +237,13 @@
 
                 <button class="general-btn">
                     <img src="/image/Setting-two%20(设置).png" alt=""><br>설정</button>
-                <button class="general-btn">
+                <button class="general-btn" onclick="board()">
                     <img src="/image/Message-emoji%20(表情信息).png" alt=""><br>문의</button>
                 <button class="general-btn">
                     <img src="/image/Bookmark-one%20(书签).png" alt=""><br>저장</button>
 
                 <div>
-                    <button class="logout-btn">로그아웃</button>
+                    <button class="logout-btn" type="button" onclick="funLogout()">로그아웃</button>
                 </div>
         </div>
 
@@ -261,15 +261,12 @@
                 </tr>
                 </thead>
                 <tbody  id="inquiries">
-                <tr>
-                    <td><a href="">제목제목제목제목제목제목제목</a></td>
+                <tr th:each="inquiry:${inquiries}">
+                    <td><a
+                            th:href="@{/inquiry/getone/admin(inquiryId=${inquiry.id})}"
+                            th:text="${inquiry.title}">제목</a></td>
                 </tr>
-                <tr>
-                    <td><a href="">제목제목제목제목제목제목제목</a></td>
-                </tr>
-                <tr>
-                    <td><a href="">제목제목제목제목제목제목제목</a></td>
-                </tr>
+
 
                 </tbody>
             </table>
@@ -305,5 +302,9 @@
 <script src="/map.js"></script>
 <script src="/login.js"></script>
 <script src="/board.js"></script>
+<script>
+    const rand_1_5 = Math.floor(Math.random() * 5) + 1;
+    $('#profile-image').prop('src', "/image/profile" + rand_1_5 + ".png");
+</script>
 </body>
 </html>

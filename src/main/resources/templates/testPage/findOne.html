@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<div >
+    <form th:action="@{/inquiry/add-reply(id=*{id})}" th:object="${inquiry}" method="post">
+        <p th:text="*{title}"></p>
+        <p th:text="*{content}"></p>
+
+        <button type="button" th:onclick="|location.href='@{/inquiry/delete(id=*{id})}'|">삭제</button>
+    </form>
+</div>
+</body>
+</html>

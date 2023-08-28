@@ -3,6 +3,7 @@ var login = document.getElementById("login");
 var logout = document.getElementById("logout");
 var register = document.getElementById("register");
 var mypage = document.getElementById("mypage");
+var adminPage = document.getElementById("adminPage");
 
 /* 회원가입 활성화 함수*/
 function openPopup() {
@@ -53,12 +54,19 @@ function visibleLogout() {
         login.style.display = "none";
         logout.style.display = "block";
 		register.style.display = "none";
+		
+		
         mypage.style.display = "block";
+        
+        adminPage.style.display = "block";
+        
+    
     }else {
         login.style.display = "block";
         logout.style.display = "none";
 		register.style.display = "block";
         mypage.style.display = "none";
+        adminPage.style.display = "none";
     }
 }
 window.addEventListener("DOMContentLoaded", function() {
@@ -243,7 +251,8 @@ function funLogout() {
         }),
         success: function(res) {
             alert(res+"님 로그아웃 되었습니다.")
-            localStorage.setItem("temp",res)
+            localStorage.setItem("temp", res);
+            location.href = '/map';
         },
     });
     localStorage.removeItem("isLoggedIn");
