@@ -176,4 +176,5 @@ li a:hover {
 .mypage-notification{
     margin-top: 25px;
     margin-left: 86%;
+    display: none;
 }
