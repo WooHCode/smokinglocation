@@ -14,7 +14,7 @@ import teamproject.smokinglocation.userEnitiy.Member;
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailService implements UserDetailsService {
-    private  final MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
     /**

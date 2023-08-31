@@ -1,13 +1,23 @@
 <div id="popup" class="popup-overlay">
   <div class="popup-content">
-    <span class="close-btn" onclick="closePopup()">&times;</span>
-    <h2>회원가입</h2>
+    <span class="close-btn" onclick="closePopup()">
+		<img src="/image/close-btn.png" alt="닫기">
+	</span>
     <form id="register-form">
-      <input type="text" id="name" placeholder="이름">
-      <a id="check-email"> </a>
-      <input type="email" id="emailInput" placeholder="아이디(이메일)" oninput="checkEmailIdDuplicate()">
-      <input type="password" id="password"  placeholder="비밀번호">
-      <input type="submit" value="가입">
+	  <div class="register-item">		
+	      <input type="text" id="name" placeholder="이름">
+	      <input type="email" id="emailInput" placeholder="이메일" oninput="checkEmailIdDuplicate()">
+	      <input type="password" class="togglePassword" id="password"  placeholder="비밀번호">
+	      <img src="/image/password_eyes.png" class="password-toggle" id="togglePassword" alt="눈 모양 아이콘" onclick="fnResiterTgPw()">	
+	      <input type="password" class="togglePassword" id="password2"  placeholder="비밀번호 확인">
+	      <img src="/image/password_eyes.png" class="password-toggle2" id="togglePassword" alt="눈 모양 아이콘" onclick="fnResiterTgPw2()">	
+	      <a id="check-email"> </a>
+	      <div id="password-mismatch-message" style="color: red;"></div>
+	      <div id="required-field-message" style="color: red;"></div>
+      </div>
+      <div class="register-item2">
+		  <a href="#" onclick="fnRegister()">회원가입</a>
+	  </div>
     </form>
   </div>
 </div>
