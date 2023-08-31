@@ -137,6 +137,7 @@ public class MemberService {
         return savedSpot;
     }
     
+    // 비밃번호 찾기
     @Transactional
     public Member findPw(String memberId, String memberName) {
         return memberRepository.findByMemberIdAndMemberName(memberId, memberName);
