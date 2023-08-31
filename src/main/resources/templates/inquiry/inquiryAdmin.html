@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>문의사항</title>
+</head>
+<body style="text-align: center" id="inquiryPopup">
+<div><h1>문의사항</h1></div>
+<form th:action="@{/inquiry/add-reply(id=*{id})}" th:object="${inquiry}" method="post">
+    <div>
+        <label for="title">제목 : </label>
+        <input type="text" id="title" value="test" th:field="*{title}" readonly>
+    </div>
+    <div>
+        <label for="writer">작성자 : </label>
+        <input type="text" id="writer" value="test" th:value="${member.memberName}" readonly>
+    </div>
+    <div style="margin-top:10px">
+        <textarea id="content" cols="50" rows="10" value="test" th:field="*{content}" readonly>내용샘플</textarea>
+    </div>
+    <div>
+        <h2>답변 내용</h2>
+        <textarea cols="50" rows="10" th:field="*{reply}"></textarea>
+    </div>
+    <div>
+        <button type="button" onclick="toMypage()">뒤로</button>
+                    <button type="submit">답변 작성</button>
+        <button type="button" th:onclick="|location.href='@{/inquiry/delete(id=*{id})}'|">삭제하기</button>
+    </div>
+
+</form>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/mypage.js"></script>
+<script src="/map.js"></script>
+<script src="/login.js"></script>
+<script src="/board.js"></script>
+</body>
+</html>
