@@ -4,6 +4,7 @@ import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
@@ -222,8 +223,7 @@ public class SocialService {
 	        );
 	        JSONObject jsonObj = new JSONObject(response.getBody());
             accessToken  = (String) jsonObj.get("access_token");
-            refreshToken = (String) jsonObj.get("id_token");
-            
+            //refreshToken = (String) jsonObj.get("id_token");
             log.info("accessToken : " + accessToken);
             log.info("===========googleLogin process end===========");
         } catch (Exception e) {
@@ -235,6 +235,9 @@ public class SocialService {
     
     @Transactional
     private Member getGoogleUserInfoWithToken(String accessToken) throws Exception {
+    	String name = "";
+    	String email = "";
+    	String id = "";
         //HttpHeader 생성
     	log.info("===========NaverLogin process start===========");
         HttpHeaders headers = new HttpHeaders();
@@ -245,27 +248,41 @@ public class SocialService {
         RestTemplate rt = new RestTemplate();
         HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<String> response = rt.exchange(
-                env.getProperty("Google.api.url")+"/oauth2/v2/userinfo",
+                env.getProperty("Google.api.url")+"/drive/v2/files",
+                //env.getProperty("Google.api.url")+"/oauth2/v2/userinfo",
                 HttpMethod.GET,
                 httpEntity,
                 String.class
         );
+
         //Response 데이터 파싱
         JSONObject jsonObj = new JSONObject(response.getBody());
+        JSONArray items = jsonObj.getJSONArray("items"); // items 배열 추출
+        log.info("jsonObj : " + response.getBody());
+
+        // Google API 호출 가이드 참고
+        for (int i = 0; i < items.length(); i++) {
+            JSONObject item = items.getJSONObject(i); // 각 item 객체 추출
+            JSONArray ownersArray = item.getJSONArray("owners");
+            // owners 배열 내의 displayName 추출
+            for (int j = 0; j < ownersArray.length(); j++) {
+                JSONObject ownerObject = ownersArray.getJSONObject(i);
+                
+                name = ownerObject.getString("displayName");	// 이름
+                email = ownerObject.getString("emailAddress");	// 이메일
+                id = ownerObject.getString("permissionId");	// 고유 아이디
+            }
+        }
+        
         
         Member member = new Member();
-        String name = String.valueOf(jsonObj.get("id"));						// ID 고유의 값
-        String email = String.valueOf(jsonObj.get("email"));					// 이메일
-        String verified_email = String.valueOf(jsonObj.get("verified_email"));	// 
-        String picture = String.valueOf(jsonObj.get("picture"));				// 프로필
-        String password = name;							// 비밀번호(암호화)
+        String password = id;							// 비밀번호(암호화)
         List<String> roles = Collections.singletonList("USER"); // 사용자 역할 설정
         
         member.SocialRegisterEntity(email, password, name, accessToken, "google", roles);
         log.info("email : " + member.getMemberId());
         log.info("id : " + name);
-        log.info("verified_email : " + verified_email);
-        log.info("picture : " + picture);
+        log.info("name : " + member.getMemberName());
         log.info("password : " + member.getPassword());
         log.info("accessToken : " + accessToken);
         log.info("===========NaverLogin process end===========");

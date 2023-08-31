@@ -5,9 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import teamproject.smokinglocation.dto.inquiryDto.InquiryDto;
 import teamproject.smokinglocation.inquiryentity.Inquiry;
 import teamproject.smokinglocation.service.InquiryService;
+import teamproject.smokinglocation.service.MemberService;
 
 import java.util.List;
 
@@ -19,6 +21,7 @@ import java.util.List;
 public class InquiryController {
 
     private final InquiryService inquiryService;
+    private final MemberService memberService;
 
     /**
      * 문의 작성 폼 입장 화면
@@ -58,8 +61,22 @@ public class InquiryController {
         Inquiry inquiry = inquiryService.findOne(inquiryId);
         InquiryDto inquiryDto = inquiryService.entityToDto(inquiry);
         model.addAttribute("inquiry", inquiryDto);
-        return "testPage/findOne";
+        model.addAttribute("member", inquiry.getMember());
+        return "inquiry/inquiry";
     }
+
+    /**
+     * 문의 글 수정
+     */
+    @PostMapping("/getone")
+    public String editInquiry(@RequestParam Long inquiryId, @ModelAttribute InquiryDto inquiry, RedirectAttributes redirectAttributes) {
+        inquiryService.update(inquiryId, inquiry);
+        Long memberId = inquiryService.findOne(inquiryId).getMember().getId();
+        redirectAttributes.addAttribute("id", memberId);
+        return "redirect:/member/{id}";
+    }
+
+
 
     /**
      * 문의 상세 조회 ADMIN
@@ -69,18 +86,18 @@ public class InquiryController {
         Inquiry inquiry = inquiryService.findOne(inquiryId);
         InquiryDto inquiryDto = inquiryService.entityToDto(inquiry);
         model.addAttribute("inquiry", inquiryDto);
-        return "testPage/findOneAdmin";
+        model.addAttribute("member", inquiry.getMember());
+        return "inquiry/inquiryAdmin";
     }
 
 
     /**
      * 답변 작성
      */
-    @ResponseBody
     @PostMapping("/add-reply")
     public String addReply(@ModelAttribute InquiryDto inquiryDto, @RequestParam Long id) {
         Inquiry inquiry1 = inquiryService.addReply(id, inquiryDto.getReply());
-        return inquiry1.getReply();
+        return "redirect:/member/admin";
     }
 
     /**

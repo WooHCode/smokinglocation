@@ -135,4 +135,9 @@ public class MemberService {
         spotRepository.save(savedSpot);
         return savedSpot;
     }
+    
+    @Transactional
+    public Member findPw(String memberId, String memberName) {
+        return memberRepository.findByMemberIdAndMemberName(memberId, memberName);
+    }
 }

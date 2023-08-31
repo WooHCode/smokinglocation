@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/map.css">
     <link rel="stylesheet" href="/css/popup.css">
     <link rel="stylesheet" href="/css/menu.css">
+    <link rel="stylesheet" href="/css/loginPopup.css">
     <script src="/webjars/sockjs-client/1.1.2/sockjs.min.js"></script>
     <script src="/webjars/stomp-websocket/2.3.3-1/stomp.min.js"></script>
     <script type="text/javascript"
@@ -46,6 +47,16 @@
     </script>
 </head>
 <body>
+
+<div th:replace="body/menu.html::#menu"></div>
+<div th:replace="body/menu.html::#loading"></div>
+<div th:replace="body/registerPopup.html::#popup"></div>
+<div th:replace="body/loginPopup.html::#loginPopup"></div>
+<div th:replace="body/findPwPopup.html::#findPwPopup"></div>
+<div th:replace="body/findPwResultPopup.html::#findPwResultPopup"></div>
+<div id="map"></div>
+<div id="board"></div>
+
 <div class="gradient">
 	<div th:replace="body/menu.html::#menu"></div>
 	<div th:insert="body/menu.html::#loading"></div>
@@ -55,6 +66,7 @@
     <div id="board"></div>
 	<div th:insert="body/footer.html::#map-footer" ></div>
 </div>
+
 <div th:replace="body/sidebar.html::#sidebar-container"></div>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
