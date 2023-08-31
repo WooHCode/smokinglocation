@@ -1,8 +1,8 @@
 package teamproject.smokinglocation.service;
 
-import io.jsonwebtoken.Jwts;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Collections;
+import java.util.List;
+
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
@@ -13,17 +13,17 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import teamproject.smokinglocation.common.TokenInfo;
 import teamproject.smokinglocation.config.JwtProvider;
 import teamproject.smokinglocation.dto.memberDto.SaveSpotDto;
-import teamproject.smokinglocation.dto.tokenDto.TokenRequestDto;
 import teamproject.smokinglocation.repository.MemberRepository;
+import teamproject.smokinglocation.repository.MemberRolesRepository;
 import teamproject.smokinglocation.repository.SpotRepository;
 import teamproject.smokinglocation.userEnitiy.Member;
 import teamproject.smokinglocation.userEnitiy.SavedSpot;
-
-import java.util.Collections;
-import java.util.List;
 
 @Service
 @Slf4j
@@ -36,6 +36,7 @@ public class MemberService {
     private final JwtProvider jwtProvider;
     private final CacheManager cacheManager;
     private final SpotRepository spotRepository;
+    private final MemberRolesRepository memberRolesRepository;
 
     @Transactional
     @Cacheable("totalMemberId")
@@ -139,5 +140,13 @@ public class MemberService {
     @Transactional
     public Member findPw(String memberId, String memberName) {
         return memberRepository.findByMemberIdAndMemberName(memberId, memberName);
+    }
+    
+    // 로그인 권한 정보 조회
+    @Transactional
+    public String getLoginRole(String memberId) {
+    	Long id = memberRepository.findById(memberId);				// ID 조회
+    	String roles = memberRolesRepository.findRolesByMemberId(id);	// 로그인 권한 조회
+        return roles;
     }
 }
