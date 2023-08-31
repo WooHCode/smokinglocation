@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import teamproject.smokinglocation.chat.ChatRoomRepository;
 import teamproject.smokinglocation.common.TokenInfo;
 import teamproject.smokinglocation.dto.memberDto.MemberRegisterRequestDto;
 import teamproject.smokinglocation.dto.memberDto.SaveSpotDto;
@@ -29,6 +29,7 @@ public class MemberController {
 
     private final MemberService memberService;
     private final InquiryService inquiryService;
+    private final ChatRoomRepository chatRoomRepository;
 
     @ResponseBody
     @GetMapping("/auth")
@@ -101,6 +102,7 @@ public class MemberController {
     @GetMapping("/admin")
     public String adminPage(Model model) {
         model.addAttribute("inquiries", inquiryService.findAll());
+        model.addAttribute("chatRooms", chatRoomRepository.findAll());
         return "mypage/adminmypage";
     }
 }

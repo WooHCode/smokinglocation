@@ -6,27 +6,31 @@
 </head>
 <body style="text-align: center" id="inquiryPopup">
     <div><h1>문의사항</h1></div>
-    <div>
-        <label for="title">제목 : </label>
-        <input type="text" id="title" value="test" th:value="" readonly>
-    </div>
-    <div>
-        <label for="writer">작성자 : </label>
-        <input type="text" id="writer" value="test" th:value="" readonly>
-    </div>
-    <div style="margin-top:10px">
-        <textarea id="content" value="test" th:value="" readonly>내용샘플</textarea>
-    </div>
-    <div>
-        <h2>답변 내용</h2>
-        <p>답변샘플답변샘플답변샘플답변샘플답변샘플</p>
-    </div>
-    <div>
-        <button type="button">게시판으로</button>
-        <button type="button">수정하기</button>
-        <button type="button">수정완료</button>
-        <button type="button">삭제하기</button>
-    </div>
+    <form action="" th:object="${inquiry}" method="post">
+        <div>
+            <label for="title">제목 : </label>
+            <input type="text" id="title" value="test" th:field="*{title}" >
+        </div>
+        <div>
+            <label for="writer">작성자 : </label>
+            <input type="text" id="writer" value="test" th:value="${member.memberName}" readonly>
+        </div>
+        <div style="margin-top:10px">
+            <textarea cols="50" rows="10" id="content" value="test" th:field="*{content}" >내용샘플</textarea>
+        </div>
+        <div>
+            <h2>답변 내용</h2>
+            <textarea cols="50" rows="10" th:field="*{reply}" readonly></textarea>
+        </div>
+        <div>
+            <button type="button" onclick="toMypage()">뒤로</button>
+            <button type="submit">수정완료</button>
+            <button type="button" th:onclick="|location.href='@{/inquiry/delete(id=*{id})}'|">삭제하기</button>
+        </div>
+
+    </form>
+
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/mypage.js"></script>
     <script src="/map.js"></script>

@@ -26,6 +26,12 @@ public class InquiryService {
         return inquiryRepository.save(inquiry);
     }
 
+    @Transactional
+    public void update(Long id, InquiryDto dto) {
+        Inquiry inquiry = inquiryRepository.findById(id).orElseThrow();
+        inquiry.update(dto.getTitle(), dto.getContent());
+    }
+
     public List<Inquiry> findAll() {
         log.info("====================InquiryService.findAll");
         return inquiryRepository.findAll();

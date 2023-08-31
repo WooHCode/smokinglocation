@@ -12,6 +12,20 @@ function toMypage(){
     });
 }
 
+function toAdminPage(){
+    var refreshToken=sessionStorage.getItem("rf")
+    $.ajax({
+        url:"/member/auth",
+        type:"GET",
+        data: {
+            refreshToken: refreshToken,
+        },
+        success: function(res){
+            window.location.replace("/member/admin");
+        }
+    });
+}
+
 $(".password-change-submit").on("click", function() {
     var pwChange = $("#pw-change").val();
     var pwChangeRe = $("#pw-change-re").val();

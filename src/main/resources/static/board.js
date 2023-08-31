@@ -30,18 +30,6 @@ function closeChatPopup() {
     popup.style.visibility = "hidden";
     popup.style.opacity = "0";
 }
-function openInquiryPopup() {
-    var popup = document.getElementById("inquiryPopup");
-    popup.style.visibility = "visible";
-    popup.style.opacity = "1";
-    connect()
-}
-
-function closeInquiryPopup() {
-    var popup = document.getElementById("inquiryPopup");
-    popup.style.visibility = "hidden";
-    popup.style.opacity = "0";
-}
 
 function getChatPopup() {
     $.ajax({
@@ -77,21 +65,6 @@ function getChatPopup() {
         }
     })
 }
-
-function getInquiryPopup() {
-    $.ajax({
-        url: "/inquiry/write/enter",
-        type: "GET",
-        success: function (res) {
-            closeBoardPopup();
-            var boardContent = document.getElementById("board");
-            boardContent.innerHTML = res;
-            boardContent.style.zIndex = "9999";
-            openInquiryPopup();
-        },
-    })
-}
-
 
 function board() {
     console.log("board() 진입");

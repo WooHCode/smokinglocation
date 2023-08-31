@@ -169,3 +169,12 @@ li a:hover {
 .selectGu-option li button:focus {
     background-color: #FFFFFF;
 }
+
+.mypage-notification-div{
+	height: 0px;
+}
+
+.mypage-notification{
+    margin-top: 25px;
+    margin-left: 86%;
+}
