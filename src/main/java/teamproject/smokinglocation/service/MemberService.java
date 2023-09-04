@@ -140,4 +140,8 @@ public class MemberService {
     public Member findPw(String memberId, String memberName) {
         return memberRepository.findByMemberIdAndMemberName(memberId, memberName);
     }
+
+    public Member findByEmail(String memberId) {
+        return memberRepository.findMemberEntityByEmail(memberId);
+    }
 }

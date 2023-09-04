@@ -398,7 +398,7 @@
                 <tr th:each="inquiry:${inquiries}">
                     <td><a
                             th:href="@{/inquiry/getone(inquiryId=${inquiry.id})}"
-                            th:text="${inquiry.title}">제목</a></td>
+                            th:text="${inquiry.content}">내용</a></td>
                 </tr>
 
 
@@ -451,7 +451,8 @@
         </div>
     </div>
 </div>
-
+<div id="map"></div>
+<div id="board"></div>
 <!--
     <div><h1>마이페이지</h1></div>
     <div><h2>회원정보</h2></div>

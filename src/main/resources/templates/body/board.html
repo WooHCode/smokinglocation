@@ -1,16 +1,18 @@
+<html xmlns:th="http://www.thymeleaf.org">
 <div id="boardPopup" class="popup-overlay">
     <div class="popup-content">
         <span class="close-btn" onclick="closeBoardPopup()">
             <img class="close-btn-button"><img src="/image/xbox2.png"></button>
         </span>
-        <form id="board-form">
-            <input type="text" class="clientId" id="clientId" placeholder="아이디">
-            <input type="text" class="clientEmail" id="clientEmail" placeholder="이메일">
-            <input type="text" id="boardContent" class="boardContent">
-            <button type="button" class="submitButton" id="boardSubmitButton" onclick="submitForm()">문의하기</button>
+        <form id="board-form" method="post" th:action="@{/board}" th:object="${dto}">
+            <input type="text" class="clientId" id="clientId" placeholder="아이디" th:field="*{memberName}">
+            <input type="text" class="clientEmail" id="clientEmail" placeholder="이메일" th:field="*{memberId}">
+            <input type="text" id="boardContent" class="boardContent" th:field="*{content}">
+            <button type="submit" class="submitButton" id="boardSubmitButton">문의하기</button>
         </form>
     </div>
 </div>
+
 <style>
     .boardContent {
         height: 520px;
@@ -97,3 +99,4 @@
         cursor: pointer;
     }
 </style>
+</html>

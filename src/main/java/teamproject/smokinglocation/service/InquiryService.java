@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import teamproject.smokinglocation.inquiryentity.Inquiry;
 import teamproject.smokinglocation.dto.inquiryDto.InquiryDto;
 import teamproject.smokinglocation.repository.InquiryRepository;
+import teamproject.smokinglocation.userEnitiy.Member;
 
 import java.util.List;
 
@@ -70,6 +71,12 @@ public class InquiryService {
         inquiryRepository.delete(inquiryRepository.findById(id).orElseThrow());
     }
 
+    @Transactional
+    public void createInquiry(Member member, String content) {
+        Inquiry inquiry = new Inquiry();
+        inquiry.createInquiry(member,"",content);
+        inquiryRepository.save(inquiry);
+    }
 
 
 }
