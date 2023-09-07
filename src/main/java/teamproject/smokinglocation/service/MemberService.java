@@ -137,12 +137,15 @@ public class MemberService {
         return savedSpot;
     }
     
-    // 비밃번호 찾기
     @Transactional
     public Member findPw(String memberId, String memberName) {
         return memberRepository.findByMemberIdAndMemberName(memberId, memberName);
     }
-    
+
+    public Member findByEmail(String memberId) {
+        return memberRepository.findMemberEntityByEmail(memberId);
+    }
+
     // 로그인 권한 정보 조회
     @Transactional
     public String getLoginRole(String memberId) {

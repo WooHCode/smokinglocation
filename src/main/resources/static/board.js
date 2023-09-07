@@ -92,9 +92,15 @@ function board() {
 }
 
 function getBoardPopup() {
+    var rf = sessionStorage.getItem('rf');
+    var data={
+        rf: rf,
+    }
+    console.log(data);
     $.ajax({
         url: "/board",
         type: "GET",
+        data: data,
         success: function (res, status, xhr) {
             var boardContent = document.getElementById("board");
             boardContent.innerHTML = res;
