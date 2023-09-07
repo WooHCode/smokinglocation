@@ -222,11 +222,13 @@ function fnLogin() {
         success: function (res) {
             if (res.status === "OK") {
                 localStorage.setItem("at",res.accessToken);
+                localStorage.setItem("roles", res.roles);
                 sessionStorage.setItem("rf", res.refreshToken);
                 window.alert("로그인에 성공하였습니다.")
                 localStorage.setItem("isLoggedIn","true");
                 visibleLogout();
                 closeLoginPopup();
+                
             }
         },
         error: function (xhr, status, error){
