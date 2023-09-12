@@ -280,10 +280,10 @@
                 <th><p style="color:white">채팅내용</p></th>
             </tr>
             </thead>
-            <tbody id="">
+            <tbody id="chatRooms">
             <tr th:each="chatRoom:${chatRooms}">
-                <td><a
-                        th:href="@{/chat/room/{id} (id=${chatRoom.roomId})}"
+                <td><a  onclick="openChatRoom(this)"
+                        th:id="${chatRoom.roomId}"
                         th:text='${chatRoom.name}'>제목</a></td>
             </tr>
 
@@ -300,9 +300,36 @@
 <script src="/map.js"></script>
 <script src="/login.js"></script>
 <script src="/board.js"></script>
-<script>
+<script src="/chat.js"></script>
+<script th:inline="javascript">
     const rand_1_5 = Math.floor(Math.random() * 5) + 1;
     $('#profile-image').prop('src', "/image/profile" + rand_1_5 + ".png");
+
+    function openChatRoom(clickedElement) {
+        var roomId = clickedElement.id;
+        console.log("====roomId : " + roomId);
+        $.ajax({
+            url: "/chat/room/enter/" + roomId,
+            type: "GET",
+            success: function (res, status, xhr) {
+                var boardContent = document.getElementById("board");
+                boardContent.innerHTML = res;
+                boardContent.style.zIndex = "9999"
+                openChatPopup()
+                afterChatPopupLoaded()
+                var sendingButton = document.getElementById("button-send")
+                sendingButton.style.display = "none"
+                var connectionButton = document.getElementById("startChat")
+                connectionButton.style.display = "block"
+            },
+            error: function (xhr, status, error) {
+                if (xhr.status === 403) {
+                    window.alert("로그인 후 이용가능합니다.")
+                }
+            }
+        })
+    }
+
 </script>
 </body>
 </html>
