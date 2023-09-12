@@ -7,11 +7,14 @@ import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import teamproject.smokinglocation.dto.MailDto;
+import teamproject.smokinglocation.userEnitiy.Member;
 
 @Service
 @Slf4j
 @AllArgsConstructor
 public class MailService {
+	
+    private final MemberService memberService;
     /*
      *  주의사항
 		application.properties stmp 설정값 필수 
@@ -19,18 +22,19 @@ public class MailService {
 		본인의 경우 구글 "앱 비밀번호" 를 만들어 해결했지만 다른 경우도 해결해야 될 상황이 올 수 있음
 	*/
 	private JavaMailSender emailSender;
-    public void sendSimpleMessage(MailDto mailDto) {
+    public void sendSimpleMessage(Long id) {
     	log.debug("MailService -  sendSimpleMessage Start");
     	SimpleMailMessage message = new SimpleMailMessage();
-        
+    	 Member member = memberService.findById(id);
         // FROM 
-        message.setFrom("smokadmin@smokinglocation.com"); //From 안먹음 ....  application.properties에 설정된 계정 FROM 잡힘 
+    	//From 안먹음 ....  application.properties에 설정된 계정 FROM 잡힘
+        //message.setFrom("smokadmin@smokinglocation.com");  
         
         // TO 
-        message.setTo(mailDto.getAddress()); 
+        message.setTo(member.getMemberId()); 
         
         // 메일 제목 
-        message.setSubject("[서울시흡연구역]"+mailDto.getName()+ "님 답변이 달렸습니다.");
+        message.setSubject("[서울시흡연구역]"+member.getMemberName()+ "님이 작성하신 문의 답변이 달렸습니다.");
         
         // 메일 내용 작성 
         StringBuilder sb = new StringBuilder();

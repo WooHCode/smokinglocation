@@ -1,20 +1,12 @@
 package teamproject.smokinglocation.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import teamproject.smokinglocation.common.LongPollingEventSimulator;
 import teamproject.smokinglocation.common.LongPollingSession;
-import teamproject.smokinglocation.config.JwtProvider;
 import teamproject.smokinglocation.entity.Notifications;
-import teamproject.smokinglocation.repository.MemberRepository;
 import teamproject.smokinglocation.repository.NotificationRepository;
 
 import java.util.ArrayList;
@@ -23,8 +15,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @Service
 @EnableCaching

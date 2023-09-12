@@ -96,7 +96,7 @@ public class SocialService {
         JSONObject jsonObj    = new JSONObject(response.getBody()); 
         JSONObject account = (JSONObject) jsonObj.get("kakao_account");
         JSONObject profile = (JSONObject) account.get("profile");
-        
+        log.info("jsonObj :::: "+jsonObj.toString());
         Member member = new Member();
         String id = String.valueOf(jsonObj.get("id"));
         String email = String.valueOf(account.get("email"));

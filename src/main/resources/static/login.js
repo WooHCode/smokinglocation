@@ -227,6 +227,7 @@ function fnLogin() {
                 localStorage.setItem("isLoggedIn","true");
                 visibleLogout();
                 closeLoginPopup();
+                polling();
             }
         },
         error: function (xhr, status, error){
