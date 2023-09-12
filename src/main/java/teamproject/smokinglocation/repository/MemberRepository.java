@@ -43,4 +43,11 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     // 비밀번호 찾기
     @Transactional
     Member findByMemberIdAndMemberName(String email, String memberName);
+
+    @Query("SELECT m FROM Member m WHERE m.memberId = :memberId")
+    Member findMemberEntityByEmail(@Param("memberId") String memberId);
+
+    // 아이디 조히
+    @Query("select id from Member where memberId = :memberId")
+    Long findById(@Param("memberId") String memberId);
 }
