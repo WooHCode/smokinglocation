@@ -10,40 +10,41 @@
             text-align: left;
             border-color: black;
             background-color: white;
-            color:black;
+            color: black;
             font-weight: bold;
             border-radius: 20px;
 
         }
-        tr{
+
+        tr {
             height: 50px;
             border-bottom: 1px solid;
             border-collapse: collapse;
         }
 
-        tr:last-child{
+        tr:last-child {
             border-bottom: none;
         }
 
-        th{
+        th {
             border-top-left-radius: 20px;
             border-top-right-radius: 20px;
             border-bottom: solid;
             background-color: #123597;
-            padding-left:10px;
+            padding-left: 10px;
             font-size: large;
         }
 
-        td{
-            padding:10px;
+        td {
+            padding: 10px;
         }
 
-        td a{
+        td a {
             text-decoration-line: none;
             color: black;
         }
 
-        td a:hover{
+        td a:hover {
             color: #f9e001;
         }
 
@@ -51,14 +52,15 @@
         #inquiries:last-child {
             border-bottom: none;
         }
-        #saved-spot:last-child{
+
+        #saved-spot:last-child {
             border-bottom: none;
         }
 
         /*body 는 기본적으로 높이값이 나오지 않아서 .container 에 height 100% 주기위해 부모태그 높이 설정*/
-        html, body{
-            margin:0;
-            heigth:100%;
+        html, body {
+            margin: 0;
+            heigth: 100%;
             background-color: #97ABFF;
         }
 
@@ -70,7 +72,7 @@
 
         }
 
-        .container{
+        .container {
             width: 95%;
             height: 100%;
             background-color: #97ABFF;
@@ -80,37 +82,42 @@
         }
 
 
-
-        #p1-1{
-            width:15%;
+        #p1-1 {
+            width: 15%;
             display: flex;
             flex-direction: column;
         }
 
-        #p1-2{
-            margin-top: 10px;
-            width:85%;
-            display:flex;
+        #p1-1-2 {
+            margin-top: 30px;
+            width: 60%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #p1-1-2-1 {
+            margin-top: 30px;
+            display: flex;
             flex-direction: row;
         }
 
-        #p2-1{
-            width:50%;
+        #p2-1 {
+            width: 50%;
         }
 
-        #p2-2{
-            width:50%;
+        #p2-2 {
+            width: 50%;
         }
 
-        .image{
+        .image {
             width: 180px;
             height: 180px;
             border-radius: 70%;
             overflow: hidden;
-            margin-right:10%;
+            margin-right: 10%;
         }
 
-        #user-name{
+        #user-name {
             color: white;
             font-size: 25px;
             text-align: left;
@@ -128,7 +135,7 @@
             color: white;
         }
 
-        .logout-btn:hover{
+        .logout-btn:hover {
             background-color: #97ABFF;
             color: #f9e001;
         }
@@ -142,7 +149,7 @@
             border: none;
         }
 
-        .general-btn:hover{
+        .general-btn:hover {
             background-color: #f9e001;
         }
 
@@ -179,14 +186,14 @@
 
         li {
             display: inline-block;
-            margin-top:20px;
+            margin-top: 20px;
             margin-bottom: 20px;
         }
 
         li a {
             text-align: center;
             padding: 14.5px 16px;
-            color:white;
+            color: white;
         }
 
         li a:hover {
@@ -196,7 +203,7 @@
 
         nav li.home-li {
             text-align: left;
-            margin-left:50px;
+            margin-left: 50px;
             font-weight: bold;
             flex: 1;
             font-size: 40px;
@@ -208,7 +215,7 @@
 <div class="menu">
     <nav>
         <ul>
-            <li class="home-li"><a onclick="gotoHome()" >서울시 흡연구역</a></li>
+            <li class="home-li"><a onclick="gotoHome()">서울시 흡연구역</a></li>
 
             <!--            적당한 기능 배치해야함-->
             <li><a onclick="">쇼핑</a></li>
@@ -222,55 +229,58 @@
 </div>
 
 <div class="container">
-        <div id="p1-1">
-            <div class="image">
-                <!--            프로필 사진-->
-                <img id="profile-image">
-            </div>
-            <!--            유저 id-->
-            <div>
-                <p id="user-name">ADMIN</p>
-            </div>
+    <div id="p1-1">
+        <div class="image">
+            <!--            프로필 사진-->
+            <img id="profile-image">
         </div>
-
-        <div id="p1-2">
-
-                <button class="general-btn">
-                    <img src="/image/Setting-two%20(设置).png" alt=""><br>설정</button>
-                <button class="general-btn" id="createRoom" onclick="board()">
-                    <img src="/image/Message-emoji%20(表情信息).png" alt=""><br>문의</button>
-                <button class="general-btn">
-                    <img src="/image/Bookmark-one%20(书签).png" alt=""><br>저장</button>
-
-                <div>
-                    <button class="logout-btn" type="button" onclick="funLogout()">로그아웃</button>
-                </div>
+        <!--            유저 id-->
+        <div>
+            <p id="user-name">ADMIN</p>
         </div>
+    </div>
+
+    <div id="p1-1-2">
+        <div>
+            <button class="logout-btn" type="button" onclick="funLogout()" style="float: left">로그아웃</button>
+        </div>
+        <div id="p1-1-2-1">
+            <button class="general-btn">
+                <img src="/image/Setting-two%20(设置).png" alt=""><br>설정
+            </button>
+            <button class="general-btn" id="createRoom" onclick="board()">
+                <img src="/image/Message-emoji%20(表情信息).png" alt=""><br>문의
+            </button>
+            <button class="general-btn" id="my-saved">
+                <img src="/image/Bookmark-one%20(书签).png" alt=""><br>저장
+            </button>
+        </div>
+    </div>
 
 
 </div>
 
 
 <div class="container">
-        <!--        문의내용-->
-        <div id="p2-1" style="text-align: center">
-            <table>
-                <thead>
-                <tr>
-                    <th><p style="color:white">문의내용</p></th>
-                </tr>
-                </thead>
-                <tbody  id="inquiries">
-                <tr th:each="inquiry:${inquiries}">
-                    <td><a
-                            th:href="@{/inquiry/getone/admin(inquiryId=${inquiry.id})}"
-                            th:text="${inquiry.content}">내용</a></td>
-                </tr>
+    <!--        문의내용-->
+    <div id="p2-1" style="text-align: center">
+        <table>
+            <thead>
+            <tr>
+                <th><p style="color:white">문의내용</p></th>
+            </tr>
+            </thead>
+            <tbody id="inquiries">
+            <tr th:each="inquiry:${inquiries}">
+                <td><a
+                        th:href="@{/inquiry/getone/admin(inquiryId=${inquiry.id})}"
+                        th:text="${inquiry.content}">내용</a></td>
+            </tr>
 
 
-                </tbody>
-            </table>
-        </div>
+            </tbody>
+        </table>
+    </div>
 
     <div id="p2-2" style="margin-left:50px">
         <!--        채팅내용-->
@@ -282,9 +292,9 @@
             </thead>
             <tbody id="chatRooms">
             <tr th:each="chatRoom:${chatRooms}">
-                <td><a  onclick="openChatRoom(this)"
-                        th:id="${chatRoom.roomId}"
-                        th:text='${chatRoom.name}'>제목</a></td>
+                <td><a onclick="openChatRoom(this)"
+                       th:id="${chatRoom.roomId}"
+                       th:text='${chatRoom.name}'>제목</a></td>
             </tr>
 
             </tbody>
