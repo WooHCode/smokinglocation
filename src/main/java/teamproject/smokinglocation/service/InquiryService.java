@@ -39,7 +39,7 @@ public class InquiryService {
     }
 
     public List<Inquiry> findAllByMemberId(Long memberId) {
-        log.info("====================InquiryService.findAllByMemberId");
+        log.info("=========InquiryService.findAllByMemberId : {}", memberId);
         return inquiryRepository.findAllByMemberId(memberId);
     }
 

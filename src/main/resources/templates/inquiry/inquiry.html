@@ -1,40 +1,52 @@
 <!doctype html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
+
+    <style>
+        html, body {
+            margin: 0;
+            height: 100%;
+            background-color: #97ABFF;
+            overflow: hidden;
+        }
+    </style>
     <meta charset="UTF-8">
     <title>문의사항</title>
 </head>
 <body style="text-align: center" id="inquiryPopup">
-    <div><h1>문의사항</h1></div>
-    <form action="" th:object="${inquiry}" method="post">
-        <div>
-            <label for="title">제목 : </label>
-            <input type="text" id="title" value="test" th:field="*{title}" >
-        </div>
-        <div>
-            <label for="writer">작성자 : </label>
-            <input type="text" id="writer" value="test" th:value="${member.memberName}" readonly>
-        </div>
-        <div style="margin-top:10px">
-            <textarea cols="50" rows="10" id="content" value="test" th:field="*{content}" >내용샘플</textarea>
-        </div>
-        <div>
-            <h2>답변 내용</h2>
-            <textarea cols="50" rows="10" th:field="*{reply}" readonly></textarea>
-        </div>
-        <div>
-            <button type="button" onclick="toMypage()">뒤로</button>
-            <button type="submit">수정완료</button>
-            <button type="button" th:onclick="|location.href='@{/inquiry/delete(id=*{id})}'|">삭제하기</button>
-        </div>
+<div style="margin-top: 5%"><h1>문의사항</h1></div>
+<form action="" th:object="${inquiry}" method="post">
+    <!--<div>
+        <label for="title">제목 : </label>
+        <input type="text" id="title" value="test" th:field="*{title}" >
+    </div>-->
+    <div>
+        <label for="writer">작성자 : </label>
+        <input type="text" id="writer" value="test" th:value="${member.memberName}" readonly>
+    </div>
+    <div style="margin-top:10px">
+        <textarea cols="100" rows="10" id="content" th:field="*{content}">내용샘플</textarea>
+    </div>
+    <div>
+        <h2>답변 내용</h2>
+        <textarea cols="100" rows="10" th:field="*{reply}" readonly></textarea>
+    </div>
+    <div>
+        <button type="button" onclick="toMypage()" style="width: 100px; height: 30px; background-color: darkgray">뒤로
+        </button>
+        <button type="submit" style="width: 100px; height: 30px; background-color: chartreuse">수정완료</button>
+        <button type="button" th:onclick="|location.href='@{/inquiry/delete(id=*{id})}'|"
+                style="width: 100px; height: 30px; background-color: red">삭제하기
+        </button>
+    </div>
 
-    </form>
+</form>
 
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="/mypage.js"></script>
-    <script src="/map.js"></script>
-    <script src="/login.js"></script>
-    <script src="/board.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/mypage.js"></script>
+<script src="/map.js"></script>
+<script src="/login.js"></script>
+<script src="/board.js"></script>
 </body>
 </html>

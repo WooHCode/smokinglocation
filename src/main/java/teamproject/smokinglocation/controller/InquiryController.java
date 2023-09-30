@@ -94,9 +94,9 @@ public class InquiryController {
     /**
      * 답변 작성
      */
-    @PostMapping("/add-reply")
-    public String addReply(@ModelAttribute InquiryDto inquiryDto, @RequestParam Long id) {
-        Inquiry inquiry1 = inquiryService.addReply(id, inquiryDto.getReply());
+    @PostMapping("/getone/admin")
+    public String addReply(@ModelAttribute InquiryDto inquiryDto, @RequestParam Long inquiryId) {
+        inquiryService.addReply(inquiryId, inquiryDto.getReply());
         return "redirect:/member/admin";
     }
 
