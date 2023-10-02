@@ -118,9 +118,12 @@ function submitForm() {
     $.ajax({
         url: "/ask-complete",
         type: "GET",
+        data: {
+            	refreshToken: sessionStorage.getItem("rf")
+        },
         success: function (res, status, xhr) {
             var boardContent = document.getElementById("board");
-            console.log(res)
+            console.log(res);
             boardContent.innerHTML = res;
             openBoardPopup();
             boardContent.style.zIndex = "9999";

@@ -106,9 +106,13 @@ ul {
 .popup-content .login-item4 .item-list{
 	display: flex; /* Flex 컨테이너로 설정 */
 	justify-content: space-between; /* 양 옆으로 벌어지게 정렬 */
+	float: unset;
 }
 
 .popup-content .login-item4 a{
+	font-size: unset;
+	border: unset;
+	padding: 5px;
 	color: #FFFFFF;
 }
 
