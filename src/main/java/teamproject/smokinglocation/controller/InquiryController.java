@@ -31,14 +31,14 @@ public class InquiryController {
 
     private final InquiryService inquiryService;
     private final MemberService memberService;
-    
+
     private final NotificationService notificationsService;
-    
+
     private final MailService mailService;
-    
+
     @Value("${cluster.nodenames}")
     private String[] nodeNames;
-    
+
     /**
      * 문의 작성 폼 입장 화면
      */
@@ -110,13 +110,13 @@ public class InquiryController {
     /**
      * 답변 작성
      */
-    @PostMapping("/add-reply")
+    @PostMapping("/getone/admin")
     public String addReply(@ModelAttribute InquiryDto inquiryDto, @RequestParam Long id) {
         Inquiry inquiry1 = inquiryService.addReply(id, inquiryDto.getReply());
-        
+
         /* Notifications INSERT 오우석 추가 */
         log.info("InquirtController - Notifications INSERT START ");
-        for (final String node : nodeNames) { 
+        for (final String node : nodeNames) {
         	// nodeNames 서버 이중화일때 사용하는건지 ? 추후 확인 필요 ....
             Notifications notification = new Notifications();
             notification.setUserId(id);
@@ -127,10 +127,10 @@ public class InquiryController {
         }
         notificationsService.flush(); // force the changes to the DB
     	log.info("InquirtController - Notifications INSERT END ");
-        
+
         /* 메일 전송  오우석 추가 */
     	mailService.sendSimpleMessage(id);
-    	
+
         return "redirect:/member/admin";
     }
 
