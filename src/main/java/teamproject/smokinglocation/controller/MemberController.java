@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import teamproject.smokinglocation.chat.ChatRoomRepository;
 import teamproject.smokinglocation.common.TokenInfo;
 import teamproject.smokinglocation.dto.memberDto.MemberRegisterRequestDto;
+import teamproject.smokinglocation.dto.memberDto.MemberUpdateDto;
 import teamproject.smokinglocation.dto.memberDto.SaveSpotDto;
 import teamproject.smokinglocation.inquiryentity.Inquiry;
 import teamproject.smokinglocation.service.InquiryService;
@@ -53,6 +54,7 @@ public class MemberController {
         Long id = (Long) session.getAttribute("member_pk");
 
         Member member = memberService.findById(id);
+        model.addAttribute("memberName", member.getMemberName());
         model.addAttribute("email", member.getMemberId());
         model.addAttribute("password", member.getPassword());
         model.addAttribute("savedSpot", member.getSavedSpotList());
@@ -80,30 +82,31 @@ public class MemberController {
         memberService.createSavedSpot(dto);
         return "ok";
     }
-    
+
     /**
      * 비밀번호 찾기
      * MemberLoginRequestDto(email, name)
+     *
      * @param dto
      * @return
      */
     @PostMapping("/findPw")
     public ResponseEntity<?> findPw(@RequestBody MemberRegisterRequestDto dto) {
         log.info("===========findPw process start===========");
-        String memberId = dto.getEmail(); 	// 이메일
-        String memberName  = dto.getName();	// 이름
-        String message = "";				// 결과메세지
+        String memberId = dto.getEmail();    // 이메일
+        String memberName = dto.getName();    // 이름
+        String message = "";                // 결과메세지
         Member count = memberService.findPw(memberId, memberName);
-        if("1".equals(count)) {
-        	// 비밀번호 찾기 성공
-        	message = "Success";
+        if ("1".equals(count)) {
+            // 비밀번호 찾기 성공
+            message = "Success";
         } else {
-        	// 비밀번호 찾기 실패
-        	message = "fail";
+            // 비밀번호 찾기 실패
+            message = "fail";
         }
         log.info("===========findPw success==============");
         return new ResponseEntity<>(message, HttpStatus.OK);
-	}
+    }
 
     /**
      * 관리자 페이지 확인을 위한 테스트 메서드
@@ -111,9 +114,37 @@ public class MemberController {
      * @return
      */
     @GetMapping("/admin")
-    public String adminPage(Model model) {
+    public String adminPage(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Long id = (Long) session.getAttribute("member_pk");
+
+        Member member = memberService.findById(id);
+        model.addAttribute("memberName", member.getMemberName());
         model.addAttribute("inquiries", inquiryService.findAll());
         model.addAttribute("chatRooms", chatRoomRepository.findAll());
         return "mypage/adminmypage";
+    }
+
+    @GetMapping("/mypage/info-update")
+    public String getUpdatePage(Model model,HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Long memberId = (Long) session.getAttribute("member_pk");
+        Member member = memberService.findById(memberId);
+        MemberUpdateDto dto = new MemberUpdateDto();
+        dto.setMemberId(member.getMemberId());
+        dto.setMemberName(member.getMemberName());
+        dto.setPassword(member.getPassword());
+        dto.setProvider(member.getProvider());
+        model.addAttribute("member", dto);
+        return "mypage/updateInfo";
+    }
+
+    @PostMapping("/mypage/info-update")
+    public String updateInfo(@ModelAttribute("member") MemberUpdateDto dto) {
+        log.info("memberEmail : {}", dto.getMemberId());
+        log.info("memberName : {}", dto.getMemberName());
+        log.info("password : {}", dto.getPassword());
+        memberService.updateInfo(dto.getMemberId(), dto.getMemberName(), dto.getPassword());
+        return "redirect:/member/mypage";
     }
 }
