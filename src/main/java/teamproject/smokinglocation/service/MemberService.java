@@ -153,4 +153,14 @@ public class MemberService {
     	String roles = memberRolesRepository.findRolesByMemberId(id);	// 로그인 권한 조회
         return roles;
     }
+
+    @Transactional
+    public void updateInfo(String memberId, String memberName, String password) {
+        Member member = memberRepository.findMemberEntityByEmail(memberId);
+        if (password.isEmpty()) {
+            member.updateInfo(memberName,member.getPassword());
+        } else{
+            member.updateInfo(memberName, password);
+        }
+    }
 }

@@ -120,4 +120,9 @@ public class Member extends BaseTime implements UserDetails {
     public void updatePassword(String password) {
         this.password = password;
     }
+
+    public void updateInfo(String memberName, String password) {
+        this.memberName = memberName;
+        this.password = password;
+    }
 }

@@ -249,7 +249,7 @@ public class SocialService {
         HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<String> response = rt.exchange(
                 env.getProperty("Google.api.url")+"/drive/v2/files",
-                //env.getProperty("Google.api.url")+"/oauth2/v2/userinfo",
+//                env.getProperty("Google.api.url")+"/oauth2/v2/userinfo",
                 HttpMethod.GET,
                 httpEntity,
                 String.class
@@ -266,7 +266,7 @@ public class SocialService {
             JSONArray ownersArray = item.getJSONArray("owners");
             // owners 배열 내의 displayName 추출
             for (int j = 0; j < ownersArray.length(); j++) {
-                JSONObject ownerObject = ownersArray.getJSONObject(i);
+                JSONObject ownerObject = ownersArray.getJSONObject(j);
                 
                 name = ownerObject.getString("displayName");	// 이름
                 email = ownerObject.getString("emailAddress");	// 이메일
