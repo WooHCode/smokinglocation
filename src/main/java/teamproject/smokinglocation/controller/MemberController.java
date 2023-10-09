@@ -19,6 +19,8 @@ import teamproject.smokinglocation.service.MemberService;
 import teamproject.smokinglocation.userEnitiy.Member;
 import teamproject.smokinglocation.userEnitiy.SavedSpot;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -39,24 +41,33 @@ public class MemberController {
     }
 
     @GetMapping("/{id}")
-    public String myPage(@PathVariable Long id, Model model) {
+    public String redirectTomyPage(@PathVariable Long id, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.setAttribute("member_pk", id);
+        return "redirect:/member/mypage";
+    }
+
+    @GetMapping("/mypage")
+    public String myPage(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        Long id = (Long) session.getAttribute("member_pk");
 
         Member member = memberService.findById(id);
         model.addAttribute("email", member.getMemberId());
         model.addAttribute("password", member.getPassword());
         model.addAttribute("savedSpot", member.getSavedSpotList());
         List<Inquiry> inquiries = inquiryService.findAllByMemberId(member.getId());
-        model.addAttribute("inquiries",inquiries );
+        model.addAttribute("inquiries", inquiries);
         return "mypage/mypage";
     }
 
-    @PostMapping("/{id}")
+    /*@PostMapping("/{id}")
     public String pwChange(@PathVariable Long id, @ModelAttribute("password") String password, RedirectAttributes redirectAttributes) {
         Member member = memberService.findById(id);
         memberService.updateMemberPassword(member, password);
         redirectAttributes.addAttribute("id", id);
         return "redirect:/member/{id}";
-    }
+    }*/
 
     @ResponseBody
     @PostMapping("/savespot")

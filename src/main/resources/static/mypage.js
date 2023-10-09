@@ -7,7 +7,7 @@ function toMypage(){
             refreshToken: refreshToken,
         },
         success: function(res){
-            window.location.replace("/member/" + res);
+            location.href="/member/" + res;
         }
     });
 }
