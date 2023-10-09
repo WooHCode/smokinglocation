@@ -7,6 +7,7 @@ function refreshEveryTokens(xhr) {
         sessionStorage.setItem("rf", newRefreshToken);
     }
 }
+
 function openBoardPopup() {
     var popup = document.getElementById("boardPopup");
     popup.style.visibility = "visible";
@@ -18,6 +19,7 @@ function closeBoardPopup() {
     popup.style.visibility = "hidden";
     popup.style.opacity = "0";
 }
+
 function openChatPopup() {
     var popup = document.getElementById("chatPopup");
     popup.style.visibility = "visible";
@@ -39,18 +41,18 @@ function getChatPopup() {
             name: localStorage.getItem("temp")
         },
         success: function (res) {
-            localStorage.setItem("rmId",res);
+            localStorage.setItem("rmId", res);
             console.log(res)
         },
     })
     $.ajax({
-        url:"/chat/room/enter/"+localStorage.getItem("rmId"),
-        type:"GET",
+        url: "/chat/room/enter/" + localStorage.getItem("rmId"),
+        type: "GET",
         success: function (res, status, xhr) {
             closeBoardPopup()
             var boardContent = document.getElementById("board");
             boardContent.innerHTML = res;
-            boardContent.style.zIndex="9999"
+            boardContent.style.zIndex = "9999"
             openChatPopup()
             afterChatPopupLoaded()
             var sendingButton = document.getElementById("button-send")
@@ -58,7 +60,7 @@ function getChatPopup() {
             var connectionButton = document.getElementById("startChat")
             connectionButton.style.display = "block"
         },
-        error: function (xhr, status, error){
+        error: function (xhr, status, error) {
             if (xhr.status === 403) {
                 window.alert("로그인 후 이용가능합니다.")
             }
@@ -73,7 +75,7 @@ function board() {
         url: "/customerService",
         type: "GET",
         headers: {
-            Authorization : "Bearer " + accessToken,
+            Authorization: "Bearer " + accessToken,
         },
         success: function (res, status, xhr) {
             refreshEveryTokens(xhr);
@@ -83,7 +85,7 @@ function board() {
             openBoardPopup();
             boardContent.style.zIndex = "9999";
         },
-        error: function (xhr, status, error){
+        error: function (xhr, status, error) {
             if (xhr.status === 403) {
                 window.alert("로그인 후 이용가능합니다.")
             }
@@ -93,7 +95,7 @@ function board() {
 
 function getBoardPopup() {
     var rf = sessionStorage.getItem('rf');
-    var data={
+    var data = {
         rf: rf,
     }
     console.log(data);
@@ -107,19 +109,23 @@ function getBoardPopup() {
             openBoardPopup();
             boardContent.style.zIndex = "9999";
         },
-        error: function (xhr, status, error){
+        error: function (xhr, status, error) {
             if (xhr.status === 403) {
                 window.alert("로그인 후 이용가능합니다.")
             }
         }
     });
 }
+
 function getBoardSubmitForm() {
+    var memberId = $('#clientEmail').val();
+    var content = $('#boardContent').val()
     $.ajax({
-        url: "/main-ask-complete",
-        type: "GET",
+        url: "/board",
+        type: "POST",
         data: {
-            	refreshToken: sessionStorage.getItem("rf")
+            memberId: memberId,
+            content: content
         },
         success: function (res, status, xhr) {
             var boardContent = document.getElementById("board");
@@ -127,7 +133,26 @@ function getBoardSubmitForm() {
             openBoardPopup();
             boardContent.style.zIndex = "9999";
         },
-        error: function (xhr, status, error){
+        error: function (xhr, status, error) {
+            if (xhr.status === 403) {
+                window.alert("로그인 후 이용가능합니다.")
+            }
+        }
+    });
+
+    $.ajax({
+        url: "/main-ask-complete",
+        type: "GET",
+        data: {
+            refreshToken: sessionStorage.getItem("rf")
+        },
+        success: function (res, status, xhr) {
+            var boardContent = document.getElementById("board");
+            boardContent.innerHTML = res;
+            openBoardPopup();
+            boardContent.style.zIndex = "9999";
+        },
+        error: function (xhr, status, error) {
             if (xhr.status === 403) {
                 window.alert("로그인 후 이용가능합니다.")
             }
