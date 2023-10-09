@@ -1,12 +1,16 @@
 package teamproject.smokinglocation.service;
 
-import org.springframework.mail.SimpleMailMessage;
+import java.util.HashMap;
+
+import javax.mail.internet.MimeMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import teamproject.smokinglocation.dto.MailDto;
+import teamproject.smokinglocation.controller.EmailData;
 import teamproject.smokinglocation.userEnitiy.Member;
 
 @Service
@@ -15,39 +19,56 @@ import teamproject.smokinglocation.userEnitiy.Member;
 public class MailService {
 	
     private final MemberService memberService;
+    
+    private final JavaMailSender emailSender;
+    
+    private final SpringTemplateEngine templateEngine;
+    
     /*
      *  주의사항
 		application.properties stmp 설정값 필수 
 		메일 전송 계정이 "2차 인증" 을 해야되는 계정이면 오류 발생 
 		본인의 경우 구글 "앱 비밀번호" 를 만들어 해결했지만 다른 경우도 해결해야 될 상황이 올 수 있음
 	*/
-	private JavaMailSender emailSender;
-    public void sendSimpleMessage(Long id) {
+    public void sendSimpleMessage(Long id) throws Exception{
     	log.debug("MailService -  sendSimpleMessage Start");
-    	SimpleMailMessage message = new SimpleMailMessage();
-    	 Member member = memberService.findById(id);
-        // FROM 
-    	//From 안먹음 ....  application.properties에 설정된 계정 FROM 잡힘
-        //message.setFrom("smokadmin@smokinglocation.com");  
+    	Member member = memberService.findById(id);
+
+    	//기존
+    	//SimpleMailMessage message = new SimpleMailMessage();
+    	
+    	//html template 
+    	MimeMessage message = emailSender.createMimeMessage();
+
         
-        // TO 
-        message.setTo(member.getMemberId()); 
-        
+        //기존 
+        //message.setTo(member.getMemberId()); 
+    	
+    	//html template
+    	message.addRecipients( MimeMessage.RecipientType.TO  , member.getMemberId());
+    	
         // 메일 제목 
-        message.setSubject("[서울시흡연구역]"+member.getMemberName()+ "님이 작성하신 문의 답변이 달렸습니다.");
+        message.setSubject(EmailData.header.getEmailString()+member.getMemberName()+EmailData.answer.getEmailString());
         
         // 메일 내용 작성 
-        StringBuilder sb = new StringBuilder();
-        sb.append("이 메세지는 www.smokinglocation.com 에서 자동발송 된 메일입니다. ").append("\n");
-        sb.append("이 메세지는 www.smokinglocation.com 에서 자동발송 된 메일입니다. ").append("\n");
-        message.setText(sb.toString());
-        
-        // TEST DATA
-        //message.setTo("kim9757di@naver.com");
-        //message.setSubject(" 안녕하세요 한글TEST  ");
-	    
+        //템플릿에 전달할 데이터 설정
+        HashMap<String, String> emailValues = new HashMap<>();
+    	emailValues.put("name", member.getMemberName());
+    	message.setText(setContext(emailValues , EmailData.template1.getEmailString()) , "utf-8" , "html");
+    	
+    	// FROM 
+    	//From 안먹음 ....  application.properties에 설정된 계정 FROM 잡힘
+        //message.setFrom("smokadmin@smokinglocation.com");  
 	    
         emailSender.send(message);
         log.debug("MailService -  sendSimpleMessage End");
+    }
+    
+    private String setContext(HashMap<String, String> emailValues , String emailTemplate) {
+    	Context context =  new Context();
+        emailValues.forEach((key, value)->{
+            context.setVariable(key, value);
+        });
+    	return templateEngine.process(emailTemplate, context);
     }
 }

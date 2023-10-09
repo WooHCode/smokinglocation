@@ -98,7 +98,7 @@ function getBoardPopup() {
     }
     console.log(data);
     $.ajax({
-        url: "/board",
+        url: "/main-board",
         type: "GET",
         data: data,
         success: function (res, status, xhr) {
@@ -114,16 +114,15 @@ function getBoardPopup() {
         }
     });
 }
-function submitForm() {
+function getBoardSubmitForm() {
     $.ajax({
-        url: "/ask-complete",
+        url: "/main-ask-complete",
         type: "GET",
         data: {
             	refreshToken: sessionStorage.getItem("rf")
         },
         success: function (res, status, xhr) {
             var boardContent = document.getElementById("board");
-            console.log(res);
             boardContent.innerHTML = res;
             openBoardPopup();
             boardContent.style.zIndex = "9999";
