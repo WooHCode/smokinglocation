@@ -2,6 +2,7 @@ package teamproject.smokinglocation.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
 import teamproject.smokinglocation.entity.Notifications;
 import teamproject.smokinglocation.service.MailService;
 import teamproject.smokinglocation.service.MemberService;
@@ -12,10 +13,6 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import teamproject.smokinglocation.dto.inquiryDto.NewInquiryDto;
@@ -60,8 +57,9 @@ public class BoardController {
         return "body/board";
     }
 
+    @ResponseBody
     @PostMapping("/board")
-    public String saveInquiry(@ModelAttribute NewInquiryDto dto, RedirectAttributes redirectAttributes) {
+    public void saveInquiry(@ModelAttribute NewInquiryDto dto, RedirectAttributes redirectAttributes) {
         String content = dto.getContent();
         String memberId = dto.getMemberId();
         log.info("==============content : {}", content);
@@ -70,8 +68,6 @@ public class BoardController {
         Member member = memberService.findByEmail(memberId);
         inquiryService.createInquiry(member, content);
 
-        redirectAttributes.addAttribute("id", member.getId());
-        return "redirect:/member/{id}";
     }
 
     @GetMapping("/ask-complete")
