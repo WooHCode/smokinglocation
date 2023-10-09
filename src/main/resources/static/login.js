@@ -50,17 +50,18 @@ function findPw() {
 
 function visibleLogout() {
     var isLoggedIn = localStorage.getItem("isLoggedIn");
+    var roles = localStorage.getItem("roles");
     if (isLoggedIn === "true") {
         login.style.display = "none";
         logout.style.display = "block";
 		register.style.display = "none";
-		
-		
-        mypage.style.display = "block";
-        
-        adminPage.style.display = "block";
-        
-    
+		if(roles == "ADMIN"){
+	        adminPage.style.display = "block";
+        	mypage.style.display = "none";
+		}else{
+			adminPage.style.display = "none";
+	        mypage.style.display = "block";
+		}
     }else {
         login.style.display = "block";
         logout.style.display = "none";

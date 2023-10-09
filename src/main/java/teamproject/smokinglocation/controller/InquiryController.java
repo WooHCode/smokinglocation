@@ -111,7 +111,7 @@ public class InquiryController {
      * 답변 작성
      */
     @PostMapping("/add-reply")
-    public String addReply(@ModelAttribute InquiryDto inquiryDto, @RequestParam Long id) {
+    public String addReply(@ModelAttribute InquiryDto inquiryDto, @RequestParam Long id) throws Exception{
         Inquiry inquiry1 = inquiryService.addReply(id, inquiryDto.getReply());
         
         /* Notifications INSERT 오우석 추가 */

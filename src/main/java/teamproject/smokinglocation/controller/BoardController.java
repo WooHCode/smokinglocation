@@ -49,7 +49,7 @@ public class BoardController {
         return "body/customerService";
     }
 
-    @GetMapping("/board")
+    @GetMapping("/main-board")
     public String getBoard(@RequestParam("rf") String rf, Model model) {
         Long memberId = memberService.getMemberIdByRefreshToken(rf);
         Member member = memberService.findById(memberId);
@@ -57,7 +57,7 @@ public class BoardController {
         dto.setMemberName(member.getMemberName());
         dto.setMemberId(member.getMemberId());
         model.addAttribute("dto", dto);
-        return "body/board";
+        return "body/board2";
     }
 
     @PostMapping("/board")
@@ -74,8 +74,8 @@ public class BoardController {
         return "redirect:/member/{id}";
     }
 
-    @GetMapping("/ask-complete")
-    public String getAskComplete(@RequestParam("refreshToken") String refreshToken) {
+    @GetMapping("/main-ask-complete")
+    public String getAskComplete(@RequestParam("refreshToken") String refreshToken) throws Exception {
     	long id = memberService.getMemberIdByRefreshToken(refreshToken);
     	
         /* Notifications INSERT 오우석 추가 */
