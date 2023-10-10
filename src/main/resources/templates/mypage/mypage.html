@@ -107,6 +107,7 @@
 
         #p1-1-2 {
             margin-top: 30px;
+            margin-left: 10%;
             width: 60%;
             display: flex;
             flex-direction: column;
@@ -114,7 +115,6 @@
 
         #p1-1-2-1 {
             margin-top: 30px;
-            margin-left: 15%;
             display: flex;
             flex-direction: row;
         }
@@ -350,6 +350,7 @@
 
     </style>
     <link rel="stylesheet" href="/css/popup.css">
+
 </head>
 <body style="text-align: center">
 <div class="menu">
@@ -380,8 +381,8 @@
             </div>
 
             <div id="p1-1-2">
-                <div>
-                    <button class="logout-btn" type="button" onclick="funLogout()">로그아웃</button>
+                <div style="margin-right: 15%">
+                    <button class="logout-btn" type="button" onclick="funLogout()" >로그아웃</button>
                 </div>
                 <div id="p1-1-2-1">
                     <button class="general-btn" onclick="toUpdate()">
@@ -429,7 +430,7 @@
                 <td><a
                         th:href="@{/map(id=${spot.id})}"
                         th:text="${spot.loc}">위치정보</a>
-                    <button id="save-btn" style="float: right">저장</button>
+                    <button class="delete-btn" th:data-spot-id="${spot.id}" style="float: right">삭제</button>
                 </td>
             </tr>
             </tbody>
@@ -460,39 +461,15 @@
 </div>
 <div id="map"></div>
 <div id="board"></div>
-<!--
-    <div><h1>마이페이지</h1></div>
-    <div><h2>회원정보</h2></div>
-    <div>
-        <label for="email">이메일 : </label>
-        <input type="text" id="email" value="test" th:value="${email}" readonly>
-    </div>
-
-    <div>
-        <form action="" method="post">
-            <div>
-                <label for="pw-change">비밀번호 변경 : </label>
-                <input type="password" name="password" id="pw-change" value="test" th:value="${password}">
-            </div>
-            <div>
-                <label for="pw-change-re">비밀번호 변경 확인 : </label>
-                <input type="password" id="pw-change-re">
-            </div>
-            <button class="password-change-submit" type="submit">변경하기</button>
-        </form>
-    </div>
-
-
--->
-
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="/webjars/sockjs-client/1.1.2/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/2.3.3-1/stomp.min.js"></script>
 <script src="/mypage.js"></script>
 <script src="/chat.js"></script>
 <script src="/map.js"></script>
 <script src="/login.js"></script>
 <script src="/board.js"></script>
-<script src="/webjars/sockjs-client/1.1.2/sockjs.min.js"></script>
-<script src="/webjars/stomp-websocket/2.3.3-1/stomp.min.js"></script>
+
 <script>
     const rand_1_5 = Math.floor(Math.random() * 5) + 1;
     $('#profile-image').prop('src', "/image/profile" + rand_1_5 + ".png");
@@ -509,16 +486,28 @@
         popup.style.opacity = "0";
     }
 
+    $(document).ready(function() {
+        // 삭제 버튼 클릭 이벤트 핸들러
+        $(".delete-btn").on("click", function() {
+            var spotId = $(this).data("spot-id"); // 버튼의 data-spot-id 속성에서 spotId 가져오기
 
-</script>
-<script>
-    /*$('#createRoom').click(function(){
-        $.ajax({
-            url: "/chat/room",
-            type: "POST",
-
-        })
-    })*/
+            // Ajax 요청 보내기
+            $.ajax({
+                type: "POST", // 또는 "DELETE" 등 HTTP 요청 메서드 선택
+                url: "/member/deleteSpot", // 삭제를 처리할 서버 엔드포인트 URL 설정
+                data: { spotId: spotId }, // 서버로 보낼 데이터 설정
+                success: function(response) {
+                    // 삭제 성공 시 실행할 코드
+                    alert("삭제되었습니다.");
+                    location.reload();
+                },
+                error: function(error) {
+                    // 오류 발생 시 실행할 코드
+                    alert("삭제 실패: " + error);
+                }
+            });
+        });
+    });
 </script>
 
 </body>

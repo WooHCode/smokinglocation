@@ -17,6 +17,7 @@ import teamproject.smokinglocation.dto.memberDto.SaveSpotDto;
 import teamproject.smokinglocation.inquiryentity.Inquiry;
 import teamproject.smokinglocation.service.InquiryService;
 import teamproject.smokinglocation.service.MemberService;
+import teamproject.smokinglocation.service.SavedSpotService;
 import teamproject.smokinglocation.userEnitiy.Member;
 import teamproject.smokinglocation.userEnitiy.SavedSpot;
 
@@ -33,6 +34,7 @@ public class MemberController {
     private final MemberService memberService;
     private final InquiryService inquiryService;
     private final ChatRoomRepository chatRoomRepository;
+    private final SavedSpotService savedSpotService;
 
     @ResponseBody
     @GetMapping("/auth")
@@ -126,7 +128,7 @@ public class MemberController {
     }
 
     @GetMapping("/mypage/info-update")
-    public String getUpdatePage(Model model,HttpServletRequest request) {
+    public String getUpdatePage(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Long memberId = (Long) session.getAttribute("member_pk");
         Member member = memberService.findById(memberId);
@@ -146,5 +148,11 @@ public class MemberController {
         log.info("password : {}", dto.getPassword());
         memberService.updateInfo(dto.getMemberId(), dto.getMemberName(), dto.getPassword());
         return "redirect:/member/mypage";
+    }
+
+    @ResponseBody
+    @PostMapping("/deleteSpot")
+    public void deleteSavedSpot(@RequestParam("spotId") Long spotId) {
+        savedSpotService.deleteSavedSpot(spotId);
     }
 }

@@ -34,8 +34,7 @@
     <div>
         <button class="btn btn-primary" type="button" onclick="toMypage()" style="width: 100px">뒤로</button>
         <button class="btn btn-success" type="submit" style="width: 100px">수정완료</button>
-        <button class="btn btn-danger" type="button" th:onclick="|location.href='@{/inquiry/delete(id=*{id})}'|" style="width: 100px">삭제하기</button>
-    </div>
+        <button class="btn btn-danger" type="button" id="delete-btn" th:onclick="|location.href='@{/inquiry/delete(id=*{id})}'|" style="width: 100px">삭제하기</button>    </div>
 
 </form>
 
@@ -46,4 +45,9 @@
 <script src="/login.js"></script>
 <script src="/board.js"></script>
 </body>
+<script>
+    $('#delete-btn').click(function () {
+        alert("문의글을 삭제합니다.");
+    });
+</script>
 </html>

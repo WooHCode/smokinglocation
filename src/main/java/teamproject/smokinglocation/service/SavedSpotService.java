@@ -29,4 +29,9 @@ public class SavedSpotService {
         log.info("======SavedSpotService.getLngLatById() END==============");
         return lngLat;
     }
+
+    @Transactional
+    public void deleteSavedSpot(Long id) {
+        savedSpotRepository.deleteById(id);
+    }
 }

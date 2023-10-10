@@ -30,12 +30,12 @@ function onConnected() {
             str = "<div class='message user'>";
             str += "<b>" + sender + " : " + content.message + "</b>"; // 새로운 div 태그 추가
             str += "</div>";
-            $("#chatWindow").append(str);
+            $(".chat-window").append(str);
         } else {
             str = "<div class='message admin'>";
             str += "<b>" + sender + " : " + content.message + "</b>"; // 새로운 div 태그 추가
             str += "</div>";
-            $("#chatWindow").append(str);
+            $(".chat-window").append(str);
         }
         // 스크롤을 최하단으로 이동시키는 로직
         var chatWindow = document.getElementById("chatWindow");

@@ -137,11 +137,10 @@ public class InquiryController {
     /**
      * 문의 삭제
      */
-    @ResponseBody
     @GetMapping("/delete")
     public String deleteInquiry(@RequestParam Long id) {
         inquiryService.deleteInquiry(id);
-        return "deleted";
+        return "redirect:/member/mypage";
     }
 
     //test
