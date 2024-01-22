@@ -93,7 +93,7 @@ public class SocialService {
         );
 
         //Response 데이터 파싱
-        JSONObject jsonObj    = new JSONObject(response.getBody()); 
+        JSONObject jsonObj = new JSONObject(response.getBody());
         JSONObject account = (JSONObject) jsonObj.get("kakao_account");
         JSONObject profile = (JSONObject) account.get("profile");
         log.info("jsonObj :::: "+jsonObj.toString());

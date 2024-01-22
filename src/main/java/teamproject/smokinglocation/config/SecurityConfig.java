@@ -35,6 +35,9 @@ public class SecurityConfig {
                 .authorizeRequests()
 /*                .antMatchers("/**").permitAll()*/
                 .antMatchers("/stomp/chat/**").permitAll()
+                .antMatchers("/googleLogin/**").permitAll()
+                .antMatchers("/kakaoLogin/**").permitAll()
+                .antMatchers("/naverLogin/**").permitAll()
                 .antMatchers("/customerService").hasAnyRole("USER","ADMIN")
                 .anyRequest().permitAll()
                 .and()
