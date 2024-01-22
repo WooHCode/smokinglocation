@@ -47,7 +47,7 @@ public class ChatRoomController {
     public String roomDetail(Model model, @PathVariable String roomId) {
         System.out.println("roomId = " + roomId);
         model.addAttribute("roomId", roomId);
-        return "/chat/roomdetail";
+        return "chat/roomdetail";
     }
 
 
@@ -56,7 +56,7 @@ public class ChatRoomController {
     public String roomDetailM(Model model, @RequestParam String roomId) {
         System.out.println("roomId for manager = " + roomId);
         model.addAttribute("roomId", roomId);
-        return "/chat/roomdetail";
+        return "chat/roomdetail";
     }
     // 특정 채팅방 조회
     @GetMapping("/room/{roomId}")
