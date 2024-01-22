@@ -90,3 +90,5 @@ out/
 >>>>>>> fec17f5073c1dbb1395fb78a0473bc1e4a23a452
 /settings.gradle
 /.gitignore
+
+/src/main/resources/application.properties
