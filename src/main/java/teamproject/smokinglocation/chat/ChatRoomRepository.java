@@ -12,4 +12,7 @@ import java.util.*;
 public interface ChatRoomRepository extends JpaRepository<ChatRoom,Long> {
     @Query("SELECT c FROM ChatRoom c WHERE c.roomId = :roomId")
     ChatRoom findRoomById(@Param("roomId") String roomId);
+
+    @Query("SELECT C FROM ChatRoom C WHERE C.name=:memberName")
+    Optional<ChatRoom> findRoomByMemberName(@Param("memberName") String memberName);
 }

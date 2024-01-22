@@ -224,6 +224,8 @@ function fnLogin() {
             if (res.status === "OK") {
                 localStorage.setItem("at",res.accessToken);
                 localStorage.setItem("roles", res.roles);
+                console.log(res.name)
+                localStorage.setItem("temp",res.name);
                 sessionStorage.setItem("rf", res.refreshToken);
                 window.alert("로그인에 성공하였습니다.")
                 localStorage.setItem("isLoggedIn","true");
@@ -262,6 +264,8 @@ function funLogout() {
     localStorage.removeItem("OAuthToken");
     localStorage.removeItem("provider");
     localStorage.removeItem("at");
+    localStorage.removeItem("roles")
+    localStorage.removeItem("rmId")
     sessionStorage.removeItem("rf");
     visibleLogout();
 }

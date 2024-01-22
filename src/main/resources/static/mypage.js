@@ -21,6 +21,20 @@ function toAdminPage(){
             refreshToken: refreshToken,
         },
         success: function(res){
+            toAdminPageCheckRole(res);
+        }
+    });
+}
+
+function toAdminPageCheckRole(res){
+    $.ajax({
+        url:"/member/auth-admin",
+        type:"GET",
+        data: {
+            id: res,
+        },
+        success: function(res){
+            if (res==="ADMIN")
             window.location.replace("/member/admin");
         }
     });

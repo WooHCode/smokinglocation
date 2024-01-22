@@ -35,7 +35,7 @@ public class SecurityConfig {
                 .authorizeRequests()
 /*                .antMatchers("/**").permitAll()*/
                 .antMatchers("/stomp/chat/**").permitAll()
-                .antMatchers("/customerService").hasRole("USER")
+                .antMatchers("/customerService").hasAnyRole("USER","ADMIN")
                 .anyRequest().permitAll()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider, memberService), UsernamePasswordAuthenticationFilter.class);

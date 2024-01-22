@@ -72,10 +72,11 @@ public class AuthController {
         log.info("===========login process start===========");
         String memberId = dto.getEmail();
         String password = dto.getPassword();
-        String Role = memberService.getLoginRole(memberId);	// 로그인 권한 조회
+        String role = memberService.getLoginMemberRole(memberId);// 로그인 권한 조회
         log.info("===========login success==============");
         TokenInfo tokenInfo = memberService.login(memberId, password);
-        tokenInfo.setRoles(Role);
+        tokenInfo.setRoles(role);
+        tokenInfo.setName(memberService.getMemberName(memberId));
         return new ResponseEntity<>(tokenInfo, HttpStatus.OK);
     }
 

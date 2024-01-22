@@ -293,7 +293,7 @@
             </thead>
             <tbody id="chatRooms">
             <tr th:each="chatRoom:${chatRooms}">
-                <td><a onclick="openChatRoom(this)"
+                <td><a th:attr="onclick='openChatRoom(\'' + ${chatRoom.roomId} + '\')'"
                        th:id="${chatRoom.roomId}"
                        th:text='${chatRoom.name}'>제목</a></td>
             </tr>
@@ -319,10 +319,12 @@
     $('#profile-image').prop('src', "/image/profile" + rand_1_5 + ".png");
 
     function openChatRoom(clickedElement) {
-        var roomId = clickedElement.id;
+        var roomId = clickedElement;
+        localStorage.setItem("rmId", roomId)
+
         console.log("====roomId : " + roomId);
         $.ajax({
-            url: "/chat/room/enter/" + roomId,
+            url: "/chat/room/enter/manager?roomId=" + roomId,
             type: "GET",
             success: function (res, status, xhr) {
                 var boardContent = document.getElementById("board");

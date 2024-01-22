@@ -71,7 +71,7 @@ public class BoardController {
     }
 
     @GetMapping("/main-ask-complete")
-    public String getAskComplete(@RequestParam("refreshToken") String refreshToken) throws Exception {
+    public String getAskComplete(@RequestParam("refreshToken") String refreshToken, @RequestParam("content") String content) throws Exception {
     	long id = memberService.getMemberIdByRefreshToken(refreshToken);
     	
         /* Notifications INSERT 오우석 추가 */
@@ -89,7 +89,7 @@ public class BoardController {
     	log.info("BoardController - Notifications INSERT END ");
     	
     	/* 메일 전송  오우석 추가 */
-    	mailService.sendSimpleMessage(id);
+    	mailService.sendSimpleMessage(id,content);
     	
         return "body/ask-complete";
     }

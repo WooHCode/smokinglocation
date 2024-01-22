@@ -3,12 +3,7 @@ var username = localStorage.getItem("temp");
 let sockJs = null
 let stomp = null
 function addEnterKeyListener() {
-    document.getElementById("message").addEventListener("keydown", function(e) {
-        if (e.key === "Enter" && !e.shiftKey) { // Shift+Enter는 줄바꿈, Enter만 누를 경우 전송
-            e.preventDefault(); // Enter 키에 의한 줄바꿈 방지
-            sendingMessage(); // 메시지 전송 함수 호출
-        }
-    });
+
 }
 function sendingButtonLoad() {
     var sendingButton = document.getElementById("button-send")
@@ -54,23 +49,29 @@ function afterChatPopupLoaded () {
     sockJs = new SockJS("/stomp/chat");
 //1. SockJS를 내부에 들고있는 stomp를 내어줌
     stomp = Stomp.over(sockJs);
-    console.log(roomId + ", " + username);
+    console.log("1번" + roomId + ", " + username);
     stomp.connect({}, onConnected, function (error) {
         console.log("stomp error: "+error)
     });
-    addEnterKeyListener();
+    sendingMessage();
 }
 
 
 function sendingMessage() {
-        var msg = document.getElementById("message");
-        console.log(username + ":" + msg.value);
-        stomp.send('/pub/chat/message', {}, JSON.stringify({
-            type: "TALK",
-            roomId: roomId,
-            message: msg.value,
-            sender: username
-        }));
-        msg.value = '';
+    document.getElementById("message").addEventListener("keypress", function(e) {
+        if (e.key === "Enter" && !e.shiftKey) { // Shift+Enter는 줄바꿈, Enter만 누를 경우 전송
+            e.preventDefault(); // Enter 키에 의한 줄바꿈 방지
+
+            var msg = document.getElementById("message");
+            console.log(username + ":" + msg.value);
+            stomp.send('/pub/chat/message', {}, JSON.stringify({
+                type: "TALK",
+                roomId: roomId,
+                message: msg.value,
+                sender: username
+            }));
+            msg.value = '';
+        }
+    });
 }
 

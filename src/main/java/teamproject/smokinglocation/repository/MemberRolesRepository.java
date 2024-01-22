@@ -12,6 +12,9 @@ public interface MemberRolesRepository extends JpaRepository<MemberRoles, Long> 
 
 	@Query("SELECT roles FROM MemberRoles WHERE member_id = :id")
 	String findRolesByMemberId(@Param("id") Long id);
+
+	@Query("SELECT roles FROM MemberRoles WHERE member_id=:memberId")
+	String findRolesById(@Param("memberId") Long memberId);
 }
 	
 	

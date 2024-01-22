@@ -99,7 +99,8 @@ public class MemberService {
 
     @Transactional
     public Long getMemberIdByRefreshToken(String refreshToken) {
-        return memberRepository.findMemberIdByRefreshToken(refreshToken);
+        Long memberIdByRefreshToken = memberRepository.findMemberIdByRefreshToken(refreshToken);
+        return memberIdByRefreshToken;
     }
 
     @Transactional
@@ -148,9 +149,15 @@ public class MemberService {
 
     // 로그인 권한 정보 조회
     @Transactional
-    public String getLoginRole(String memberId) {
-    	Long id = memberRepository.findById(memberId);				// ID 조회
-    	String roles = memberRolesRepository.findRolesByMemberId(id);	// 로그인 권한 조회
+    public String getLoginRole(String id) {
+    	String roles = memberRolesRepository.findRolesByMemberId(Long.parseLong(id));	// 로그인 권한 조회
+        return roles;
+    }
+
+    @Transactional
+    public String getLoginMemberRole(String id) {
+        Long byId = memberRepository.findById(id);
+        String roles = memberRolesRepository.findRolesById(byId);	// 로그인 권한 조회
         return roles;
     }
 
@@ -162,5 +169,9 @@ public class MemberService {
         } else{
             member.updateInfo(memberName, password);
         }
+    }
+
+    public String getMemberName(String memberId) {
+       return memberRepository.findMemberNameByMemberId(memberId);
     }
 }

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<span>
+   <a href="https://www.smokinglocation.com" target="_blank"><img src="https://localhost:8080/image/mail-banner.png"></a>
+</span>
+<br/>
+<span th:text="${name}"></span><span>님이 문의하신 내용이 성공적으로 접수 되었습니다.</span>
+<br/>
+<br/>
+<br/>
+<br/>
+<span>[문의 내용]</span>
+<br/>
+<br/>
+<br/>
+<span th:text="${mainText}"></span>
+<br/>
+<br/>
+<br/>
+<span>본 메일은 발신전용 메일입니다.</span>
+<br/>
+<span>회신되지 않으므로 [서울시흡연구역]</span>
+	<a href="https://www.smokinglocation.com/map" target="_blank" style="font-weight:bold; color:#1a1a1a; text-decoration:underline;">고객센터</a>
+<span>를 이용해 주시기 바랍니다.</span>
+</body>
+</html>

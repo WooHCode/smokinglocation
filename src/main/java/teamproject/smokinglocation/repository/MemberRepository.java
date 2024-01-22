@@ -35,7 +35,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     
     @Query("SELECT m.id FROM Member m WHERE m.refreshToken=:refreshToken")
     Long findMemberIdByRefreshToken(@Param("refreshToken") String refreshToken);
-    
+
     // 소셜 로그인 회원 여부 확인을 위해 생성
     @Query("SELECT COUNT(m) FROM Member m WHERE m.memberId = :memberId")
     int findMemberEmailCountByMemberId(@Param("memberId") String memberId);
@@ -48,6 +48,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     Member findMemberEntityByEmail(@Param("memberId") String memberId);
 
     // 아이디 조히
-    @Query("select id from Member where memberId = :memberId")
+    @Query("select id from Member where memberId =:memberId")
     Long findById(@Param("memberId") String memberId);
 }

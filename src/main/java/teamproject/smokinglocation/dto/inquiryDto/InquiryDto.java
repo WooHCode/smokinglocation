@@ -14,4 +14,5 @@ public class InquiryDto {
     private String title;
     private String content;
     private String reply;
+    private Long memberId;
 }

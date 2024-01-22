@@ -15,14 +15,16 @@
 </head>
 <body style="text-align: center" id="inquiryPopup">
 <div style="margin-top: 5%"><h1>문의사항</h1></div>
-<form action="" th:object="${inquiry}" method="post">
+<form action="/inquiry/add-reply" th:object="${inquiry}" method="POST">
     <!--<div>
         <label for="title">제목 : </label>
         <input type="text" id="title" value="test" th:field="*{title}" >
     </div>-->
     <div>
         <label for="writer">작성자 : </label>
+        <input type="text" th:field="${inquiry.id}" hidden="hidden">
         <input type="text" id="writer" value="test" th:value="${member.memberName}" readonly>
+        <input type="text" th:field="*{memberId}">
     </div>
     <div style="margin-top:10px">
         <textarea cols="100" rows="10" id="content" th:field="*{content}">내용샘플</textarea>

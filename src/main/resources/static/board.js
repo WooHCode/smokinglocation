@@ -24,13 +24,28 @@ function openChatPopup() {
     var popup = document.getElementById("chatPopup");
     popup.style.visibility = "visible";
     popup.style.opacity = "1";
-    connect()
 }
 
 function closeChatPopup() {
-    var popup = document.getElementById("chatPopup");
-    popup.style.visibility = "hidden";
-    popup.style.opacity = "0";
+    if (confirm("채팅방을 나가시겠습니까?")) {
+        var popup = document.getElementById("chatPopup");
+        popup.style.visibility = "hidden";
+        popup.style.opacity = "0";
+
+        $.ajax({
+            url: "/chat/room/clear",
+            type: "POST",
+            data:{
+                roomId : localStorage.getItem("rmId")
+            },
+            success: function () {
+                console.log("채팅방삭제")
+                location.reload();
+            }, error: function () {
+                location.reload();
+            },
+        })
+    }
 }
 
 function getChatPopup() {
@@ -38,7 +53,8 @@ function getChatPopup() {
         url: "/chat/room",
         type: "POST",
         data: {
-            name: localStorage.getItem("temp")
+            name: localStorage.getItem("temp"),
+            rf: sessionStorage.getItem("rf")
         },
         success: function (res) {
             localStorage.setItem("rmId", res);
@@ -66,6 +82,10 @@ function getChatPopup() {
             }
         }
     })
+}
+
+function shopingPopup() {
+    alert("준비중입니다.")
 }
 
 function board() {
@@ -144,7 +164,8 @@ function getBoardSubmitForm() {
         url: "/main-ask-complete",
         type: "GET",
         data: {
-            refreshToken: sessionStorage.getItem("rf")
+            refreshToken: sessionStorage.getItem("rf"),
+            content: content
         },
         success: function (res, status, xhr) {
             var boardContent = document.getElementById("board");
@@ -158,4 +179,8 @@ function getBoardSubmitForm() {
             }
         }
     });
+}
+
+function sendReply() {
+
 }

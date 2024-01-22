@@ -9,6 +9,7 @@ import teamproject.smokinglocation.dto.inquiryDto.InquiryDto;
 import teamproject.smokinglocation.repository.InquiryRepository;
 import teamproject.smokinglocation.userEnitiy.Member;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -79,4 +80,14 @@ public class InquiryService {
     }
 
 
+    public List<Inquiry> findNotReplied() {
+        List<Inquiry> all = inquiryRepository.findAll();
+        List<Inquiry> responseList = new ArrayList<>();
+        for (Inquiry inquiry : all) {
+            if (inquiry.getHasReply()==null) {
+                responseList.add(inquiry);
+            }
+        }
+        return responseList;
+    }
 }

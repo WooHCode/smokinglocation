@@ -42,6 +42,14 @@ public class MemberController {
         log.info("===========toMypage : refreshToken= {} ========", refreshToken);
         return memberService.getMemberIdByRefreshToken(refreshToken);
     }
+    @ResponseBody
+    @GetMapping("/auth-admin")
+    public String getMemberId(@RequestParam("id") Long id, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.setAttribute("member_pk", id);
+        String loginRole = memberService.getLoginRole(String.valueOf(id));
+        return loginRole;
+    }
 
     @GetMapping("/{id}")
     public String redirectTomyPage(@PathVariable Long id, HttpServletRequest request) {
@@ -122,7 +130,7 @@ public class MemberController {
 
         Member member = memberService.findById(id);
         model.addAttribute("memberName", member.getMemberName());
-        model.addAttribute("inquiries", inquiryService.findAll());
+        model.addAttribute("inquiries", inquiryService.findNotReplied());
         model.addAttribute("chatRooms", chatRoomRepository.findAll());
         return "mypage/adminmypage";
     }

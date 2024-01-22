@@ -101,6 +101,7 @@ public class InquiryController {
     public String getOneAdmin(@RequestParam Long inquiryId, Model model) {
         Inquiry inquiry = inquiryService.findOne(inquiryId);
         InquiryDto inquiryDto = inquiryService.entityToDto(inquiry);
+        inquiryDto.setMemberId(inquiry.getMember().getId());
         model.addAttribute("inquiry", inquiryDto);
         model.addAttribute("member", inquiry.getMember());
         return "inquiry/inquiryAdmin";
@@ -111,25 +112,25 @@ public class InquiryController {
      * 답변 작성
      */
     @PostMapping("/add-reply")
-    public String addReply(@ModelAttribute InquiryDto inquiryDto, @RequestParam Long id) throws Exception{
-        Inquiry inquiry1 = inquiryService.addReply(id, inquiryDto.getReply());
+    public String addReply(InquiryDto inquiryDto) throws Exception{
+        Inquiry inquiry1 = inquiryService.addReply(inquiryDto.getId(), inquiryDto.getReply());
 
         /* Notifications INSERT 오우석 추가 */
         log.info("InquirtController - Notifications INSERT START ");
         for (final String node : nodeNames) {
         	// nodeNames 서버 이중화일때 사용하는건지 ? 추후 확인 필요 ....
             Notifications notification = new Notifications();
-            notification.setUserId(id);
+            notification.setUserId(inquiry1.getId());
             notification.setTimestamp(new Date());
             notification.setNodeId(node);
-            notification.setPayload(" Answer For ::: " +  id);
+            notification.setPayload(" Answer For ::: " +  inquiry1.getId());
             notificationsService.save(notification);
         }
         notificationsService.flush(); // force the changes to the DB
     	log.info("InquirtController - Notifications INSERT END ");
 
         /* 메일 전송  오우석 추가 */
-    	mailService.sendSimpleMessage(id);
+    	mailService.sendReplyMessage(inquiryDto.getMemberId(), inquiryDto.getReply());
 
         return "redirect:/member/admin";
     }
