@@ -21,9 +21,7 @@
 
 <img src="https://img.shields.io/badge/AWS-F2E1B9?style=flat-square&logo=AWS&logoColor=">
 
-- AWS EC2, Apache Tomcat
-
-- CI/CD: Amazon s3, github Action, AWS CodeDeploy 
+- AWS EC2,AWS route53, Apache Tomcat, Docker
 
 ##### 추가 라이브러리
 
@@ -36,9 +34,7 @@
 
 ## &#x1F517; 링크:
 
-#### 프론트 페이지 깃허브 링크: https://github.com/WooHCode/joeladminPage
-
-#### 배포된 홈페이지 링크 : http://joeladmin.store/
+#### 배포된 홈페이지 링크 : https://www.smokinglocation.com
 
 ---
 
