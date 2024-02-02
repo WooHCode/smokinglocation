@@ -13,7 +13,7 @@
 
 <img src="https://img.shields.io/badge/springboot-BFF0B6?style=flat-square&logo=springboot&logoColor=green">
 
-- Spring, SpringBoot, Spring web Mvc, Spring Data JPA, Spring Validation 
+- Spring, SpringBoot, Spring web Mvc, Spring Data JPA, Spring Validation, websocket, lombok, mail
 
 <img src="https://img.shields.io/badge/postgresql-51ADCE?style=flat-square&logo=postgresql&logoColor=">
 
@@ -23,14 +23,14 @@
 
 - AWS EC2,AWS route53, Apache Tomcat, Docker
 
-##### 추가 라이브러리
+##### etc
 
-- P6spy(로그 콘솔창 출력 라이브러리)
+- P6spy(로그 콘솔창 출력 라이브러리), gson, open api
 
 ---
 
 ### 🛠️ 개발 도구:
-- Intellij, putty, aws console, vscode(프론트 개발), postman, pgAdmin, git
+- Intellij, putty, aws console, postman, pgAdmin,dbeaver, git, docker
 
 ## &#x1F517; 링크:
 
