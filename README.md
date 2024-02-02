@@ -65,21 +65,14 @@
 <img width="500" alt="스크린샷 2024-02-02 오후 10 37 41" src="https://github.com/WooHCode/smokinglocation/assets/112393201/100aad73-4cd7-4a27-8277-40ec044c5514">
 <img width="499" alt="스크린샷 2024-02-02 오후 10 38 33" src="https://github.com/WooHCode/smokinglocation/assets/112393201/8b550608-d33c-466f-9863-acf88daa3767">
 
+
+
+
 4. 이메일 답변기능
 <img width="627" alt="스크린샷 2024-02-02 오후 10 40 09" src="https://github.com/WooHCode/smokinglocation/assets/112393201/a5c67abb-41c9-4ded-87c0-5968c2bda09a">
+- 설명 : 회원이 문의를 남겼을 때 관리자가 답변을 보내면 이메일로 결과를 알려주는 기능입니다.
+
+<img width="804" alt="스크린샷 2024-02-02 오후 10 50 17" src="https://github.com/WooHCode/smokinglocation/assets/112393201/ecfb60c1-144b-4d7c-b6bc-f85026a854cd">
 
 
-
----
-
-
----
-
-
-
----
-### 📘 추가 예정 사항
-1. Oauth2를 활용하여 Kakao, Google, Naver로 로그인이 가능하도록 구현
-2. Spring Security를 도입하여 별도로 나눠서 구현한 Jwt와 통합, CSRF(Cross-Site Request Forgery) 공격 방지, XSS(Cross-Site Scripting) 방어, 세션 관리, 브라우저 캐싱 방지 등 보안 기능을 강화.
-3. QueryDSL을 도입하여 동적쿼리 생성, 컴파일 시점의 문법 오류 검출 등 API추가.
 
