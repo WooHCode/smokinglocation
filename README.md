@@ -13,7 +13,7 @@
 
 <img src="https://img.shields.io/badge/springboot-BFF0B6?style=flat-square&logo=springboot&logoColor=green">
 
-- Spring, SpringBoot, Spring web Mvc, Spring Data JPA, Spring Validation, websocket, lombok, mail
+- Spring, SpringBoot, Spring web Mvc, Spring Data JPA, Spring Validation,Spring security, jwt, websocket, lombok, mail
 
 <img src="https://img.shields.io/badge/postgresql-51ADCE?style=flat-square&logo=postgresql&logoColor=">
 
@@ -38,13 +38,14 @@
 
 ---
 
-#### &#x1F4D8; 개발과정 중 트러블 슈팅
+#### &#x1F4D8; 기능 설명
 
-1. Transaction
-- 문제 : 트랜잭션 단위를 클래스 단위로 설정하니 읽기 전용 작업 시에도 EntityManager에서 flush, commit을 진행하여 성능이 저하
-- 해결 : 클래스 단위에서 @Transactional(readOnly = true)로 설정하여 읽기전용 작업을 하는 메서드는 1차캐시에서 프록시로 생성된 객체를 읽어와 작업을 하고
-쓰기 등 DB에 변경이 되는 작업들은 메서드에 별도로 트랜잭션을 걸어주어서 정상적으로 DB에 반영되도록 함.
-- 관련링크 : https://github.com/WooHCode/joelpage/blob/master/src/main/java/joel/joelpage/service/ItemService.java
+1. 서울시 내 흡연구역 위치 정보 안내
+
+<img width="1707" alt="스크린샷 2024-02-02 오후 10 11 07" src="https://github.com/WooHCode/smokinglocation/assets/112393201/5bb538aa-c449-4fa7-a5ee-1ccb07b37137">
+
+- 설명 : 서울시 공공 api포털에서 제공하는 json데이터를 cron scheduler 로 가져와 필요한 데이터만 사용할 수 있도록 파싱 후 db에 저장, 해당 데이터를 네이버 지도 api를 통해 화면에 보여줍니다.
+
 
 2. N+1
 - 문제: Employee 엔티티와 Attendance 엔티티는 1 : 다 관계로 매핑되어있음. 그리하여 Employee를 전체조회하면 각 Employee에 관련된 Attendance가 추가로 여러번 쿼리가 발생되어 성능이 저하됨.
@@ -67,14 +68,9 @@
 
 ---
 
-### 🗃️ 데이터베이스 ERD
-
-![image](https://user-images.githubusercontent.com/112393201/228768854-bbac2cb2-41e4-4246-bdc6-9d9f29486c33.png)
 
 ---
 
-### 🚀 CI/CD Pipeline
-![cicd](https://user-images.githubusercontent.com/112393201/230896807-b86d7865-f447-4d3b-8277-d796a6456ec7.png)
 
 
 ---
