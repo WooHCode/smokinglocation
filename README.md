@@ -44,19 +44,29 @@
 
 <img width="1707" alt="스크린샷 2024-02-02 오후 10 11 07" src="https://github.com/WooHCode/smokinglocation/assets/112393201/5bb538aa-c449-4fa7-a5ee-1ccb07b37137">
 
-- 설명 : 서울시 공공 api포털에서 제공하는 json데이터를 cron scheduler 로 가져와 필요한 데이터만 사용할 수 있도록 파싱 후 db에 저장, 해당 데이터를 네이버 지도 api를 통해 화면에 보여줍니다.
+- 설명 : 1. 서울시 공공 api포털에서 제공하는 json데이터를 cron scheduler 로 가져와 필요한 데이터만 사용할 수 있도록 파싱 후 db에 저장, 해당 데이터를 네이버 지도 api를 통해 화면에 보여줍니다.
+        2. 길찾기 기능, 현재 위치에서 가까운 흡연구역은 어디에 있는지 알려주는 기능도 구현되어있습니다.
+       
 
 
-2. N+1
-- 문제: Employee 엔티티와 Attendance 엔티티는 1 : 다 관계로 매핑되어있음. 그리하여 Employee를 전체조회하면 각 Employee에 관련된 Attendance가 추가로 여러번 쿼리가 발생되어 성능이 저하됨.
-- 해결 : Default값인 @ManyToOne(fetch = FetchType.EAGER)에서 @ManyToOne(fetch = FetchType.LAZY)로 변경하여 실제 데이터가 필요한 시점에서 데이터를 가져올 수 있도록 변경 
-- 관련링크 : [https://github.com/WooHCode/joelpage/blob/master/src/main/java/joel/joelpage/entity/Attendance.java ==> 24 Line](https://github.com/WooHCode/joelpage/blob/ca2e130fdb36909b19ec0f87ca84cb547f898146/src/main/java/joel/joelpage/entity/Attendance.java#L24)
+2. 회원 기능
+<img width="1692" alt="스크린샷 2024-02-02 오후 10 13 44" src="https://github.com/WooHCode/smokinglocation/assets/112393201/8104b2be-ab76-486b-ba53-78acfc80031e">
 
-3. 재귀호출
-- 문제 : LoginMember 엔티티와 연관된 필드가 JSON으로 serialize(직렬화) 될 때 무한 재귀 호출이 발생함. 그로인해 서버가 다운됨. LoginMember 엔티티가 Employee엔티티 내부에 있고, LoginMember 엔티티에 Employee가 내부에 있기때문에 LoginMember를 JSON으로 직렬화 하려고 할때, 내부에 있는 Employee필드를 다시 직렬화 하게되고 Employee필드를 직렬화 하게 될때, LoginMember를 다시 직렬화하는 과정을 반복하면서 발생함.
-- 해결 : @JsonIgnore 어노테이션을 사용하여 LoginMember필드가 JSON으로 다시 직렬화 되지 않도록 설정
-- 관련링크 : [https://github.com/WooHCode/joelpage/blob/master/src/main/java/joel/joelpage/entity/Employee.java  ==> 55 ~ 58 Line](https://github.com/WooHCode/joelpage/blob/b28b5d15fd0a5c42e52d08a3f0eb0761c1dea090/src/main/java/joel/joelpage/entity/Employee.java#L55-L58) 
-4. CORS 문제
+- 설명 : spring security를 활용해 기본적인 정보만 활용하여 회원 로그인 기능도 구현되어있으며, kakao, naver, google oauth2 를 활용한 소셜 로그인 기능까지 구현되어있습니다.
+
+
+
+
+3. 채팅 기능
+<img width="440" alt="스크린샷 2024-02-02 오후 10 30 19" src="https://github.com/WooHCode/smokinglocation/assets/112393201/b4e8bacf-8a66-436c-99ad-3d0720aef61f">
+
+- 설명 : 관리자와 채팅할 수 있는 기능입니다. websocket을 통해 생성된 채팅방을 구독하여 관리자가 해당 채팅방에서 답변을 진행 할 수 있는 기능입니다.
+
+<img width="500" alt="스크린샷 2024-02-02 오후 10 37 41" src="https://github.com/WooHCode/smokinglocation/assets/112393201/100aad73-4cd7-4a27-8277-40ec044c5514">
+<img width="499" alt="스크린샷 2024-02-02 오후 10 38 33" src="https://github.com/WooHCode/smokinglocation/assets/112393201/8b550608-d33c-466f-9863-acf88daa3767">
+
+
+5. CORS 문제
 - 문제 : 로컬 개발 환경에서는 프론트 서버와 통신에 문제가 없었지만, 서버를 EC2에 배포하다 보니 서버로 api요청 시 CORS문제가 발생함.
 - 해결 : webConfig클래스를 @Configuration으로 등록하고 요청에 대한 Origin을 허용하여 CORS정책에 의한 Block을 해결
 - 관련 링크 : https://github.com/WooHCode/joelpage/blob/master/src/main/java/joel/joelpage/config/WebConfig.java
