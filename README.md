@@ -65,15 +65,9 @@
 <img width="500" alt="스크린샷 2024-02-02 오후 10 37 41" src="https://github.com/WooHCode/smokinglocation/assets/112393201/100aad73-4cd7-4a27-8277-40ec044c5514">
 <img width="499" alt="스크린샷 2024-02-02 오후 10 38 33" src="https://github.com/WooHCode/smokinglocation/assets/112393201/8b550608-d33c-466f-9863-acf88daa3767">
 
+4. 이메일 답변기능
+<img width="627" alt="스크린샷 2024-02-02 오후 10 40 09" src="https://github.com/WooHCode/smokinglocation/assets/112393201/a5c67abb-41c9-4ded-87c0-5968c2bda09a">
 
-5. CORS 문제
-- 문제 : 로컬 개발 환경에서는 프론트 서버와 통신에 문제가 없었지만, 서버를 EC2에 배포하다 보니 서버로 api요청 시 CORS문제가 발생함.
-- 해결 : webConfig클래스를 @Configuration으로 등록하고 요청에 대한 Origin을 허용하여 CORS정책에 의한 Block을 해결
-- 관련 링크 : https://github.com/WooHCode/joelpage/blob/master/src/main/java/joel/joelpage/config/WebConfig.java
-5. LocalDateTime 사용 문제
-- 문제 : LocalDateTime으로 시간 비교 시 duration을 사용해서 비교를 하게되면 다음날이 되어 시간이 00시 이후가 되면 차이 값이 -가된다.
-- 해결: difference.getSeconds()/3600 의 값이 - 로 나온다면 +24를 더해서 하루가 지났다는것을 인지시켜준다.
-- 관련링크 : [https://github.com/WooHCode/joelpage/blob/ca2e130fdb36909b19ec0f87ca84cb547f898146/src/main/java/joel/joelpage/service/EmployeeService.java  ==> 117 ~ 130 Line](https://github.com/WooHCode/joelpage/blob/ca2e130fdb36909b19ec0f87ca84cb547f898146/src/main/java/joel/joelpage/service/EmployeeService.java#L117-L130)
 
 
 ---
