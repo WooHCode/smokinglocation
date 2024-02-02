@@ -70,6 +70,7 @@
 
 4. 이메일 답변기능
 <img width="627" alt="스크린샷 2024-02-02 오후 10 40 09" src="https://github.com/WooHCode/smokinglocation/assets/112393201/a5c67abb-41c9-4ded-87c0-5968c2bda09a">
+
 - 설명 : 회원이 문의를 남겼을 때 관리자가 답변을 보내면 이메일로 결과를 알려주는 기능입니다.
 
 <img width="804" alt="스크린샷 2024-02-02 오후 10 50 17" src="https://github.com/WooHCode/smokinglocation/assets/112393201/ecfb60c1-144b-4d7c-b6bc-f85026a854cd">
