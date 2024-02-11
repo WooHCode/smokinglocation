@@ -25,7 +25,7 @@
 
 ##### etc
 
-- P6spy(로그 콘솔창 출력 라이브러리), gson, open api
+- gson, open api
 
 ---
 
